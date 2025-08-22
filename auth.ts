@@ -12,7 +12,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     async signIn({ user, account, profile }) {
       // สร้าง user ใน Payload CMS เมื่อ login สำเร็จ
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth/create-user`, {
+        // ใช้ internal URL สำหรับ server-to-server call
+        const baseUrl = process.env.NEXTAUTH_URL || process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'
+        const response = await fetch(`${baseUrl}/api/auth/create-user`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -26,6 +28,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
         if (response.ok) {
           console.log('User created/updated in Payload CMS')
+        } else {
+          console.error('Failed to create user:', response.status, response.statusText)
         }
       } catch (error) {
         console.error('Error creating user in Payload:', error)
@@ -36,12 +40,15 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     async session({ session, token }) {
       // ดึง role จาก Payload CMS และส่งไปยัง session
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth/get-user-role?email=${session.user?.email}`)
+        const baseUrl = process.env.NEXTAUTH_URL || process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'
+        const response = await fetch(`${baseUrl}/api/auth/get-user-role?email=${session.user?.email}`)
         if (response.ok) {
           const userData = await response.json()
           if (userData.user) {
             (session.user as any).role = userData.user.role
           }
+        } else {
+          console.error('Failed to fetch user role:', response.status, response.statusText)
         }
       } catch (error) {
         console.error('Error fetching user role:', error)
