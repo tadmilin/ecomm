@@ -1,6 +1,7 @@
 'use client'
 
 import React from 'react'
+import { useSession } from 'next-auth/react'
 
 import type { Header as HeaderType } from '@/payload-types'
 
@@ -8,9 +9,11 @@ import { CMSLink } from '@/components/Link'
 import Link from 'next/link'
 import { SearchIcon } from 'lucide-react'
 import UserMenu from '@/components/UserMenu'
+import SignIn from '@/components/SignIn'
 
 export const HeaderNav: React.FC<{ data: HeaderType }> = ({ data }) => {
   const navItems = data?.navItems || []
+  const { data: session, status } = useSession()
 
   return (
     <nav className="flex gap-3 items-center">
@@ -21,7 +24,18 @@ export const HeaderNav: React.FC<{ data: HeaderType }> = ({ data }) => {
         <span className="sr-only">Search</span>
         <SearchIcon className="w-5 text-primary" />
       </Link>
-      <UserMenu />
+      {status === "loading" ? (
+        <div className="w-8 h-8 bg-gray-200 rounded-full animate-pulse"></div>
+      ) : session ? (
+        <UserMenu />
+      ) : (
+        <div className="flex items-center gap-2">
+          <Link href="/login" className="text-sm text-gray-600 hover:text-gray-900">
+            เข้าสู่ระบบ
+          </Link>
+          <SignIn />
+        </div>
+      )}
     </nav>
   )
 }
