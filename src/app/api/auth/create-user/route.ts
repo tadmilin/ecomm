@@ -33,6 +33,7 @@ export async function POST(request: NextRequest) {
         email,
         name,
         role: 'user', // default role สำหรับ user ใหม่
+        password: Math.random().toString(36).substring(2, 15), // random password สำหรับ OAuth users
       } as any
     })
 
