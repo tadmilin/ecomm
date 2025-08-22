@@ -29,12 +29,7 @@ export const HeaderNav: React.FC<{ data: HeaderType }> = ({ data }) => {
       ) : session ? (
         <UserMenu />
       ) : (
-        <div className="flex items-center gap-2">
-          <Link href="/login" className="text-sm text-gray-600 hover:text-gray-900">
-            เข้าสู่ระบบ
-          </Link>
-          <SignIn />
-        </div>
+        <SignIn />
       )}
     </nav>
   )
