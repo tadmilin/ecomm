@@ -57,16 +57,25 @@ export default function UserMenu() {
           <div className="py-1">
             <button
               onClick={() => {
-                // ไปที่ admin panel ถ้าเป็น admin
-                if ((session.user as any)?.role === 'admin') {
-                  window.location.href = '/admin'
-                }
+                window.location.href = '/profile'
               }}
               className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center gap-2"
             >
-              <Settings className="w-4 h-4" />
-              {((session.user as any)?.role === 'admin') ? 'Admin Panel' : 'Profile'}
+              <User className="w-4 h-4" />
+              โปรไฟล์
             </button>
+            
+            {((session.user as any)?.role === 'admin') && (
+              <button
+                onClick={() => {
+                  window.location.href = '/admin'
+                }}
+                className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center gap-2"
+              >
+                <Settings className="w-4 h-4" />
+                Admin Panel
+              </button>
+            )}
             
             <button
               onClick={() => signOut()}
