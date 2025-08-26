@@ -10,6 +10,7 @@ import Link from 'next/link'
 import { SearchIcon } from 'lucide-react'
 import UserMenu from '@/components/UserMenu'
 import SignIn from '@/components/SignIn'
+import { HeaderLanguageSwitcher } from '@/components/LanguageSwitcher'
 
 export const HeaderNav: React.FC<{ data: HeaderType }> = ({ data }) => {
   const navItems = data?.navItems || []
@@ -24,6 +25,7 @@ export const HeaderNav: React.FC<{ data: HeaderType }> = ({ data }) => {
         <span className="sr-only">Search</span>
         <SearchIcon className="w-5 text-primary" />
       </Link>
+      <HeaderLanguageSwitcher />
       {status === "loading" ? (
         <div className="w-8 h-8 bg-gray-200 rounded-full animate-pulse"></div>
       ) : session ? (

@@ -71,6 +71,8 @@ export interface Config {
     posts: Post;
     media: Media;
     categories: Category;
+    languages: Language;
+    translations: Translation;
     users: User;
     redirects: Redirect;
     forms: Form;
@@ -87,6 +89,8 @@ export interface Config {
     posts: PostsSelect<false> | PostsSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
+    languages: LanguagesSelect<false> | LanguagesSelect<true>;
+    translations: TranslationsSelect<false> | TranslationsSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
@@ -378,6 +382,22 @@ export interface User {
    * Admin สามารถจัดการได้ทุกอย่าง, User ใช้งานได้แค่หน้าบ้าน
    */
   role: 'admin' | 'user';
+  /**
+   * ชื่อเต็มของผู้ใช้
+   */
+  fullName?: string | null;
+  phone?: string | null;
+  address?: {
+    street?: string | null;
+    city?: string | null;
+    postalCode?: string | null;
+    country?: ('TH' | 'US') | null;
+  };
+  avatar?: (string | null) | Media;
+  preferences?: {
+    newsletter?: boolean | null;
+    language?: ('th' | 'en') | null;
+  };
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -740,6 +760,126 @@ export interface Form {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "languages".
+ */
+export interface Language {
+  id: string;
+  /**
+   * รหัสภาษา ISO 639-1 (เช่น: th, en, zh)
+   */
+  code: string;
+  /**
+   * ชื่อภาษาในภาษาอังกฤษ
+   */
+  name: string;
+  /**
+   * ชื่อภาษาในภาษาต้นฉบับ (เช่น: ไทย, English, 中文)
+   */
+  nativeName: string;
+  /**
+   * รูปธงชาติของภาษา
+   */
+  flag?: (string | null) | Media;
+  /**
+   * เปิดใช้งานภาษานี้ในระบบ
+   */
+  isActive?: boolean | null;
+  /**
+   * ตั้งเป็นภาษาเริ่มต้นของระบบ (เลือกได้เพียงภาษาเดียว)
+   */
+  isDefault?: boolean | null;
+  /**
+   * ทิศทางการเขียนของภาษา
+   */
+  direction?: ('ltr' | 'rtl') | null;
+  /**
+   * รูปแบบการแสดงวันที่ (เช่น: DD/MM/YYYY, MM/DD/YYYY)
+   */
+  dateFormat?: string | null;
+  /**
+   * รูปแบบการแสดงเวลา
+   */
+  timeFormat?: ('12h' | '24h') | null;
+  /**
+   * สกุลเงินหลักของภาษา
+   */
+  currency?: ('THB' | 'USD' | 'JPY') | null;
+  /**
+   * ลำดับการแสดงผลในเมนูภาษา (ตัวเลขน้อยแสดงก่อน)
+   */
+  sortOrder?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "translations".
+ */
+export interface Translation {
+  id: string;
+  /**
+   * คีย์สำหรับการแปล (เช่น: product.title, button.add_to_cart)
+   */
+  key: string;
+  /**
+   * ภาษาของคำแปลนี้
+   */
+  language: string | Language;
+  /**
+   * กลุ่มหรือหมวดหมู่ของคำแปล
+   */
+  namespace:
+    | 'common'
+    | 'products'
+    | 'orders'
+    | 'payments'
+    | 'shipping'
+    | 'users'
+    | 'stores'
+    | 'categories'
+    | 'errors'
+    | 'notifications'
+    | 'menu'
+    | 'forms'
+    | 'buttons'
+    | 'messages';
+  /**
+   * ข้อความที่แปลแล้ว
+   */
+  value: string;
+  /**
+   * คำอธิบายบริบทการใช้คำแปลนี้ (ช่วยในการแปลที่ถูกต้อง)
+   */
+  context?: string | null;
+  /**
+   * เปิดใช้งานคำแปลนี้
+   */
+  isActive?: boolean | null;
+  /**
+   * คำแปลนี้ถูกแปลโดยระบบอัตโนมัติ (ควรตรวจสอบ)
+   */
+  autoTranslated?: boolean | null;
+  /**
+   * คำแปลนี้ต้องการการตรวจสอบจากผู้เชี่ยวชาญ
+   */
+  needsReview?: boolean | null;
+  /**
+   * ผู้ใช้ที่ตรวจสอบคำแปลนี้
+   */
+  reviewedBy?: (string | null) | User;
+  /**
+   * วันที่ตรวจสอบคำแปล
+   */
+  reviewedAt?: string | null;
+  /**
+   * ลำดับการแสดงผลในรายการ (ตัวเลขน้อยแสดงก่อน)
+   */
+  sortOrder?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -926,6 +1066,14 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'categories';
         value: string | Category;
+      } | null)
+    | ({
+        relationTo: 'languages';
+        value: string | Language;
+      } | null)
+    | ({
+        relationTo: 'translations';
+        value: string | Translation;
       } | null)
     | ({
         relationTo: 'users';
@@ -1274,11 +1422,66 @@ export interface CategoriesSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "languages_select".
+ */
+export interface LanguagesSelect<T extends boolean = true> {
+  code?: T;
+  name?: T;
+  nativeName?: T;
+  flag?: T;
+  isActive?: T;
+  isDefault?: T;
+  direction?: T;
+  dateFormat?: T;
+  timeFormat?: T;
+  currency?: T;
+  sortOrder?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "translations_select".
+ */
+export interface TranslationsSelect<T extends boolean = true> {
+  key?: T;
+  language?: T;
+  namespace?: T;
+  value?: T;
+  context?: T;
+  isActive?: T;
+  autoTranslated?: T;
+  needsReview?: T;
+  reviewedBy?: T;
+  reviewedAt?: T;
+  sortOrder?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users_select".
  */
 export interface UsersSelect<T extends boolean = true> {
   name?: T;
   role?: T;
+  fullName?: T;
+  phone?: T;
+  address?:
+    | T
+    | {
+        street?: T;
+        city?: T;
+        postalCode?: T;
+        country?: T;
+      };
+  avatar?: T;
+  preferences?:
+    | T
+    | {
+        newsletter?: T;
+        language?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
   email?: T;
