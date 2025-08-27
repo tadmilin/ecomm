@@ -33,7 +33,33 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const payload = await getPayload({ config: configPromise })
-    const body = await request.json()
+    
+    // ตรวจสอบ request body
+    let body
+    try {
+      body = await request.json()
+    } catch (parseError) {
+      console.error('JSON parsing error:', parseError)
+      return NextResponse.json(
+        { 
+          success: false, 
+          error: 'Invalid JSON format in request body',
+          details: parseError instanceof Error ? parseError.message : 'Unknown parsing error'
+        },
+        { status: 400 }
+      )
+    }
+
+    // ตรวจสอบข้อมูลที่จำเป็น
+    if (!body || typeof body !== 'object') {
+      return NextResponse.json(
+        { 
+          success: false, 
+          error: 'Request body must be a valid object' 
+        },
+        { status: 400 }
+      )
+    }
 
     // สร้างภาษาใหม่
     const newLanguage = await payload.create({
@@ -49,7 +75,11 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error('Error creating language:', error)
     return NextResponse.json(
-      { success: false, error: 'Failed to create language' },
+      { 
+        success: false, 
+        error: 'Failed to create language',
+        details: error instanceof Error ? error.message : 'Unknown error'
+      },
       { status: 500 }
     )
   }
