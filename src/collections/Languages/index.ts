@@ -127,20 +127,20 @@ export const Languages: CollectionConfig = {
         description: 'รูปแบบการแสดงเวลา',
       },
     },
-            {
-          name: 'currency',
-          type: 'select',
-          label: 'สกุลเงินหลัก',
-                options: [
+    {
+      name: 'currency',
+      type: 'select',
+      label: 'สกุลเงินหลัก',
+      options: [
         { label: 'บาท (THB)', value: CURRENCIES.THB },
         { label: 'ดอลลาร์สหรัฐ (USD)', value: CURRENCIES.USD },
         { label: 'เยน (JPY)', value: CURRENCIES.JPY },
       ],
       defaultValue: CURRENCIES.THB,
-          admin: {
-            description: 'สกุลเงินหลักของภาษา',
-          },
-        },
+      admin: {
+        description: 'สกุลเงินหลักของภาษา',
+      },
+    },
     {
       name: 'sortOrder',
       type: 'number',
