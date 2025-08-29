@@ -9,34 +9,11 @@ const baseClass = 'before-dashboard'
 interface BeforeDashboardProps {
   welcomeTitle: string
   welcomeSubtitle: string
-  instructions: {
-    seed: string
-    visitWebsite: string
-    seeResults: string
-    cloudRepo: string
-    githubScope: string
-    selectedCreating: string
-    modify: string
-    collections: string
-    addMore: string
-    fields: string
-    newToPayload: string
-    gettingStarted: string
-    docs: string
-    commitPush: string
-  }
-  proTip: string
-  proTipLink: string
-  proTipEnd: string
 }
 
 const BeforeDashboard: React.FC<BeforeDashboardProps> = ({
   welcomeTitle,
-  welcomeSubtitle,
-  instructions,
-  proTip,
-  proTipLink,
-  proTipEnd
+  welcomeSubtitle
 }) => {
   
   return (
@@ -60,57 +37,57 @@ const BeforeDashboard: React.FC<BeforeDashboardProps> = ({
             success: "Database seeded successfully! ",
             visitWebsite: "Visit your website"
           }} />
-          {instructions.seed}
+          Click the button above to seed your database with sample content. Then 
           <a href="/" target="_blank">
-            {instructions.visitWebsite}
+            visit your website
           </a>
-          {instructions.seeResults}
+           to see the results.
         </li>
         <li>
-          {instructions.cloudRepo}
-          <i>{instructions.githubScope}</i>
-          {instructions.selectedCreating}
+          If you selected a cloud repository when creating this project, you can 
+          <i>push to GitHub</i>
+           to automatically deploy your changes.
         </li>
         <li>
-          {instructions.modify}
+          To modify this content, edit the 
           <a
             href="https://payloadcms.com/docs/configuration/collections"
             rel="noopener noreferrer"
             target="_blank"
           >
-            {instructions.collections}
+            collections
           </a>
-          {instructions.addMore}
+           and 
           <a
             href="https://payloadcms.com/docs/fields/overview"
             rel="noopener noreferrer"
             target="_blank"
           >
-            {instructions.fields}
+            fields
           </a>
-          {instructions.newToPayload}
+           in your codebase. If you are new to Payload, check out the 
           <a
             href="https://payloadcms.com/docs/getting-started/what-is-payload"
             rel="noopener noreferrer"
             target="_blank"
           >
-            {instructions.gettingStarted}
+            getting started guide
           </a>
-          {instructions.docs}
+           in our documentation.
         </li>
         <li>
-          {instructions.commitPush}
+          Commit and push your changes to see them reflected here.
         </li>
       </ul>
-      {proTip}
+      Pro tip: You can create custom components to enhance your admin experience. Learn more in our 
       <a
         href="https://payloadcms.com/docs/custom-components/overview"
         rel="noopener noreferrer"
         target="_blank"
       >
-        {proTipLink}
+        custom components guide
       </a>
-      {proTipEnd}
+      .
     </div>
   )
 }
