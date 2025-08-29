@@ -1,14 +1,16 @@
 import React from 'react'
-import { useLanguage } from '@/contexts/LanguageContext'
 
-const BeforeLogin: React.FC = () => {
-  const { t } = useLanguage()
-  
+interface BeforeLoginProps {
+  title: string
+  subtitle: string
+}
+
+const BeforeLogin: React.FC<BeforeLoginProps> = ({ title, subtitle }) => {
   return (
     <div>
       <p>
-        <b>{t('login.welcome.title')}</b>
-        {t('login.welcome.subtitle')}
+        <b>{title}</b>
+        {subtitle}
       </p>
     </div>
   )

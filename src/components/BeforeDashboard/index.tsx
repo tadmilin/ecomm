@@ -1,75 +1,104 @@
 import { Banner } from '@payloadcms/ui/elements/Banner'
 import React from 'react'
-import { useLanguage } from '@/contexts/LanguageContext'
 
 import { SeedButton } from './SeedButton'
 import './index.scss'
 
 const baseClass = 'before-dashboard'
 
-const BeforeDashboard: React.FC = () => {
-  const { t } = useLanguage()
+interface BeforeDashboardProps {
+  welcomeTitle: string
+  welcomeSubtitle: string
+  instructions: {
+    seed: string
+    visitWebsite: string
+    seeResults: string
+    cloudRepo: string
+    githubScope: string
+    selectedCreating: string
+    modify: string
+    collections: string
+    addMore: string
+    fields: string
+    newToPayload: string
+    gettingStarted: string
+    docs: string
+    commitPush: string
+  }
+  proTip: string
+  proTipLink: string
+  proTipEnd: string
+}
+
+const BeforeDashboard: React.FC<BeforeDashboardProps> = ({
+  welcomeTitle,
+  welcomeSubtitle,
+  instructions,
+  proTip,
+  proTipLink,
+  proTipEnd
+}) => {
   
   return (
     <div className={baseClass}>
       <Banner className={`${baseClass}__banner`} type="success">
-        <h4>{t('dashboard.welcome.title')}</h4>
+        <h4>{welcomeTitle}</h4>
       </Banner>
-      {t('dashboard.welcome.subtitle')}
+      {welcomeSubtitle}
       <ul className={`${baseClass}__instructions`}>
         <li>
           <SeedButton />
-          {t('dashboard.instructions.seed')}
+          {instructions.seed}
           <a href="/" target="_blank">
-            {t('dashboard.instructions.visit_website')}
+            {instructions.visitWebsite}
           </a>
-          {t('dashboard.instructions.see_results')}
+          {instructions.seeResults}
         </li>
         <li>
-          {t('dashboard.instructions.cloud_repo')}
-          <i>{t('dashboard.instructions.github_scope')}</i>
-          {t('dashboard.instructions.selected_creating')}
+          {instructions.cloudRepo}
+          <i>{instructions.githubScope}</i>
+          {instructions.selectedCreating}
         </li>
         <li>
-          {t('dashboard.instructions.modify')}
+          {instructions.modify}
           <a
             href="https://payloadcms.com/docs/configuration/collections"
             rel="noopener noreferrer"
             target="_blank"
           >
-            {t('dashboard.instructions.collections')}
+            {instructions.collections}
           </a>
-          {t('dashboard.instructions.add_more')}
+          {instructions.addMore}
           <a
             href="https://payloadcms.com/docs/fields/overview"
             rel="noopener noreferrer"
             target="_blank"
           >
-            {t('dashboard.instructions.fields')}
+            {instructions.fields}
           </a>
-          {t('dashboard.instructions.new_to_payload')}
+          {instructions.newToPayload}
           <a
             href="https://payloadcms.com/docs/getting-started/what-is-payload"
             rel="noopener noreferrer"
             target="_blank"
           >
-            {t('dashboard.instructions.getting_started')}
+            {instructions.gettingStarted}
           </a>
-          {t('dashboard.instructions.docs')}
+          {instructions.docs}
         </li>
         <li>
-          {t('dashboard.instructions.commit_push')}
+          {instructions.commitPush}
         </li>
       </ul>
-      {t('dashboard.pro_tip')}
+      {proTip}
       <a
         href="https://payloadcms.com/docs/custom-components/overview"
         rel="noopener noreferrer"
         target="_blank"
       >
-        {t('dashboard.pro_tip_link')}
+        {proTipLink}
       </a>
-      {t('dashboard.pro_tip_end')}
+      {proTipEnd}
     </div>
   )
 }

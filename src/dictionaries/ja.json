@@ -88,5 +88,11 @@
       "description": "Googleアカウントでサインイン"
     },
     "signin_with_google": "Googleでサインイン"
+  },
+  "login": {
+    "welcome": {
+      "title": "Payload CMSへようこそ",
+      "subtitle": "管理パネルにアクセスするにはサインインしてください。"
+    }
   }
 }
