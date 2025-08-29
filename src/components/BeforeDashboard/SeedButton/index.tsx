@@ -2,24 +2,29 @@
 
 import React, { Fragment, useCallback, useState } from 'react'
 
-import { useLanguage } from '@/contexts/LanguageContext'
-
 import './index.scss'
 
-const SuccessMessage: React.FC = () => {
-  const { t } = useLanguage()
-  return (
-  <div>
-    {t('dashboard.seed.success')}
-    <a target="_blank" href="/">
-      {t('dashboard.seed.visit_website')}
-    </a>
-  </div>
-)
+interface SeedMessages {
+  button: string
+  seeding: string
+  done: string
+  error: string
+  alreadySeeded: string
+  alreadyInProgress: string
+  errorRefresh: string
+  errorOccurred: string
+  loading: string
+  success: string
+  visitWebsite: string
 }
 
-export const SeedButton: React.FC = () => {
-  const { t } = useLanguage()
+
+
+interface SeedButtonProps {
+  messages: SeedMessages
+}
+
+export const SeedButton: React.FC<SeedButtonProps> = ({ messages }) => {
   const [loading, setLoading] = useState(false)
   const [seeded, setSeeded] = useState(false)
   const [error, setError] = useState<null | string>(null)
@@ -29,15 +34,15 @@ export const SeedButton: React.FC = () => {
       e.preventDefault()
 
       if (seeded) {
-        console.log(t('dashboard.seed.already_seeded'))
+        console.log(messages.alreadySeeded)
         return
       }
       if (loading) {
-        console.log(t('dashboard.seed.already_in_progress'))
+        console.log(messages.alreadyInProgress)
         return
       }
       if (error) {
-        console.error(t('dashboard.seed.error_refresh'))
+        console.error(messages.errorRefresh)
         return
       }
 
@@ -52,7 +57,7 @@ export const SeedButton: React.FC = () => {
                   resolve(true)
                   setSeeded(true)
                 } else {
-                  reject(t('dashboard.seed.error_occurred'))
+                  reject(messages.errorOccurred)
                 }
               })
               .catch((error) => {
@@ -64,27 +69,27 @@ export const SeedButton: React.FC = () => {
         })
         
         promise.then(() => {
-          console.log(t('dashboard.seed.loading'))
+          console.log(messages.loading)
         }).catch((error) => {
-          console.error(t('dashboard.seed.error_occurred'), error)
+          console.error(messages.errorOccurred, error)
         })
       } catch (err) {
         const error = err instanceof Error ? err.message : String(err)
         setError(error)
       }
     },
-    [loading, seeded, error, t],
+    [loading, seeded, error, messages],
   )
 
   let message = ''
-  if (loading) message = ` (${t('dashboard.seed.seeding')})`
-  if (seeded) message = ` (${t('dashboard.seed.done')})`
-  if (error) message = ` (${t('dashboard.seed.error')}: ${error})`
+  if (loading) message = ` (${messages.seeding})`
+  if (seeded) message = ` (${messages.done})`
+  if (error) message = ` (${messages.error}: ${error})`
 
   return (
     <Fragment>
       <button className="seedButton" onClick={handleClick}>
-        {t('dashboard.seed.button')}
+        {messages.button}
       </button>
       {message}
     </Fragment>

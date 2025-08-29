@@ -118,6 +118,19 @@
     },
     "pro_tip": "Pro tip: You can create custom components to enhance your admin experience. Learn more in our ",
     "pro_tip_link": "custom components guide",
-    "pro_tip_end": "."
+    "pro_tip_end": ".",
+    "seed": {
+      "button": "Seed Database",
+      "seeding": "Seeding...",
+      "done": "Database seeded",
+      "error": "Error",
+      "already_seeded": "Database already seeded",
+      "already_in_progress": "Seeding in progress",
+      "error_refresh": "Error occurred. Please refresh the page.",
+      "error_occurred": "An error occurred while seeding the database",
+      "loading": "Seeding database...",
+      "success": "Database seeded successfully! ",
+      "visit_website": "Visit your website"
+    }
   }
 }
