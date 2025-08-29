@@ -88,5 +88,36 @@
       "description": "Sign in with your Google account"
     },
     "signin_with_google": "Sign in with Google"
+  },
+  "login": {
+    "welcome": {
+      "title": "Welcome to Payload CMS",
+      "subtitle": "Please sign in to access the admin panel."
+    }
+  },
+  "dashboard": {
+    "welcome": {
+      "title": "Welcome to your Payload CMS",
+      "subtitle": "Here's what you can do to get started:"
+    },
+    "instructions": {
+      "seed": "Click the button above to seed your database with sample content. Then ",
+      "visitWebsite": "visit your website",
+      "seeResults": " to see the results.",
+      "cloudRepo": "If you selected a cloud repository when creating this project, you can ",
+      "githubScope": "push to GitHub",
+      "selectedCreating": " to automatically deploy your changes.",
+      "modify": "To modify this content, edit the ",
+      "collections": "collections",
+      "addMore": " and ",
+      "fields": "fields",
+      "newToPayload": " in your codebase. If you're new to Payload, check out the ",
+      "gettingStarted": "getting started guide",
+      "docs": " in our documentation.",
+      "commitPush": "Commit and push your changes to see them reflected here."
+    },
+    "pro_tip": "Pro tip: You can create custom components to enhance your admin experience. Learn more in our ",
+    "pro_tip_link": "custom components guide",
+    "pro_tip_end": "."
   }
 }

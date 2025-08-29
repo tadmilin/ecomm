@@ -88,5 +88,11 @@
       "description": "เข้าสู่ระบบด้วยบัญชี Google ของคุณ"
     },
     "signin_with_google": "เข้าสู่ระบบด้วย Google"
+  },
+  "login": {
+    "welcome": {
+      "title": "ยินดีต้อนรับสู่ Payload CMS",
+      "subtitle": "กรุณาเข้าสู่ระบบเพื่อเข้าถึงแผงควบคุม"
+    }
   }
 }
