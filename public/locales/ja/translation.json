@@ -1,0 +1,76 @@
+{
+  "form": {
+    "button": {
+      "submit": "送信"
+    },
+    "loading": {
+      "wait": "読み込み中、お待ちください..."
+    },
+    "error": {
+      "internal": "内部サーバーエラー",
+      "something_went_wrong": "何か問題が発生しました"
+    }
+  },
+  "user": {
+    "not_logged_in": "ログインしていません",
+    "default_name": "ユーザー",
+    "profile": "プロフィール",
+    "admin_panel": "管理パネル",
+    "sign_out": "ログアウト"
+  },
+  "language": {
+    "switch": "言語を切り替え",
+    "select": "言語を選択"
+  },
+  "auth": {
+    "signin_with_google": "Googleでサインイン",
+    "login": {
+      "title": "ログイン",
+      "subtitle": "Googleアカウントでログイン"
+    }
+  },
+  "dashboard": {
+    "welcome": {
+      "title": "ダッシュボードへようこそ！",
+      "subtitle": "次に行うべきこと："
+    },
+    "instructions": {
+      "seed": " 新しいサイトを開始するために、いくつかのページ、投稿、プロジェクトで ",
+      "visit_website": "ウェブサイトを訪問",
+      "see_results": " して結果を確認してください",
+      "cloud_repo": "Payload Cloudを使用してこのリポジトリを作成した場合、GitHubに移動してローカルマシンにクローンしてください。作成時に選択した ",
+      "github_scope": "GitHub Scope",
+      "selected_creating": " の下にあります",
+      "modify": " ",
+      "collections": "collections",
+      "add_more": " を修正し、必要に応じて ",
+      "fields": "fields",
+      "new_to_payload": " を追加してください。Payloadが初めての場合は、 ",
+      "getting_started": "Getting Started",
+      "docs": " ドキュメントも確認することをお勧めします",
+      "commit_push": "変更をリポジトリにコミットしてプッシュし、プロジェクトの再デプロイをトリガーしてください"
+    },
+    "pro_tip": "プロのヒント：このブロックは ",
+    "pro_tip_link": "カスタムコンポーネント",
+    "pro_tip_end": " です。payload.configを更新することでいつでも削除できます",
+    "seed": {
+      "button": "データベースをシード",
+      "success": "データベースがシードされました！今すぐ ",
+      "visit_website": "ウェブサイトを訪問",
+      "already_seeded": "データベースは既にシードされています",
+      "already_in_progress": "シードが既に進行中です",
+      "error_refresh": "エラーが発生しました。更新して再試行してください",
+      "error_occurred": "シード中にエラーが発生しました",
+      "loading": "データでシード中....",
+      "seeding": "シード中...",
+      "done": "完了！",
+      "error": "エラー"
+    }
+  },
+  "login": {
+    "welcome": {
+      "title": "ダッシュボードへようこそ！",
+      "subtitle": " これは、サイト管理者がウェブサイトを管理するためにログインする場所です"
+    }
+  }
+}

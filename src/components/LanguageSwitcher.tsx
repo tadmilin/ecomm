@@ -18,7 +18,7 @@ const FLAG_EMOJIS = {
 } as const
 
 export default function LanguageSwitcher() {
-  const { currentLanguage, availableLanguages, setLanguage, isLoading } = useLanguage()
+  const { currentLanguage, availableLanguages, setLanguage, isLoading, t } = useLanguage()
   const [isOpen, setIsOpen] = useState(false)
 
   if (isLoading) {
@@ -44,7 +44,7 @@ export default function LanguageSwitcher() {
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-gray-100 transition-colors border border-gray-200"
-        aria-label="เปลี่ยนภาษา"
+        aria-label={t('language.switch')}
       >
         <Globe className="w-4 h-4 text-gray-600" />
         <span className="text-sm font-medium text-gray-700">
@@ -56,7 +56,7 @@ export default function LanguageSwitcher() {
       {isOpen && (
         <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50">
           <div className="px-4 py-2 border-b border-gray-100">
-            <p className="text-sm font-medium text-gray-900">เลือกภาษา</p>
+            <p className="text-sm font-medium text-gray-900">{t('language.select')}</p>
           </div>
           
           <div className="py-1">
@@ -92,7 +92,7 @@ export default function LanguageSwitcher() {
 
 // Component สำหรับแสดงใน Header
 export function HeaderLanguageSwitcher() {
-  const { currentLanguage, availableLanguages, setLanguage } = useLanguage()
+  const { currentLanguage, availableLanguages, setLanguage, t } = useLanguage()
   const [isOpen, setIsOpen] = useState(false)
 
   const handleLanguageChange = (language: any) => {
@@ -109,7 +109,7 @@ export function HeaderLanguageSwitcher() {
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center gap-2 px-2 py-1 rounded-md hover:bg-gray-100 transition-colors"
-        aria-label="เปลี่ยนภาษา"
+        aria-label={t('language.switch')}
       >
         <span className="text-lg">{getFlagEmoji(currentLanguage.code)}</span>
         <span className="text-sm text-gray-600 hidden sm:block">

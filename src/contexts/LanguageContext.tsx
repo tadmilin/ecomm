@@ -20,7 +20,7 @@ interface LanguageContextType {
   currentLanguage: Language
   availableLanguages: Language[]
   setLanguage: (lang: Language) => void
-  t: (key: string, namespace?: string) => string
+  t: (key: string, namespace?: string, params?: Record<string, string>) => string
   formatDate: (date: Date) => string
   formatCurrency: (amount: number) => string
   isLoading: boolean
@@ -110,9 +110,19 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     }
   }
 
-  const t = (key: string, namespace: string = 'common'): string => {
+  const t = (key: string, namespace: string = 'common', params?: Record<string, any>): string => {
     const translationKey = `${namespace}.${key}`
-    return translations[translationKey] || key
+    let translation = translations[translationKey] || key
+    
+    // Replace parameters if provided
+    if (params) {
+      Object.keys(params).forEach(paramKey => {
+        const regex = new RegExp(`{${paramKey}}`, 'g')
+        translation = translation.replace(regex, params[paramKey])
+      })
+    }
+    
+    return translation
   }
 
     const formatDate = (date: Date): string => {

@@ -1,11 +1,14 @@
 import React from 'react'
+import { useLanguage } from '@/contexts/LanguageContext'
 
 const BeforeLogin: React.FC = () => {
+  const { t } = useLanguage()
+  
   return (
     <div>
       <p>
-        <b>Welcome to your dashboard!</b>
-        {' This is where site admins will log in to manage your website.'}
+        <b>{t('login.welcome.title')}</b>
+        {t('login.welcome.subtitle')}
       </p>
     </div>
   )

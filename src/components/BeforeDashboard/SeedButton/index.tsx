@@ -1,20 +1,25 @@
 'use client'
 
 import React, { Fragment, useCallback, useState } from 'react'
-import { toast } from '@payloadcms/ui'
+
+import { useLanguage } from '@/contexts/LanguageContext'
 
 import './index.scss'
 
-const SuccessMessage: React.FC = () => (
+const SuccessMessage: React.FC = () => {
+  const { t } = useLanguage()
+  return (
   <div>
-    Database seeded! You can now{' '}
+    {t('dashboard.seed.success')}
     <a target="_blank" href="/">
-      visit your website
+      {t('dashboard.seed.visit_website')}
     </a>
   </div>
 )
+}
 
 export const SeedButton: React.FC = () => {
+  const { t } = useLanguage()
   const [loading, setLoading] = useState(false)
   const [seeded, setSeeded] = useState(false)
   const [error, setError] = useState<null | string>(null)
@@ -24,63 +29,62 @@ export const SeedButton: React.FC = () => {
       e.preventDefault()
 
       if (seeded) {
-        toast.info('Database already seeded.')
+        console.log(t('dashboard.seed.already_seeded'))
         return
       }
       if (loading) {
-        toast.info('Seeding already in progress.')
+        console.log(t('dashboard.seed.already_in_progress'))
         return
       }
       if (error) {
-        toast.error(`An error occurred, please refresh and try again.`)
+        console.error(t('dashboard.seed.error_refresh'))
         return
       }
 
       setLoading(true)
 
       try {
-        toast.promise(
-          new Promise((resolve, reject) => {
-            try {
-              fetch('/next/seed', { method: 'POST', credentials: 'include' })
-                .then((res) => {
-                  if (res.ok) {
-                    resolve(true)
-                    setSeeded(true)
-                  } else {
-                    reject('An error occurred while seeding.')
-                  }
-                })
-                .catch((error) => {
-                  reject(error)
-                })
-            } catch (error) {
-              reject(error)
-            }
-          }),
-          {
-            loading: 'Seeding with data....',
-            success: <SuccessMessage />,
-            error: 'An error occurred while seeding.',
-          },
-        )
+        const promise = new Promise((resolve, reject) => {
+          try {
+            fetch('/next/seed', { method: 'POST', credentials: 'include' })
+              .then((res) => {
+                if (res.ok) {
+                  resolve(true)
+                  setSeeded(true)
+                } else {
+                  reject(t('dashboard.seed.error_occurred'))
+                }
+              })
+              .catch((error) => {
+                reject(error)
+              })
+          } catch (error) {
+            reject(error)
+          }
+        })
+        
+        promise.then(() => {
+          console.log(t('dashboard.seed.loading'))
+        }).catch((error) => {
+          console.error(t('dashboard.seed.error_occurred'), error)
+        })
       } catch (err) {
         const error = err instanceof Error ? err.message : String(err)
         setError(error)
       }
     },
-    [loading, seeded, error],
+    [loading, seeded, error, t],
   )
 
   let message = ''
-  if (loading) message = ' (seeding...)'
-  if (seeded) message = ' (done!)'
-  if (error) message = ` (error: ${error})`
+  if (loading) message = ` (${t('dashboard.seed.seeding')})`
+  if (seeded) message = ` (${t('dashboard.seed.done')})`
+  if (error) message = ` (${t('dashboard.seed.error')}: ${error})`
 
   return (
     <Fragment>
       <button className="seedButton" onClick={handleClick}>
-        Seed your database
+        {t('dashboard.seed.button')}
       </button>
       {message}
     </Fragment>

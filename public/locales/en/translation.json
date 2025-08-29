@@ -1,0 +1,76 @@
+{
+  "form": {
+    "button": {
+      "submit": "Submit"
+    },
+    "loading": {
+      "wait": "Loading, please wait..."
+    },
+    "error": {
+      "internal": "Internal Server Error",
+      "something_went_wrong": "Something went wrong."
+    }
+  },
+  "user": {
+    "not_logged_in": "Not logged in",
+    "default_name": "User",
+    "profile": "Profile",
+    "admin_panel": "Admin Panel",
+    "sign_out": "Sign Out"
+  },
+  "language": {
+    "switch": "Switch language",
+    "select": "Select language"
+  },
+  "auth": {
+    "signin_with_google": "Sign in with Google",
+    "login": {
+      "title": "Sign In",
+      "subtitle": "Sign in with your Google account"
+    }
+  },
+  "dashboard": {
+    "welcome": {
+      "title": "Welcome to your dashboard!",
+      "subtitle": "Here's what to do next:"
+    },
+    "instructions": {
+      "seed": " with a few pages, posts, and projects to jump-start your new site, then ",
+      "visit_website": "visit your website",
+      "see_results": " to see the results.",
+      "cloud_repo": "If you created this repo using Payload Cloud, head over to GitHub and clone it to your local machine. It will be under the ",
+      "github_scope": "GitHub Scope",
+      "selected_creating": " that you selected when creating this project.",
+      "modify": "Modify your ",
+      "collections": "collections",
+      "add_more": " and add more ",
+      "fields": "fields",
+      "new_to_payload": " as needed. If you are new to Payload, we also recommend you check out the ",
+      "getting_started": "Getting Started",
+      "docs": " docs.",
+      "commit_push": "Commit and push your changes to the repository to trigger a redeployment of your project."
+    },
+    "pro_tip": "Pro Tip: This block is a ",
+    "pro_tip_link": "custom component",
+    "pro_tip_end": ", you can remove it at any time by updating your payload.config.",
+    "seed": {
+      "button": "Seed your database",
+      "success": "Database seeded! You can now ",
+      "visit_website": "visit your website",
+      "already_seeded": "Database already seeded.",
+      "already_in_progress": "Seeding already in progress.",
+      "error_refresh": "An error occurred, please refresh and try again.",
+      "error_occurred": "An error occurred while seeding.",
+      "loading": "Seeding with data....",
+      "seeding": "seeding...",
+      "done": "done!",
+      "error": "error"
+    }
+  },
+  "login": {
+    "welcome": {
+      "title": "Welcome to your dashboard!",
+      "subtitle": " This is where site admins will log in to manage your website."
+    }
+  }
+}

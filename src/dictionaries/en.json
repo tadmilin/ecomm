@@ -1,0 +1,92 @@
+{
+  "navigation": {
+    "home": "Home",
+    "posts": "Posts",
+    "search": "Search",
+    "profile": "Profile",
+    "admin": "Admin"
+  },
+  "posts": {
+    "title": "Posts",
+    "meta": {
+      "title": "Posts - Payload Website Template",
+      "description": "Browse all posts and articles"
+    },
+    "read_more": "Read More",
+    "published": "Published",
+    "author": "Author",
+    "category": "Category",
+    "no_posts": "No posts found"
+  },
+  "search": {
+    "title": "Search",
+    "placeholder": "Search posts, pages, and more...",
+    "no_results": "No results found.",
+    "meta": {
+      "title": "Search - Payload Website Template",
+      "description": "Search through our content"
+    }
+  },
+  "profile": {
+    "title": "Profile",
+    "meta": {
+      "title": "Profile - Payload Website Template",
+      "description": "Manage your profile and settings"
+    },
+    "personal_info": "Personal Information",
+    "account_settings": "Account Settings",
+    "save_changes": "Save Changes",
+    "profile_updated": "Profile updated successfully"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "error_message": "Something went wrong. Please try again later.",
+    "not_found": "Page not found",
+    "page_not_found": "The page you are looking for does not exist.",
+    "back_to_home": "Back to Home",
+    "previous": "Previous",
+    "next": "Next",
+    "page": "Page",
+    "of": "of",
+    "results": "results",
+    "retry": "Retry",
+    "meta": {
+      "title": "Payload Website Template",
+      "description": "A modern website built with Payload CMS"
+    }
+  },
+  "footer": {
+    "copyright": "© {year} Payload Website Template. All rights reserved.",
+    "powered_by": "Powered by",
+    "payload": "Payload CMS"
+  },
+  "layout": {
+    "header": {
+      "search": "Search",
+      "search_sr_only": "Search",
+      "menu_toggle": "Toggle menu"
+    },
+    "nav": {
+      "home": "Home",
+      "about": "About Us",
+      "posts": "Posts",
+      "search": "Search",
+      "profile": "Profile",
+      "admin": "Admin"
+    },
+    "footer": {
+      "copyright": "© {year} Payload Website Template. All rights reserved.",
+      "powered_by": "Powered by",
+      "payload": "Payload CMS",
+      "theme_selector": "Theme Selector"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Sign In",
+      "description": "Sign in with your Google account"
+    },
+    "signin_with_google": "Sign in with Google"
+  }
+}

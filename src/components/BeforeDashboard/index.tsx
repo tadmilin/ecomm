@@ -1,5 +1,6 @@
 import { Banner } from '@payloadcms/ui/elements/Banner'
 import React from 'react'
+import { useLanguage } from '@/contexts/LanguageContext'
 
 import { SeedButton } from './SeedButton'
 import './index.scss'
@@ -7,66 +8,68 @@ import './index.scss'
 const baseClass = 'before-dashboard'
 
 const BeforeDashboard: React.FC = () => {
+  const { t } = useLanguage()
+  
   return (
     <div className={baseClass}>
       <Banner className={`${baseClass}__banner`} type="success">
-        <h4>Welcome to your dashboard!</h4>
+        <h4>{t('dashboard.welcome.title')}</h4>
       </Banner>
-      Here&apos;s what to do next:
+      {t('dashboard.welcome.subtitle')}
       <ul className={`${baseClass}__instructions`}>
         <li>
           <SeedButton />
-          {' with a few pages, posts, and projects to jump-start your new site, then '}
+          {t('dashboard.instructions.seed')}
           <a href="/" target="_blank">
-            visit your website
+            {t('dashboard.instructions.visit_website')}
           </a>
-          {' to see the results.'}
+          {t('dashboard.instructions.see_results')}
         </li>
         <li>
-          If you created this repo using Payload Cloud, head over to GitHub and clone it to your
-          local machine. It will be under the <i>GitHub Scope</i> that you selected when creating
-          this project.
+          {t('dashboard.instructions.cloud_repo')}
+          <i>{t('dashboard.instructions.github_scope')}</i>
+          {t('dashboard.instructions.selected_creating')}
         </li>
         <li>
-          {'Modify your '}
+          {t('dashboard.instructions.modify')}
           <a
             href="https://payloadcms.com/docs/configuration/collections"
             rel="noopener noreferrer"
             target="_blank"
           >
-            collections
+            {t('dashboard.instructions.collections')}
           </a>
-          {' and add more '}
+          {t('dashboard.instructions.add_more')}
           <a
             href="https://payloadcms.com/docs/fields/overview"
             rel="noopener noreferrer"
             target="_blank"
           >
-            fields
+            {t('dashboard.instructions.fields')}
           </a>
-          {' as needed. If you are new to Payload, we also recommend you check out the '}
+          {t('dashboard.instructions.new_to_payload')}
           <a
             href="https://payloadcms.com/docs/getting-started/what-is-payload"
             rel="noopener noreferrer"
             target="_blank"
           >
-            Getting Started
+            {t('dashboard.instructions.getting_started')}
           </a>
-          {' docs.'}
+          {t('dashboard.instructions.docs')}
         </li>
         <li>
-          Commit and push your changes to the repository to trigger a redeployment of your project.
+          {t('dashboard.instructions.commit_push')}
         </li>
       </ul>
-      {'Pro Tip: This block is a '}
+      {t('dashboard.pro_tip')}
       <a
         href="https://payloadcms.com/docs/custom-components/overview"
         rel="noopener noreferrer"
         target="_blank"
       >
-        custom component
+        {t('dashboard.pro_tip_link')}
       </a>
-      , you can remove it at any time by updating your <strong>payload.config</strong>.
+      {t('dashboard.pro_tip_end')}
     </div>
   )
 }

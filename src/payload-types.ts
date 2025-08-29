@@ -765,7 +765,7 @@ export interface Form {
 export interface Language {
   id: string;
   /**
-   * รหัสภาษา ISO 639-1 (เช่น: th, en, zh)
+   * รหัสภาษา ISO 639-1 (เช่น: th, en, ja)
    */
   code: string;
   /**
@@ -773,7 +773,7 @@ export interface Language {
    */
   name: string;
   /**
-   * ชื่อภาษาในภาษาต้นฉบับ (เช่น: ไทย, English, 中文)
+   * ชื่อภาษาในภาษาต้นฉบับ (เช่น: ไทย, English, 日本語)
    */
   nativeName: string;
   /**
