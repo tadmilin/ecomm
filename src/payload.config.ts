@@ -20,10 +20,18 @@ import { plugins } from './plugins'
 import { defaultLexical } from '@/fields/defaultLexical'
 import { getServerSideURL } from './utilities/getURL'
 
+// Import language translations
+import { en } from '@payloadcms/translations/languages/en'
+import { th } from '@payloadcms/translations/languages/th'
+import { ja } from '@payloadcms/translations/languages/ja'
+
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
 export default buildConfig({
+  i18n: {
+    supportedLanguages: { en, th, ja },
+  },
   admin: {
     components: {
       // The `BeforeLogin` component renders a message that you see while logging into your admin panel.

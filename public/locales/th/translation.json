@@ -1,0 +1,76 @@
+{
+  "form": {
+    "button": {
+      "submit": "ส่ง"
+    },
+    "loading": {
+      "wait": "กำลังโหลด กรุณารอ..."
+    },
+    "error": {
+      "internal": "เกิดข้อผิดพลาดภายในเซิร์ฟเวอร์",
+      "something_went_wrong": "เกิดข้อผิดพลาดบางอย่าง"
+    }
+  },
+  "user": {
+    "not_logged_in": "ยังไม่ได้ล็อกอิน",
+    "default_name": "ผู้ใช้",
+    "profile": "โปรไฟล์",
+    "admin_panel": "แผงควบคุม",
+    "sign_out": "ออกจากระบบ"
+  },
+  "language": {
+    "switch": "เปลี่ยนภาษา",
+    "select": "เลือกภาษา"
+  },
+  "auth": {
+    "signin_with_google": "เข้าสู่ระบบด้วย Google",
+    "login": {
+      "title": "เข้าสู่ระบบ",
+      "subtitle": "ล็อกอินด้วยบัญชี Google ของคุณ"
+    }
+  },
+  "dashboard": {
+    "welcome": {
+      "title": "ยินดีต้อนรับสู่แดชบอร์ด!",
+      "subtitle": "นี่คือสิ่งที่ต้องทำต่อไป:"
+    },
+    "instructions": {
+      "seed": " ด้วยหน้าเว็บ โพสต์ และโปรเจกต์ไม่กี่ชิ้นเพื่อเริ่มต้นไซต์ใหม่ของคุณ จากนั้น ",
+      "visit_website": "เยี่ยมชมเว็บไซต์ของคุณ",
+      "see_results": " เพื่อดูผลลัพธ์",
+      "cloud_repo": "หากคุณสร้าง repo นี้โดยใช้ Payload Cloud ให้ไปที่ GitHub และ clone มันไปยังเครื่องของคุณ มันจะอยู่ภายใต้ ",
+      "github_scope": "GitHub Scope",
+      "selected_creating": " ที่คุณเลือกเมื่อสร้างโปรเจกต์นี้",
+      "modify": "แก้ไข ",
+      "collections": "collections",
+      "add_more": " และเพิ่ม ",
+      "fields": "fields",
+      "new_to_payload": " ตามที่ต้องการ หากคุณเป็นมือใหม่กับ Payload เราขอแนะนำให้คุณดู ",
+      "getting_started": "Getting Started",
+      "docs": " docs",
+      "commit_push": "Commit และ push การเปลี่ยนแปลงของคุณไปยัง repository เพื่อทริกเกอร์การ deploy ใหม่ของโปรเจกต์"
+    },
+    "pro_tip": "เคล็ดลับ: บล็อกนี้เป็น ",
+    "pro_tip_link": "custom component",
+    "pro_tip_end": " คุณสามารถลบมันได้ทุกเมื่อโดยการอัปเดต payload.config ของคุณ",
+    "seed": {
+      "button": "Seed ฐานข้อมูลของคุณ",
+      "success": "ฐานข้อมูลถูก seed แล้ว! ตอนนี้คุณสามารถ ",
+      "visit_website": "เยี่ยมชมเว็บไซต์ของคุณ",
+      "already_seeded": "ฐานข้อมูลถูก seed แล้ว",
+      "already_in_progress": "กำลัง seed อยู่แล้ว",
+      "error_refresh": "เกิดข้อผิดพลาด กรุณารีเฟรชและลองอีกครั้ง",
+      "error_occurred": "เกิดข้อผิดพลาดขณะ seed",
+      "loading": "กำลัง seed ด้วยข้อมูล....",
+      "seeding": "กำลัง seed...",
+      "done": "เสร็จแล้ว!",
+      "error": "ข้อผิดพลาด"
+    }
+  },
+  "login": {
+    "welcome": {
+      "title": "ยินดีต้อนรับสู่แดชบอร์ด!",
+      "subtitle": " นี่คือที่ที่ผู้ดูแลไซต์จะล็อกอินเพื่อจัดการเว็บไซต์ของคุณ"
+    }
+  }
+}

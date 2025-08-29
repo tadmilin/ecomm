@@ -1,0 +1,92 @@
+{
+  "navigation": {
+    "home": "ホーム",
+    "posts": "投稿",
+    "search": "検索",
+    "profile": "プロフィール",
+    "admin": "管理者"
+  },
+  "posts": {
+    "title": "投稿",
+    "meta": {
+      "title": "投稿 - Payload Website Template",
+      "description": "すべての投稿と記事を閲覧"
+    },
+    "read_more": "続きを読む",
+    "published": "公開",
+    "author": "著者",
+    "category": "カテゴリ",
+    "no_posts": "投稿が見つかりません"
+  },
+  "search": {
+    "title": "検索",
+    "placeholder": "投稿、ページなどを検索...",
+    "no_results": "結果が見つかりません",
+    "meta": {
+      "title": "検索 - Payload Website Template",
+      "description": "コンテンツを検索"
+    }
+  },
+  "profile": {
+    "title": "プロフィール",
+    "meta": {
+      "title": "プロフィール - Payload Website Template",
+      "description": "プロフィールと設定を管理"
+    },
+    "personal_info": "個人情報",
+    "account_settings": "アカウント設定",
+    "save_changes": "変更を保存",
+    "profile_updated": "プロフィールが正常に更新されました"
+  },
+  "common": {
+    "loading": "読み込み中...",
+    "error": "エラーが発生しました",
+    "error_message": "何か問題が発生しました。後でもう一度お試しください。",
+    "not_found": "ページが見つかりません",
+    "page_not_found": "お探しのページは存在しません。",
+    "back_to_home": "ホームに戻る",
+    "previous": "前へ",
+    "next": "次へ",
+    "page": "ページ",
+    "of": "の",
+    "results": "結果",
+    "retry": "再試行",
+    "meta": {
+      "title": "Payload Website Template",
+      "description": "Payload CMSで構築されたモダンなウェブサイト"
+    }
+  },
+  "footer": {
+    "copyright": "© {year} Payload Website Template 全著作権所有",
+    "powered_by": "Powered by",
+    "payload": "Payload CMS"
+  },
+  "layout": {
+    "header": {
+      "search": "検索",
+      "search_sr_only": "検索",
+      "menu_toggle": "メニュー切り替え"
+    },
+    "nav": {
+      "home": "ホーム",
+      "about": "私たちについて",
+      "posts": "投稿",
+      "search": "検索",
+      "profile": "プロフィール",
+      "admin": "管理者"
+    },
+    "footer": {
+      "copyright": "© {year} Payload Website Template 全著作権所有",
+      "powered_by": "Powered by",
+      "payload": "Payload CMS",
+      "theme_selector": "テーマ選択"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "サインイン",
+      "description": "Googleアカウントでサインイン"
+    },
+    "signin_with_google": "Googleでサインイン"
+  }
+}

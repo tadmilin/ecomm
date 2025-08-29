@@ -5,7 +5,11 @@ import React, { useState, useEffect } from 'react'
 import { useDebounce } from '@/utilities/useDebounce'
 import { useRouter } from 'next/navigation'
 
-export const Search: React.FC = () => {
+interface SearchProps {
+  placeholder?: string
+}
+
+export const Search: React.FC<SearchProps> = ({ placeholder = "Search" }) => {
   const [value, setValue] = useState('')
   const router = useRouter()
 
@@ -30,7 +34,7 @@ export const Search: React.FC = () => {
           onChange={(event) => {
             setValue(event.target.value)
           }}
-          placeholder="Search"
+          placeholder={placeholder}
         />
         <button type="submit" className="sr-only">
           submit

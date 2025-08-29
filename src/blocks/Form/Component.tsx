@@ -7,6 +7,7 @@ import { useForm, FormProvider } from 'react-hook-form'
 import RichText from '@/components/RichText'
 import { Button } from '@/components/ui/button'
 import type { SerializedEditorState } from '@payloadcms/richtext-lexical/lexical'
+import { useLanguage } from '@/contexts/LanguageContext'
 
 import { fields } from './fields'
 import { getClientSideURL } from '@/utilities/getURL'
@@ -24,33 +25,32 @@ export const FormBlock: React.FC<
     id?: string
   } & FormBlockType
 > = (props) => {
+  const { t } = useLanguage()
   const {
     enableIntro,
     form: formFromProps,
-    form: { id: formID, confirmationMessage, confirmationType, redirect, submitButtonLabel } = {},
     introContent,
   } = props
 
-  const formMethods = useForm({
-    defaultValues: formFromProps.fields,
-  })
-  const {
-    control,
-    formState: { errors },
-    handleSubmit,
-    register,
-  } = formMethods
+  const { confirmationType, confirmationMessage, redirect, submitButtonLabel } = formFromProps
 
   const [isLoading, setIsLoading] = useState(false)
-  const [hasSubmitted, setHasSubmitted] = useState<boolean>()
-  const [error, setError] = useState<{ message: string; status?: string } | undefined>()
+  const [hasSubmitted, setHasSubmitted] = useState(false)
+  const [error, setError] = useState<{
+    message: string
+    status?: number
+  } | null>(null)
+
+  const formID = `form-${props.id || Math.random().toString(36).substr(2, 9)}`
+  const formMethods = useForm()
+  const { handleSubmit, control, register, formState: { errors } } = formMethods
   const router = useRouter()
 
   const onSubmit = useCallback(
-    (data: FormFieldBlock[]) => {
+    (data: any) => {
       let loadingTimerID: ReturnType<typeof setTimeout>
       const submitForm = async () => {
-        setError(undefined)
+        setError(null)
 
         const dataToSend = Object.entries(data).map(([name, value]) => ({
           field: name,
@@ -82,7 +82,7 @@ export const FormBlock: React.FC<
             setIsLoading(false)
 
             setError({
-              message: res.errors?.[0]?.message || 'Internal Server Error',
+              message: res.errors?.[0]?.message || t('form.error.internal'),
               status: res.status,
             })
 
@@ -103,14 +103,14 @@ export const FormBlock: React.FC<
           console.warn(err)
           setIsLoading(false)
           setError({
-            message: 'Something went wrong.',
+            message: t('form.error.something_went_wrong'),
           })
         }
       }
 
       void submitForm()
     },
-    [router, formID, redirect, confirmationType],
+    [router, formID, redirect, confirmationType, t],
   )
 
   return (
@@ -123,7 +123,7 @@ export const FormBlock: React.FC<
           {!isLoading && hasSubmitted && confirmationType === 'message' && (
             <RichText data={confirmationMessage} />
           )}
-          {isLoading && !hasSubmitted && <p>Loading, please wait...</p>}
+          {isLoading && !hasSubmitted && <p>{t('form.loading.wait')}</p>}
           {error && <div>{`${error.status || '500'}: ${error.message || ''}`}</div>}
           {!hasSubmitted && (
             <form id={formID} onSubmit={handleSubmit(onSubmit)}>
@@ -152,7 +152,7 @@ export const FormBlock: React.FC<
               </div>
 
               <Button form={formID} type="submit" variant="default">
-                {submitButtonLabel}
+                {submitButtonLabel || t('form.button.submit')}
               </Button>
             </form>
           )}

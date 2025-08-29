@@ -90,5 +90,5 @@ export const plugins: Plugin[] = [
       },
     },
   }),
-  payloadCloudPlugin(),
+  // payloadCloudPlugin(), // Disabled due to nodemailer client-side build issues
 ]

@@ -1,9 +1,13 @@
 import { googleSignIn } from "@/lib/auth-actions"
 
-export default function SignIn() {
+interface SignInProps {
+  buttonText: string
+}
+
+export default function SignIn({ buttonText }: SignInProps) {
   return (
     <form action={googleSignIn}>
-      <button type="submit">Signin with Google</button>
+      <button type="submit">{buttonText}</button>
     </form>
   )
 }

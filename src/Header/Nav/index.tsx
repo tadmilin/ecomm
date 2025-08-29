@@ -2,6 +2,7 @@
 
 import React from 'react'
 import { useSession } from 'next-auth/react'
+import { useLanguage } from '@/contexts/LanguageContext'
 
 import type { Header as HeaderType } from '@/payload-types'
 
@@ -15,6 +16,7 @@ import { HeaderLanguageSwitcher } from '@/components/LanguageSwitcher'
 export const HeaderNav: React.FC<{ data: HeaderType }> = ({ data }) => {
   const navItems = data?.navItems || []
   const { data: session, status } = useSession()
+  const { t } = useLanguage()
 
   return (
     <nav className="flex gap-3 items-center">
@@ -22,7 +24,7 @@ export const HeaderNav: React.FC<{ data: HeaderType }> = ({ data }) => {
         return <CMSLink key={i} {...link} appearance="link" />
       })}
       <Link href="/search">
-        <span className="sr-only">Search</span>
+        <span className="sr-only">{t('layout.header.search_sr_only')}</span>
         <SearchIcon className="w-5 text-primary" />
       </Link>
       <HeaderLanguageSwitcher />
@@ -31,7 +33,7 @@ export const HeaderNav: React.FC<{ data: HeaderType }> = ({ data }) => {
       ) : session ? (
         <UserMenu />
       ) : (
-        <SignIn />
+        <SignIn buttonText={t('auth.signin_with_google')} />
       )}
     </nav>
   )
