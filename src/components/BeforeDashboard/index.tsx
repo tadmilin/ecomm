@@ -47,7 +47,19 @@ const BeforeDashboard: React.FC<BeforeDashboardProps> = ({
       {welcomeSubtitle}
       <ul className={`${baseClass}__instructions`}>
         <li>
-          <SeedButton />
+          <SeedButton messages={{
+            button: "Seed Database",
+            seeding: "Seeding...",
+            done: "Database seeded",
+            error: "Error",
+            alreadySeeded: "Database already seeded",
+            alreadyInProgress: "Seeding in progress",
+            errorRefresh: "Error occurred. Please refresh the page.",
+            errorOccurred: "An error occurred while seeding the database",
+            loading: "Seeding database...",
+            success: "Database seeded successfully! ",
+            visitWebsite: "Visit your website"
+          }} />
           {instructions.seed}
           <a href="/" target="_blank">
             {instructions.visitWebsite}

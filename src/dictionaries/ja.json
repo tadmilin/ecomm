@@ -94,5 +94,30 @@
       "title": "Payload CMSへようこそ",
       "subtitle": "管理パネルにアクセスするにはサインインしてください。"
     }
+  },
+  "dashboard": {
+    "welcome": {
+      "title": "Payload CMSへようこそ",
+      "subtitle": "開始するためにできることは次のとおりです："
+    },
+    "instructions": {
+      "seed": "上記のボタンをクリックして、サンプルコンテンツでデータベースをシードします。その後、",
+      "visitWebsite": "ウェブサイトにアクセス",
+      "seeResults": "して結果を確認してください。",
+      "cloudRepo": "このプロジェクトを作成する際にcloud repositoryを選択した場合、",
+      "githubScope": "GitHubにプッシュ",
+      "selectedCreating": "して変更を自動的にデプロイできます。",
+      "modify": "このコンテンツを変更するには、コードベースの",
+      "collections": "collections",
+      "addMore": "と",
+      "fields": "fields",
+      "newToPayload": "を編集してください。Payloadが初めての場合は、",
+      "gettingStarted": "開始ガイド",
+      "docs": "をドキュメントで確認してください。",
+      "commitPush": "変更をコミットしてプッシュすると、ここに反映されます。"
+    },
+    "pro_tip": "プロのヒント：カスタムコンポーネントを作成して、管理エクスペリエンスを向上させることができます。詳細は",
+    "pro_tip_link": "カスタムコンポーネントガイド",
+    "pro_tip_end": "でご確認ください。"
   }
 }
