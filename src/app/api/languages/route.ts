@@ -40,39 +40,67 @@ export async function POST(request: NextRequest) {
     console.log('Method:', request.method)
     console.log('URL:', request.url)
     
-    // ตรวจสอบ request body
-    let body
-    let rawBody = ''
+    // ตรวจสอบ Content-Type
+    const contentType = request.headers.get('content-type') || ''
+    console.log('Content-Type:', contentType)
     
-    try {
-      // อ่าน raw body ก่อน
-      rawBody = await request.text()
-      console.log('Raw body:', rawBody)
-      console.log('Raw body length:', rawBody.length)
-      console.log('Raw body first 10 chars:', rawBody.substring(0, 10))
+    let body
+    
+    if (contentType.includes('multipart/form-data')) {
+      // Handle multipart/form-data
+      console.log('Processing multipart/form-data')
       
-      // พยายาม parse JSON
-      if (rawBody.trim()) {
-        body = JSON.parse(rawBody)
-      } else {
-        body = {}
+      try {
+        const formData = await request.formData()
+        const payloadData = formData.get('_payload')
+        
+        if (payloadData && typeof payloadData === 'string') {
+          body = JSON.parse(payloadData)
+          console.log('Parsed form data:', body)
+        } else {
+          throw new Error('No _payload field found in form data')
+        }
+        
+      } catch (formError) {
+        console.error('Form data parsing error:', formError)
+        return NextResponse.json(
+          { 
+            success: false, 
+            error: 'Invalid form data format',
+            details: formError instanceof Error ? formError.message : 'Unknown form parsing error'
+          },
+          { status: 400 }
+        )
       }
       
-      console.log('Parsed body:', body)
+    } else {
+      // Handle JSON data
+      console.log('Processing JSON data')
       
-    } catch (parseError) {
-      console.error('JSON parsing error:', parseError)
-      console.error('Raw body that caused error:', rawBody)
-      
-      return NextResponse.json(
-        { 
-          success: false, 
-          error: 'Invalid JSON format in request body',
-          details: parseError instanceof Error ? parseError.message : 'Unknown parsing error',
-          rawBody: rawBody.substring(0, 100) // ส่ง raw body กลับไปเพื่อ debug
-        },
-        { status: 400 }
-      )
+      try {
+        const rawBody = await request.text()
+        console.log('Raw body:', rawBody)
+        console.log('Raw body length:', rawBody.length)
+        
+        if (rawBody.trim()) {
+          body = JSON.parse(rawBody)
+        } else {
+          body = {}
+        }
+        
+        console.log('Parsed JSON body:', body)
+        
+      } catch (parseError) {
+        console.error('JSON parsing error:', parseError)
+        return NextResponse.json(
+          { 
+            success: false, 
+            error: 'Invalid JSON format in request body',
+            details: parseError instanceof Error ? parseError.message : 'Unknown parsing error'
+          },
+          { status: 400 }
+        )
+      }
     }
 
     // ตรวจสอบข้อมูลที่จำเป็น
