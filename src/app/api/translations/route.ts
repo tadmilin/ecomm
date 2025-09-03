@@ -53,20 +53,57 @@ export async function POST(request: NextRequest) {
   try {
     const payload = await getPayload({ config: configPromise })
     
-    // ตรวจสอบ request body
+    // ตรวจสอบ Content-Type
+    const contentType = request.headers.get('content-type') || ''
+    console.log('Content-Type:', contentType)
+    
     let body
-    try {
-      body = await request.json()
-    } catch (parseError) {
-      console.error('JSON parsing error:', parseError)
-      return NextResponse.json(
-        { 
-          success: false, 
-          error: 'Invalid JSON format in request body',
-          details: parseError instanceof Error ? parseError.message : 'Unknown parsing error'
-        },
-        { status: 400 }
-      )
+    
+    if (contentType.includes('multipart/form-data')) {
+      // Handle multipart/form-data
+      console.log('Processing multipart/form-data')
+      
+      try {
+        const formData = await request.formData()
+        const payloadData = formData.get('_payload')
+        
+        if (payloadData && typeof payloadData === 'string') {
+          body = JSON.parse(payloadData)
+          console.log('Parsed form data:', body)
+        } else {
+          throw new Error('No _payload field found in form data')
+        }
+        
+      } catch (formError) {
+        console.error('Form data parsing error:', formError)
+        return NextResponse.json(
+          { 
+            success: false, 
+            error: 'Invalid form data format',
+            details: formError instanceof Error ? formError.message : 'Unknown form parsing error'
+          },
+          { status: 400 }
+        )
+      }
+      
+    } else {
+      // Handle JSON data
+      console.log('Processing JSON data')
+      
+      try {
+        body = await request.json()
+        console.log('Parsed JSON body:', body)
+      } catch (parseError) {
+        console.error('JSON parsing error:', parseError)
+        return NextResponse.json(
+          { 
+            success: false, 
+            error: 'Invalid JSON format in request body',
+            details: parseError instanceof Error ? parseError.message : 'Unknown parsing error'
+          },
+          { status: 400 }
+        )
+      }
     }
 
     // ตรวจสอบข้อมูลที่จำเป็น
