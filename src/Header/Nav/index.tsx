@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { useSession } from 'next-auth/react'
-import { useLanguage } from '@/contexts/LanguageContext'
+import { usePayloadLanguage } from '@/contexts/PayloadLanguageContext'
 
 import type { Header as HeaderType } from '@/payload-types'
 
@@ -11,23 +11,23 @@ import Link from 'next/link'
 import { SearchIcon } from 'lucide-react'
 import UserMenu from '@/components/UserMenu'
 import SignIn from '@/components/SignIn'
-import { HeaderLanguageSwitcher } from '@/components/LanguageSwitcher'
+import { PayloadLanguageSwitcher } from '@/components/PayloadLanguageSwitcher'
 
 export const HeaderNav: React.FC<{ data: HeaderType }> = ({ data }) => {
   const navItems = data?.navItems || []
   const { data: session, status } = useSession()
-  const { t } = useLanguage()
+  const { t, currentLanguage } = usePayloadLanguage()
 
   return (
     <nav className="flex gap-3 items-center">
       {navItems.map(({ link }, i) => {
         return <CMSLink key={i} {...link} appearance="link" />
       })}
-      <Link href="/search">
+      <Link href={`/${currentLanguage}/search`}>
         <span className="sr-only">{t('layout.header.search_sr_only')}</span>
         <SearchIcon className="w-5 text-primary" />
       </Link>
-      <HeaderLanguageSwitcher />
+      <PayloadLanguageSwitcher variant="dropdown" />
       {status === "loading" ? (
         <div className="w-8 h-8 bg-gray-200 rounded-full animate-pulse"></div>
       ) : session ? (

@@ -27,6 +27,7 @@ export const Translations: CollectionConfig = {
       name: 'language',
       type: 'relationship',
       relationTo: 'languages',
+      hasMany: false,
       required: true,
       label: 'ภาษา',
       admin: {
