@@ -10,6 +10,7 @@ import { Logo } from '@/components/Logo/Logo'
 import { HeaderNav } from './Nav'
 import { MainNav } from '@/components/Navigation/MainNav'
 import { MobileNav } from '@/components/Navigation/MobileNav'
+import { PayloadLanguageSwitcher } from '@/components/PayloadLanguageSwitcher'
 
 interface HeaderClientProps {
   data: Header
@@ -41,11 +42,13 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center space-x-6">
           <MainNav />
+          <PayloadLanguageSwitcher variant="dropdown" />
           <HeaderNav data={data} />
         </div>
 
         {/* Mobile Navigation */}
         <div className="md:hidden flex items-center space-x-3">
+          <PayloadLanguageSwitcher variant="select" />
           <HeaderNav data={data} />
           <MobileNav />
         </div>

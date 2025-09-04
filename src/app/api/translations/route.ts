@@ -6,7 +6,7 @@ export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url)
     const language = searchParams.get('language')
-    const namespace = searchParams.get('namespace') || 'common'
+    const namespace = searchParams.get('namespace')
 
     if (!language) {
       return NextResponse.json(
@@ -17,19 +17,27 @@ export async function GET(request: NextRequest) {
 
     const payload = await getPayload({ config: configPromise })
 
+    // สร้าง where condition
+    const whereCondition: any = {
+      language: { equals: language },
+      isActive: { equals: true },
+    }
+
+    // เพิ่ม namespace filter ถ้ามี
+    if (namespace) {
+      whereCondition.namespace = { equals: namespace }
+    }
+
     // ค้นหาคำแปล
     const translations = await payload.find({
       collection: 'translations',
-      where: {
-        language: { equals: language },
-        namespace: { equals: namespace },
-        isActive: { equals: true },
-      },
+      where: whereCondition,
     })
 
-    // แปลงเป็น object สำหรับใช้งาน
+    // แปลงเป็น object สำหรับใช้งาน (รวม namespace)
     const translationObject = translations.docs.reduce((acc, trans) => {
-      acc[trans.key] = trans.value
+      const fullKey = `${trans.namespace}.${trans.key}`
+      acc[fullKey] = trans.value
       return acc
     }, {} as Record<string, string>)
 
@@ -37,7 +45,8 @@ export async function GET(request: NextRequest) {
       success: true,
       translations: translationObject,
       language,
-      namespace,
+      namespace: namespace || 'all',
+      total: translations.totalDocs,
     })
 
   } catch (error) {

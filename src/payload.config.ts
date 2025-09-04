@@ -29,8 +29,8 @@ const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
 export default buildConfig({
-  i18n: {
-    supportedLanguages: { en, th, ja },
+    i18n: {
+    supportedLanguages: { th, en, ja },
   },
   admin: {
     components: {

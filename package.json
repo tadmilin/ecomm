@@ -19,7 +19,12 @@
     "start": "cross-env NODE_OPTIONS=--no-deprecation next start",
     "test": "pnpm run test:int && pnpm run test:e2e",
     "test:e2e": "cross-env NODE_OPTIONS=\"--no-deprecation --no-experimental-strip-types\" pnpm exec playwright test --config=playwright.config.ts",
-    "test:int": "cross-env NODE_OPTIONS=--no-deprecation vitest run --config ./vitest.config.mts"
+    "test:int": "cross-env NODE_OPTIONS=--no-deprecation vitest run --config ./vitest.config.mts",
+    "migrate:i18n": "node scripts/migrate-to-payload-i18n.js",
+    "migrate:i18n:dry": "node scripts/migrate-to-payload-i18n.js --dry-run",
+    "migrate:i18n:reset": "node scripts/migrate-to-payload-i18n.js --reset",
+    "seed:i18n": "node scripts/seed-payload-i18n.js",
+    "seed:i18n:reset": "node scripts/seed-payload-i18n.js --reset"
   },
   "dependencies": {
     "@payloadcms/admin-bar": "3.53.0",
