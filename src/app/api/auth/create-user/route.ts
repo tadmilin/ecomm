@@ -4,7 +4,7 @@ import configPromise from '@payload-config'
 
 export async function POST(request: NextRequest) {
   try {
-    const { email, name, image } = await request.json()
+    const { email, name,  } = await request.json()
     
     const payload = await getPayload({ config: configPromise })
     

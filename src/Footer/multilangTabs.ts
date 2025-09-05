@@ -4,7 +4,6 @@ import { createMultilangText, createMultilangTextarea } from '@/fields/multilang
 // Multilang Tabs สำหรับ Footer Global
 export const footerMultilangTabs: Field[] = [
   {
-    name: 'translations',
     type: 'tabs',
     label: 'การแปลภาษา',
     admin: {

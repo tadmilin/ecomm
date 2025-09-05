@@ -2,7 +2,6 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import { getDictionary } from '@/lib/getDictionary'
 import { languages } from '@/i18n/settings'
-import { PayloadLanguageProvider } from '@/contexts/PayloadLanguageContext'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -40,16 +39,14 @@ export default async function LocaleLayout({
   params: Promise<{ lang: string }>
 }) {
   const { lang } = await params
-  const dict = await getDictionary(lang)
+
 
   return (
     <html lang={lang} dir={lang === 'th' ? 'ltr' : 'ltr'}>
       <body className={inter.className}>
-        <PayloadLanguageProvider initialLanguage={lang}>
-          <div data-lang={lang}>
-            {children}
-          </div>
-        </PayloadLanguageProvider>
+        <div data-lang={lang}>
+          {children}
+        </div>
       </body>
     </html>
   )

@@ -17,7 +17,6 @@ export const categoriesI18nFields: Field[] = [
     type: 'select',
     label: 'ภาษาที่รองรับ',
     hasMany: true,
-    maxRows: 5,
     required: true,
     defaultValue: ['th', 'en'],
     options: [

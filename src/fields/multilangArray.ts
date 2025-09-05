@@ -21,10 +21,6 @@ export const createMultilangArray = (options: MultilangArrayOptions): Field => {
     label,
     admin: {
       ...admin,
-      condition: (data, siblingData, { user }) => {
-        // ตรวจสอบว่า i18n เปิดใช้งานหรือไม่
-        return true
-      },
     },
     fields: [
       {

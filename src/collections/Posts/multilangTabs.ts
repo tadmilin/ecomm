@@ -4,7 +4,6 @@ import { createMultilangText, createMultilangRichText, createMultilangTextarea }
 // Multilang Tabs สำหรับ Posts Collection
 export const postsMultilangTabs: Field[] = [
   {
-    name: 'translations',
     type: 'tabs',
     label: 'การแปลภาษา',
     admin: {
@@ -17,7 +16,7 @@ export const postsMultilangTabs: Field[] = [
         label: 'เนื้อหาหลัก',
         fields: [
           createMultilangText({
-            name: 'title',
+            name: 'multilangTitle',
             label: 'หัวข้อบทความ',
             required: true,
             admin: {
@@ -40,7 +39,7 @@ export const postsMultilangTabs: Field[] = [
             rows: 3,
           }),
           createMultilangRichText({
-            name: 'content',
+            name: 'multilangContent',
             label: 'เนื้อหาบทความ',
             required: true,
             admin: {

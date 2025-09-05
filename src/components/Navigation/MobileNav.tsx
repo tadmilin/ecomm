@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react'
 import Link from 'next/link'
-import { usePayloadLanguage } from '@/contexts/PayloadLanguageContext'
+import { useLanguage } from '@/contexts/LanguageContext'
 import { usePathname } from 'next/navigation'
 import { Menu, X } from 'lucide-react'
 
@@ -13,7 +13,7 @@ interface NavItem {
 }
 
 export const MobileNav: React.FC = () => {
-  const { t, currentLanguage } = usePayloadLanguage()
+  const { t, currentLanguage } = useLanguage()
   const pathname = usePathname()
   const [isOpen, setIsOpen] = useState(false)
 

@@ -4,7 +4,6 @@ import { createMultilangText, createMultilangTextarea } from '@/fields/multilang
 // Multilang Tabs สำหรับ Categories Collection
 export const categoriesMultilangTabs: Field[] = [
   {
-    name: 'translations',
     type: 'tabs',
     label: 'การแปลภาษา',
     admin: {
@@ -17,7 +16,7 @@ export const categoriesMultilangTabs: Field[] = [
         label: 'ข้อมูลหลัก',
         fields: [
           createMultilangText({
-            name: 'title',
+            name: 'multilangTitle',
             label: 'ชื่อหมวดหมู่',
             required: true,
             admin: {

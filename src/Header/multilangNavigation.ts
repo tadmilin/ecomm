@@ -4,7 +4,6 @@ import { createMultilangText } from '@/fields/multilang'
 // Multilang Navigation Fields สำหรับ Header Global
 export const headerMultilangNavigation: Field[] = [
   {
-    name: 'translations',
     type: 'tabs',
     label: 'การแปลภาษา',
     admin: {
