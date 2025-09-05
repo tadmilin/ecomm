@@ -18,6 +18,21 @@ const nextConfig = {
           protocol: url.protocol.replace(':', ''),
         }
       }),
+      // เพิ่ม hostname สำหรับ Vercel deployment
+      {
+        hostname: 'ecomm-ten-neon.vercel.app',
+        protocol: 'https',
+      },
+      // เพิ่ม hostname สำหรับ localhost
+      {
+        hostname: 'localhost',
+        protocol: 'http',
+      },
+      // เพิ่ม hostname สำหรับ development
+      {
+        hostname: '127.0.0.1',
+        protocol: 'http',
+      },
     ],
   },
   webpack: (webpackConfig) => {

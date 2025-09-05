@@ -71,8 +71,6 @@ export interface Config {
     posts: Post;
     media: Media;
     categories: Category;
-    languages: Language;
-    translations: Translation;
     users: User;
     redirects: Redirect;
     forms: Form;
@@ -105,10 +103,12 @@ export interface Config {
   globals: {
     header: Header;
     footer: Footer;
+    'i18n-settings': I18NSetting;
   };
   globalsSelect: {
     header: HeaderSelect<false> | HeaderSelect<true>;
     footer: FooterSelect<false> | FooterSelect<true>;
+    'i18n-settings': I18NSettingsSelect<false> | I18NSettingsSelect<true>;
   };
   locale: null;
   user: User & {
@@ -758,126 +758,6 @@ export interface Form {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "languages".
- */
-export interface Language {
-  id: string;
-  /**
-   * รหัสภาษา ISO 639-1 (เช่น: th, en, ja)
-   */
-  code: string;
-  /**
-   * ชื่อภาษาในภาษาอังกฤษ
-   */
-  name: string;
-  /**
-   * ชื่อภาษาในภาษาต้นฉบับ (เช่น: ไทย, English, 日本語)
-   */
-  nativeName: string;
-  /**
-   * รูปธงชาติของภาษา
-   */
-  flag?: (string | null) | Media;
-  /**
-   * เปิดใช้งานภาษานี้ในระบบ
-   */
-  isActive?: boolean | null;
-  /**
-   * ตั้งเป็นภาษาเริ่มต้นของระบบ (เลือกได้เพียงภาษาเดียว)
-   */
-  isDefault?: boolean | null;
-  /**
-   * ทิศทางการเขียนของภาษา
-   */
-  direction?: ('ltr' | 'rtl') | null;
-  /**
-   * รูปแบบการแสดงวันที่ (เช่น: DD/MM/YYYY, MM/DD/YYYY)
-   */
-  dateFormat?: string | null;
-  /**
-   * รูปแบบการแสดงเวลา
-   */
-  timeFormat?: ('12h' | '24h') | null;
-  /**
-   * สกุลเงินหลักของภาษา
-   */
-  currency?: ('THB' | 'USD' | 'JPY') | null;
-  /**
-   * ลำดับการแสดงผลในเมนูภาษา (ตัวเลขน้อยแสดงก่อน)
-   */
-  sortOrder?: number | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "translations".
- */
-export interface Translation {
-  id: string;
-  /**
-   * คีย์สำหรับการแปล (เช่น: product.title, button.add_to_cart)
-   */
-  key: string;
-  /**
-   * ภาษาของคำแปลนี้
-   */
-  language: string | Language;
-  /**
-   * กลุ่มหรือหมวดหมู่ของคำแปล
-   */
-  namespace:
-    | 'common'
-    | 'products'
-    | 'orders'
-    | 'payments'
-    | 'shipping'
-    | 'users'
-    | 'stores'
-    | 'categories'
-    | 'errors'
-    | 'notifications'
-    | 'menu'
-    | 'forms'
-    | 'buttons'
-    | 'messages';
-  /**
-   * ข้อความที่แปลแล้ว
-   */
-  value: string;
-  /**
-   * คำอธิบายบริบทการใช้คำแปลนี้ (ช่วยในการแปลที่ถูกต้อง)
-   */
-  context?: string | null;
-  /**
-   * เปิดใช้งานคำแปลนี้
-   */
-  isActive?: boolean | null;
-  /**
-   * คำแปลนี้ถูกแปลโดยระบบอัตโนมัติ (ควรตรวจสอบ)
-   */
-  autoTranslated?: boolean | null;
-  /**
-   * คำแปลนี้ต้องการการตรวจสอบจากผู้เชี่ยวชาญ
-   */
-  needsReview?: boolean | null;
-  /**
-   * ผู้ใช้ที่ตรวจสอบคำแปลนี้
-   */
-  reviewedBy?: (string | null) | User;
-  /**
-   * วันที่ตรวจสอบคำแปล
-   */
-  reviewedAt?: string | null;
-  /**
-   * ลำดับการแสดงผลในรายการ (ตัวเลขน้อยแสดงก่อน)
-   */
-  sortOrder?: number | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -1064,14 +944,6 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'categories';
         value: string | Category;
-      } | null)
-    | ({
-        relationTo: 'languages';
-        value: string | Language;
-      } | null)
-    | ({
-        relationTo: 'translations';
-        value: string | Translation;
       } | null)
     | ({
         relationTo: 'users';
@@ -1773,6 +1645,55 @@ export interface Footer {
   createdAt?: string | null;
 }
 /**
+ * การตั้งค่าระบบแปลภาษา
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "i18n-settings".
+ */
+export interface I18NSetting {
+  id: string;
+  /**
+   * เปิด/ปิดระบบแปลภาษาทั้งหมด
+   */
+  enableTranslations?: boolean | null;
+  /**
+   * เลือกภาษาที่ต้องการรองรับ (สูงสุด 5 ภาษา)
+   */
+  supportedLanguages: ('th' | 'en' | 'ja' | 'zh' | 'es' | 'fr')[];
+  /**
+   * ภาษาที่แสดงเมื่อเข้าเว็บไซต์ครั้งแรก
+   */
+  defaultLanguage?: ('th' | 'en' | 'ja' | 'zh' | 'es' | 'fr') | null;
+  languageDisplaySettings?: {
+    /**
+     * แสดงปุ่มเปลี่ยนภาษาใน Header
+     */
+    showLanguageSwitcher?: boolean | null;
+    /**
+     * แสดงธงชาติในปุ่มเปลี่ยนภาษา
+     */
+    showFlags?: boolean | null;
+    /**
+     * แสดงชื่อภาษาดั้งเดิม (เช่น ไทย, English)
+     */
+    showNativeNames?: boolean | null;
+    languageSwitcherPosition?: ('header' | 'footer' | 'both') | null;
+  };
+  translationSettings?: {
+    /**
+     * ใช้ AI แปลอัตโนมัติเมื่อสร้างเนื้อหาใหม่
+     */
+    autoTranslate?: boolean | null;
+    translationProvider?: ('manual' | 'google' | 'microsoft') | null;
+    /**
+     * ภาษาที่จะแสดงเมื่อไม่มีคำแปลในภาษาที่เลือก
+     */
+    fallbackLanguage?: ('th' | 'en' | 'ja' | 'zh' | 'es' | 'fr') | null;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "header_select".
  */
@@ -1813,6 +1734,33 @@ export interface FooterSelect<T extends boolean = true> {
               label?: T;
             };
         id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "i18n-settings_select".
+ */
+export interface I18NSettingsSelect<T extends boolean = true> {
+  enableTranslations?: T;
+  supportedLanguages?: T;
+  defaultLanguage?: T;
+  languageDisplaySettings?:
+    | T
+    | {
+        showLanguageSwitcher?: T;
+        showFlags?: T;
+        showNativeNames?: T;
+        languageSwitcherPosition?: T;
+      };
+  translationSettings?:
+    | T
+    | {
+        autoTranslate?: T;
+        translationProvider?: T;
+        fallbackLanguage?: T;
       };
   updatedAt?: T;
   createdAt?: T;
