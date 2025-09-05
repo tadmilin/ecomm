@@ -4,7 +4,6 @@ import { createMultilangText, createMultilangRichText, createMultilangTextarea }
 // Multilang Tabs สำหรับ Pages Collection
 export const pagesMultilangTabs: Field[] = [
   {
-    name: 'translations',
     type: 'tabs',
     label: 'การแปลภาษา',
     admin: {
@@ -17,7 +16,7 @@ export const pagesMultilangTabs: Field[] = [
         label: 'เนื้อหาหลัก',
         fields: [
           createMultilangText({
-            name: 'title',
+            name: 'multilangTitle',
             label: 'หัวข้อหน้า',
             required: true,
             admin: {

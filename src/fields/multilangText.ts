@@ -21,12 +21,6 @@ export const createMultilangText = (options: MultilangTextOptions): Field => {
     label,
     admin: {
       ...admin,
-      condition: (data, siblingData, { user }) => {
-        // ตรวจสอบว่า i18n เปิดใช้งานหรือไม่
-        // ในที่นี้เราจะใช้ค่าเริ่มต้นเป็น true
-        // ในภายหลังจะเชื่อมต่อกับ Global I18nSettings
-        return true
-      },
     },
     fields: [
       {

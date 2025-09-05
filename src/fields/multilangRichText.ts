@@ -20,10 +20,6 @@ export const createMultilangRichText = (options: MultilangRichTextOptions): Fiel
     label,
     admin: {
       ...admin,
-      condition: (data, siblingData, { user }) => {
-        // ตรวจสอบว่า i18n เปิดใช้งานหรือไม่
-        return true
-      },
     },
     fields: [
       {
@@ -33,7 +29,7 @@ export const createMultilangRichText = (options: MultilangRichTextOptions): Fiel
         required: required,
         editor: defaultLexical,
         admin: {
-          placeholder: admin?.placeholder || `กรอก${label.toLowerCase()}`,
+          description: admin?.placeholder || `กรอก${label.toLowerCase()}`,
         },
       },
       {
@@ -42,7 +38,7 @@ export const createMultilangRichText = (options: MultilangRichTextOptions): Fiel
         label: 'English',
         editor: defaultLexical,
         admin: {
-          placeholder: admin?.placeholder || `Enter ${label.toLowerCase()}`,
+          description: admin?.placeholder || `Enter ${label.toLowerCase()}`,
         },
       },
       {
@@ -51,7 +47,7 @@ export const createMultilangRichText = (options: MultilangRichTextOptions): Fiel
         label: '日本語 (Japanese)',
         editor: defaultLexical,
         admin: {
-          placeholder: admin?.placeholder || `${label}を入力`,
+          description: admin?.placeholder || `${label}を入力`,
         },
       },
       {
@@ -60,7 +56,7 @@ export const createMultilangRichText = (options: MultilangRichTextOptions): Fiel
         label: '中文 (Chinese)',
         editor: defaultLexical,
         admin: {
-          placeholder: admin?.placeholder || `输入${label}`,
+          description: admin?.placeholder || `输入${label}`,
         },
       },
       {
@@ -69,7 +65,7 @@ export const createMultilangRichText = (options: MultilangRichTextOptions): Fiel
         label: 'Español (Spanish)',
         editor: defaultLexical,
         admin: {
-          placeholder: admin?.placeholder || `Ingrese ${label.toLowerCase()}`,
+          description: admin?.placeholder || `Ingrese ${label.toLowerCase()}`,
         },
       },
       {
@@ -78,7 +74,7 @@ export const createMultilangRichText = (options: MultilangRichTextOptions): Fiel
         label: 'Français (French)',
         editor: defaultLexical,
         admin: {
-          placeholder: admin?.placeholder || `Entrez ${label.toLowerCase()}`,
+          description: admin?.placeholder || `Entrez ${label.toLowerCase()}`,
         },
       },
     ],

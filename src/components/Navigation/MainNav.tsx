@@ -2,7 +2,7 @@
 
 import React from 'react'
 import Link from 'next/link'
-import { usePayloadLanguage } from '@/contexts/PayloadLanguageContext'
+import { useLanguage } from '@/contexts/LanguageContext'
 import { usePathname } from 'next/navigation'
 
 interface NavItem {
@@ -12,7 +12,7 @@ interface NavItem {
 }
 
 export const MainNav: React.FC = () => {
-  const { t, currentLanguage } = usePayloadLanguage()
+  const { t, currentLanguage } = useLanguage()
   const pathname = usePathname()
 
   const navItems: NavItem[] = [

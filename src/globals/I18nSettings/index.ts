@@ -20,14 +20,13 @@ export const I18nSettings: GlobalConfig = {
         description: 'เปิด/ปิดระบบแปลภาษาทั้งหมด',
       },
     },
-    {
-      name: 'supportedLanguages',
-      type: 'select',
-      label: 'ภาษาที่รองรับ',
-      hasMany: true,
-      maxRows: 5,
-      required: true,
-      defaultValue: ['th', 'en'],
+      {
+    name: 'supportedLanguages',
+    type: 'select',
+    label: 'ภาษาที่รองรับ',
+    hasMany: true,
+    required: true,
+    defaultValue: ['th', 'en'],
       options: [
         {
           label: 'ไทย (Thai)',

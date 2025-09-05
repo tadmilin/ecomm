@@ -8,10 +8,6 @@ export const createMultilangLink = (): Field => {
     type: 'group',
     label: 'ลิงก์หลายภาษา',
     admin: {
-      condition: (data, siblingData, { user }) => {
-        // ตรวจสอบว่า i18n เปิดใช้งานหรือไม่
-        return true
-      },
     },
     fields: [
       {
@@ -61,7 +57,7 @@ export const createMultilangLink = (): Field => {
         defaultValue: false,
       },
       // Multilang Label
-      ...createMultilangText({
+      createMultilangText({
         name: 'label',
         label: 'ข้อความลิงก์',
         required: true,
@@ -71,7 +67,7 @@ export const createMultilangLink = (): Field => {
         },
         maxLength: 50,
         minLength: 2,
-      }).fields,
+      }),
     ],
   }
 }

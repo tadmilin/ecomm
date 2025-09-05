@@ -52,7 +52,7 @@ type Args = {
 export default async function Page({ params: paramsPromise }: Args) {
   const { isEnabled: draft } = await draftMode()
   const { lang, slug = 'home' } = await paramsPromise
-  const dict = await getDictionary(lang)
+
   const url = `/${lang}/${slug}`
 
   let page: RequiredDataFromCollectionSlug<'pages'> | null
@@ -88,7 +88,7 @@ export default async function Page({ params: paramsPromise }: Args) {
 
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
   const { lang, slug = 'home' } = await paramsPromise
-  const dict = await getDictionary(lang)
+  
   const page = await queryPageBySlug({
     slug,
   })
