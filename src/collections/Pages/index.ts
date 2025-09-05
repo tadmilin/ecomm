@@ -12,8 +12,7 @@ import { slugField } from '@/fields/slug'
 import { populatePublishedAt } from '../../hooks/populatePublishedAt'
 import { generatePreviewPath } from '../../utilities/generatePreviewPath'
 import { revalidateDelete, revalidatePage } from './hooks/revalidatePage'
-import { pagesI18nFields } from './i18nFields'
-import { pagesMultilangTabs } from './multilangTabs'
+
 
 import {
   MetaDescriptionField,
@@ -60,26 +59,15 @@ export const Pages: CollectionConfig<'pages'> = {
     useAsTitle: 'title',
   },
   fields: [
-    // i18n Settings Fields
-    ...pagesI18nFields,
-    
-    // Original title field (fallback)
+    // Original title field
     {
       name: 'title',
       type: 'text',
       required: true,
       localized: true,
-      admin: {
-        condition: (data, siblingData) => {
-          return siblingData?.enableTranslations !== true
-        },
-      },
     },
     
-    // Multilang Tabs
-    ...pagesMultilangTabs,
-    
-    // Original tabs (fallback when i18n is disabled)
+    // Original tabs
     {
       type: 'tabs',
       tabs: [

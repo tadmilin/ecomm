@@ -17,8 +17,7 @@ import { MediaBlock } from '../../blocks/MediaBlock/config'
 import { generatePreviewPath } from '../../utilities/generatePreviewPath'
 import { populateAuthors } from './hooks/populateAuthors'
 import { revalidateDelete, revalidatePost } from './hooks/revalidatePost'
-import { postsI18nFields } from './i18nFields'
-import { postsMultilangTabs } from './multilangTabs'
+
 
 import {
   MetaDescriptionField,
@@ -71,26 +70,15 @@ export const Posts: CollectionConfig<'posts'> = {
     useAsTitle: 'title',
   },
   fields: [
-    // i18n Settings Fields
-    ...postsI18nFields,
-    
-    // Original title field (fallback)
+    // Original title field
     {
       name: 'title',
       type: 'text',
       required: true,
       localized: true,
-      admin: {
-        condition: (data, siblingData) => {
-          return siblingData?.enableTranslations !== true
-        },
-      },
     },
     
-    // Multilang Tabs
-    ...postsMultilangTabs,
-    
-    // Original tabs (fallback when i18n is disabled)
+    // Original tabs
     {
       type: 'tabs',
       tabs: [
