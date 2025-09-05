@@ -12,6 +12,8 @@ import { slugField } from '@/fields/slug'
 import { populatePublishedAt } from '../../hooks/populatePublishedAt'
 import { generatePreviewPath } from '../../utilities/generatePreviewPath'
 import { revalidateDelete, revalidatePage } from './hooks/revalidatePage'
+import { pagesI18nFields } from './i18nFields'
+import { pagesMultilangTabs } from './multilangTabs'
 
 import {
   MetaDescriptionField,
@@ -58,12 +60,26 @@ export const Pages: CollectionConfig<'pages'> = {
     useAsTitle: 'title',
   },
   fields: [
+    // i18n Settings Fields
+    ...pagesI18nFields,
+    
+    // Original title field (fallback)
     {
       name: 'title',
       type: 'text',
       required: true,
       localized: true,
+      admin: {
+        condition: (data, siblingData) => {
+          return siblingData?.enableTranslations !== true
+        },
+      },
     },
+    
+    // Multilang Tabs
+    ...pagesMultilangTabs,
+    
+    // Original tabs (fallback when i18n is disabled)
     {
       type: 'tabs',
       tabs: [
@@ -115,7 +131,14 @@ export const Pages: CollectionConfig<'pages'> = {
           ],
         },
       ],
+      admin: {
+        condition: (data, siblingData) => {
+          return siblingData?.enableTranslations !== true
+        },
+      },
     },
+    
+    // Published date
     {
       name: 'publishedAt',
       type: 'date',
@@ -123,6 +146,8 @@ export const Pages: CollectionConfig<'pages'> = {
         position: 'sidebar',
       },
     },
+    
+    // Slug field
     ...slugField(),
   ],
   hooks: {

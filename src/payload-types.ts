@@ -89,8 +89,6 @@ export interface Config {
     posts: PostsSelect<false> | PostsSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
-    languages: LanguagesSelect<false> | LanguagesSelect<true>;
-    translations: TranslationsSelect<false> | TranslationsSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
@@ -1417,44 +1415,6 @@ export interface CategoriesSelect<T extends boolean = true> {
         label?: T;
         id?: T;
       };
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "languages_select".
- */
-export interface LanguagesSelect<T extends boolean = true> {
-  code?: T;
-  name?: T;
-  nativeName?: T;
-  flag?: T;
-  isActive?: T;
-  isDefault?: T;
-  direction?: T;
-  dateFormat?: T;
-  timeFormat?: T;
-  currency?: T;
-  sortOrder?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "translations_select".
- */
-export interface TranslationsSelect<T extends boolean = true> {
-  key?: T;
-  language?: T;
-  namespace?: T;
-  value?: T;
-  context?: T;
-  isActive?: T;
-  autoTranslated?: T;
-  needsReview?: T;
-  reviewedBy?: T;
-  reviewedAt?: T;
-  sortOrder?: T;
   updatedAt?: T;
   createdAt?: T;
 }

@@ -9,8 +9,6 @@ import { imageHero1 } from './image-hero-1'
 import { post1 } from './post-1'
 import { post2 } from './post-2'
 import { post3 } from './post-3'
-import { seedLanguages } from './languages'
-import { seedTranslations } from './translations'
 
 const collections: CollectionSlug[] = [
   'categories',
@@ -332,15 +330,6 @@ export const seed = async ({
     }),
   ])
 
-  payload.logger.info('— Seeding languages and translations...')
-
-  // สร้างภาษาที่รองรับ
-  const languages = await seedLanguages(payload)
-  
-  // สร้างคำแปลพื้นฐาน
-  if (languages) {
-    await seedTranslations(payload, languages)
-  }
 
   payload.logger.info('Seeded database successfully!')
 }
