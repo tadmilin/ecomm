@@ -1,6 +1,5 @@
 'use client'
 
-import { useLanguage } from '@/contexts/LanguageContext'
 import { AlertCircle, RefreshCw } from 'lucide-react'
 import { Button } from './button'
 
@@ -17,10 +16,9 @@ export const Error: React.FC<ErrorProps> = ({
   onRetry,
   className = '' 
 }) => {
-  const { t } = useLanguage()
   
-  const displayTitle = title || t('common.error')
-  const displayMessage = message || t('common.error_message')
+  const displayTitle = title || 'Error'
+  const displayMessage = message || 'An error occurred'
 
   return (
     <div className={`flex flex-col items-center justify-center gap-4 p-8 ${className}`}>
@@ -35,7 +33,7 @@ export const Error: React.FC<ErrorProps> = ({
         {onRetry && (
           <Button onClick={onRetry} variant="outline">
             <RefreshCw className="w-4 h-4 mr-2" />
-            {t('common.retry')}
+            Retry
           </Button>
         )}
       </div>
@@ -52,12 +50,11 @@ export const PageError: React.FC<ErrorProps> = (props) => (
 )
 
 export const NotFound: React.FC = () => {
-  const { t } = useLanguage()
   
   return (
     <PageError
-      title={t('common.not_found')}
-      message={t('common.page_not_found')}
+      title="Not Found"
+      message="The page you are looking for does not exist"
     />
   )
 }

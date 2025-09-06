@@ -39,7 +39,7 @@ export default async function Page({ params: paramsPromise }: Args) {
       <PageClient />
       <div className="container mb-16">
         <div className="prose dark:prose-invert max-w-none">
-          <h1>{dict.posts.title}</h1>
+          <h1>Posts</h1>
         </div>
       </div>
 
@@ -67,14 +67,10 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
   const { lang, pageNumber } = await paramsPromise
   
   return {
-    title: `${dict.posts.meta.title} - Page ${pageNumber || ''}`,
-    description: dict.posts.meta.description,
+    title: `Posts - Page ${pageNumber || ''}`,
+    description: 'Browse all posts',
     alternates: {
-      languages: {
-        'en': `/en/posts/page/${pageNumber}`,
-        'th': `/th/posts/page/${pageNumber}`,
-        'ja': `/ja/posts/page/${pageNumber}`,
-      },
+      canonical: `/${lang}/posts/page/${pageNumber}`,
     },
   }
 }

@@ -70,10 +70,10 @@ export default async function SearchPage({
       <PageClient />
       <div className="container mb-16">
         <div className="prose dark:prose-invert max-w-none text-center">
-          <h1 className="mb-8 lg:mb-16">{dict.search.title}</h1>
+          <h1 className="mb-8 lg:mb-16">Search</h1>
 
           <div className="max-w-[50rem] mx-auto">
-            <Search placeholder={dict.search.placeholder} />
+            <Search placeholder="Search posts..." />
           </div>
         </div>
       </div>
@@ -81,7 +81,7 @@ export default async function SearchPage({
       {posts.totalDocs > 0 ? (
         <CollectionArchive posts={posts.docs as CardPostData[]} />
       ) : (
-        <div className="container">{dict.search.no_results}</div>
+        <div className="container">No results found</div>
       )}
     </div>
   )
@@ -91,8 +91,8 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
   const { lang } = await params
   
   return {
-    title: dict.search.meta.title,
-    description: dict.search.meta.description,
+    title: 'Search',
+    description: 'Search for posts',
     alternates: {
       canonical: `/${lang}/search`,
       languages: {

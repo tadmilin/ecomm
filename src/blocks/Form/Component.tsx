@@ -7,7 +7,6 @@ import { useForm, FormProvider } from 'react-hook-form'
 import RichText from '@/components/RichText'
 import { Button } from '@/components/ui/button'
 import type { SerializedEditorState } from '@payloadcms/richtext-lexical/lexical'
-import { useLanguage } from '@/contexts/LanguageContext'
 
 import { fields } from './fields'
 import { getClientSideURL } from '@/utilities/getURL'
@@ -25,7 +24,6 @@ export const FormBlock: React.FC<
     id?: string
   } & FormBlockType
 > = (props) => {
-  const { t } = useLanguage()
   const {
     enableIntro,
     form: formFromProps,
@@ -82,7 +80,7 @@ export const FormBlock: React.FC<
             setIsLoading(false)
 
             setError({
-              message: res.errors?.[0]?.message || t('form.error.internal'),
+              message: res.errors?.[0]?.message || 'An error occurred',
               status: res.status,
             })
 
@@ -103,14 +101,14 @@ export const FormBlock: React.FC<
           console.warn(err)
           setIsLoading(false)
           setError({
-            message: t('form.error.something_went_wrong'),
+            message: 'Something went wrong',
           })
         }
       }
 
       void submitForm()
     },
-    [router, formID, redirect, confirmationType, t],
+    [router, formID, redirect, confirmationType],
   )
 
   return (
@@ -123,7 +121,7 @@ export const FormBlock: React.FC<
           {!isLoading && hasSubmitted && confirmationType === 'message' && (
             <RichText data={confirmationMessage} />
           )}
-          {isLoading && !hasSubmitted && <p>{t('form.loading.wait')}</p>}
+          {isLoading && !hasSubmitted && <p>Please wait...</p>}
           {error && <div>{`${error.status || '500'}: ${error.message || ''}`}</div>}
           {!hasSubmitted && (
             <form id={formID} onSubmit={handleSubmit(onSubmit)}>
@@ -152,7 +150,7 @@ export const FormBlock: React.FC<
               </div>
 
               <Button form={formID} type="submit" variant="default">
-                {submitButtonLabel || t('form.button.submit')}
+                {submitButtonLabel || 'Submit'}
               </Button>
             </form>
           )}
