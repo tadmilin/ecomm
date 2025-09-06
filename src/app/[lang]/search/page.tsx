@@ -7,7 +7,6 @@ import React from 'react'
 import { Search } from '@/search/Component'
 import PageClient from './page.client'
 import { CardPostData } from '@/components/Card'
-import { getDictionary } from '@/lib/getDictionary'
 
 type Args = {
   params: Promise<{ lang: string }>
@@ -23,7 +22,6 @@ export default async function SearchPage({
   const { lang } = await params
   const { q: query } = await searchParamsPromise
   const payload = await getPayload({ config: configPromise })
-  const dict = await getDictionary(lang)
 
   const posts = await payload.find({
     collection: 'search',
@@ -91,7 +89,6 @@ export default async function SearchPage({
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
   const { lang } = await params
-  const dict = await getDictionary(lang)
   
   return {
     title: dict.search.meta.title,

@@ -14,7 +14,6 @@ import { PostHero } from '@/heros/PostHero'
 import { generateMeta } from '@/utilities/generateMeta'
 import PageClient from './page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
-import { getDictionary } from '@/lib/getDictionary'
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
@@ -50,7 +49,6 @@ type Args = {
 export default async function Post({ params: paramsPromise }: Args) {
   const { isEnabled: draft } = await draftMode()
   const { lang, slug = '' } = await paramsPromise
-  const dict = await getDictionary(lang)
   const url = `/${lang}/posts/${slug}`
   const post = await queryPostBySlug({ slug })
 

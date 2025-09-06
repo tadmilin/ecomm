@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 
 import React from 'react'
-import { getDictionary } from '@/lib/getDictionary'
 
 
 export const dynamic = 'force-dynamic'
@@ -12,7 +11,6 @@ params
   params: Promise<{ lang: string }>
 }) {
   const { lang } = await params
-  const dict = await getDictionary(lang)
   // TODO: Implement proper authentication
   // const session = await getServerSession(authOptions)
   // if (!session?.user) {
@@ -62,7 +60,6 @@ params
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
   const { lang } = await params
-  const dict = await getDictionary(lang)
   
   return {
     title: dict.profile.meta.title,

@@ -36,6 +36,7 @@ const columnFields: Field[] = [
   {
     name: 'richText',
     type: 'richText',
+    localized: true, // เพิ่มการรองรับหลายภาษา
     editor: lexicalEditor({
       features: ({ rootFeatures }) => {
         return [

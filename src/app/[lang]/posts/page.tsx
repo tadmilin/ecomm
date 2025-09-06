@@ -7,7 +7,6 @@ import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import React from 'react'
 import PageClient from './page.client'
-import { getDictionary } from '@/lib/getDictionary'
 
 export const dynamic = 'force-static'
 export const revalidate = 600
@@ -19,7 +18,6 @@ export default async function PostsPage({
 }) {
   const { lang } = await params
   const payload = await getPayload({ config: configPromise })
-  const dict = await getDictionary(lang)
 
   const posts = await payload.find({
     collection: 'posts',
@@ -65,7 +63,6 @@ export default async function PostsPage({
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
   const { lang } = await params
-  const dict = await getDictionary(lang)
   
   return {
     title: dict.posts.meta.title,

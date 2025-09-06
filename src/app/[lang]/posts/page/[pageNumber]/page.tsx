@@ -8,7 +8,6 @@ import { getPayload } from 'payload'
 import React from 'react'
 import PageClient from './page.client'
 import { notFound } from 'next/navigation'
-import { getDictionary } from '@/lib/getDictionary'
 
 export const revalidate = 600
 
@@ -21,7 +20,6 @@ type Args = {
 
 export default async function Page({ params: paramsPromise }: Args) {
   const { lang, pageNumber } = await paramsPromise
-  const dict = await getDictionary(lang)
   const payload = await getPayload({ config: configPromise })
 
   const sanitizedPageNumber = Number(pageNumber)
@@ -67,7 +65,6 @@ export default async function Page({ params: paramsPromise }: Args) {
 
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
   const { lang, pageNumber } = await paramsPromise
-  const dict = await getDictionary(lang)
   
   return {
     title: `${dict.posts.meta.title} - Page ${pageNumber || ''}`,

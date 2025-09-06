@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react'
 import Link from 'next/link'
-import { useLanguage } from '@/contexts/LanguageContext'
 import { usePathname } from 'next/navigation'
 import { Menu, X } from 'lucide-react'
 
@@ -13,20 +12,19 @@ interface NavItem {
 }
 
 export const MobileNav: React.FC = () => {
-  const { t, currentLanguage } = useLanguage()
   const pathname = usePathname()
   const [isOpen, setIsOpen] = useState(false)
 
   const navItems: NavItem[] = [
-    { label: t('layout.nav.home'), href: `/${currentLanguage}` },
-    { label: t('layout.nav.posts'), href: `/${currentLanguage}/posts` },
-    { label: t('layout.nav.search'), href: `/${currentLanguage}/search` },
-    { label: t('layout.nav.about'), href: `/${currentLanguage}/about` },
+    { label: 'Home', href: '/' },
+    { label: 'Posts', href: '/posts' },
+    { label: 'Search', href: '/search' },
+    { label: 'About', href: '/about' },
   ]
 
   const isActive = (href: string) => {
-    if (href === `/${currentLanguage}`) {
-      return pathname === `/${currentLanguage}` || pathname === `/${currentLanguage}/`
+    if (href === '/') {
+      return pathname === '/' || pathname === '/'
     }
     return pathname.startsWith(href)
   }
@@ -39,7 +37,7 @@ export const MobileNav: React.FC = () => {
       <button
         onClick={toggleMenu}
         className="p-2 text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100"
-        aria-label={t('layout.header.menu_toggle')}
+        aria-label="Toggle menu"
       >
         {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
       </button>
