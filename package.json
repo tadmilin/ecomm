@@ -24,7 +24,8 @@
     "migrate:i18n:dry": "node scripts/migrate-to-payload-i18n.js --dry-run",
     "migrate:i18n:reset": "node scripts/migrate-to-payload-i18n.js --reset",
     "seed:i18n": "node scripts/seed-payload-i18n.js",
-    "seed:i18n:reset": "node scripts/seed-payload-i18n.js --reset"
+    "seed:i18n:reset": "node scripts/seed-payload-i18n.js --reset",
+    "add:localized": "node scripts/add-localized-to-blocks.js"
   },
   "dependencies": {
     "@payloadcms/admin-bar": "3.53.0",

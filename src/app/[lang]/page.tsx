@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import { getDictionary } from '@/lib/getDictionary'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 import { homeStatic } from '@/endpoints/seed/home-static'
@@ -9,7 +8,7 @@ import { generateMeta } from '@/utilities/generateMeta'
 import { PayloadRedirects } from '@/components/PayloadRedirects'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
 import { draftMode } from 'next/headers'
-import React, { cache } from 'react'
+import React from 'react'
 
 export async function generateMetadata({
   params,
@@ -17,19 +16,13 @@ export async function generateMetadata({
   params: Promise<{ lang: string }>
 }): Promise<Metadata> {
   const { lang } = await params
-  const dict = await getDictionary(lang)
   const page = await queryPageBySlug({ slug: 'home' })
 
   return generateMeta({ doc: page }) || {
-    title: dict.common.meta?.title || 'Payload Website Template',
-    description: dict.common.meta?.description || 'A modern website built with Payload CMS',
+    title: 'Payload Website Template',
+    description: 'A modern website built with Payload CMS',
     alternates: {
       canonical: `/${lang}`,
-      languages: {
-        'en': '/en',
-        'th': '/th',
-        'ja': '/ja',
-      },
     },
   }
 }
@@ -41,21 +34,35 @@ export default async function HomePage({
 }) {
   const { lang } = await params
   const { isEnabled: draft } = await draftMode()
-  const dict = await getDictionary(lang)
 
   let page = await queryPageBySlug({ slug: 'home' })
 
-  // Remove this code once your website is seeded
+  // ใช้ข้อมูลจากฐานข้อมูลก่อน ถ้าไม่มีค่อยใช้ static
   if (!page) {
-    page = homeStatic as any
+    // หาหน้าแรกที่ published
+    const payload = await getPayload({ config: configPromise })
+    const result = await payload.find({
+      collection: 'pages',
+      draft: false,
+      limit: 1,
+      pagination: false,
+      where: {
+        _status: {
+          equals: 'published',
+        },
+      },
+      sort: 'createdAt',
+    })
+    
+    page = result.docs?.[0] || homeStatic as any
   }
 
   if (!page) {
     return (
       <div className="pt-24 pb-24">
         <div className="container">
-          <h1>{dict.common.not_found}</h1>
-          <p>{dict.common.back_to_home}</p>
+          <h1>Page Not Found</h1>
+          <p>Back to Home</p>
         </div>
       </div>
     )
@@ -76,7 +83,8 @@ export default async function HomePage({
   )
 }
 
-const queryPageBySlug = cache(async ({ slug }: { slug: string }) => {
+// ไม่ใช้ cache เพื่อให้ข้อมูลอัพเดทตลอดเวลา
+const queryPageBySlug = async ({ slug }: { slug: string }) => {
   const { isEnabled: draft } = await draftMode()
 
   const payload = await getPayload({ config: configPromise })
@@ -95,4 +103,4 @@ const queryPageBySlug = cache(async ({ slug }: { slug: string }) => {
   })
 
   return result.docs?.[0] || null
-})
+}

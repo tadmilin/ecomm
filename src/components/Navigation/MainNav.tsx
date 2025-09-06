@@ -2,7 +2,6 @@
 
 import React from 'react'
 import Link from 'next/link'
-import { useLanguage } from '@/contexts/LanguageContext'
 import { usePathname } from 'next/navigation'
 
 interface NavItem {
@@ -12,19 +11,18 @@ interface NavItem {
 }
 
 export const MainNav: React.FC = () => {
-  const { t, currentLanguage } = useLanguage()
   const pathname = usePathname()
 
   const navItems: NavItem[] = [
-    { label: t('layout.nav.home'), href: `/${currentLanguage}` },
-    { label: t('layout.nav.posts'), href: `/${currentLanguage}/posts` },
-    { label: t('layout.nav.search'), href: `/${currentLanguage}/search` },
-    { label: t('layout.nav.about'), href: `/${currentLanguage}/about` },
+    { label: 'Home', href: '/' },
+    { label: 'Posts', href: '/posts' },
+    { label: 'Search', href: '/search' },
+    { label: 'About', href: '/about' },
   ]
 
   const isActive = (href: string) => {
-    if (href === `/${currentLanguage}`) {
-      return pathname === `/${currentLanguage}` || pathname === `/${currentLanguage}/`
+    if (href === '/') {
+      return pathname === '/' || pathname === '/'
     }
     return pathname.startsWith(href)
   }

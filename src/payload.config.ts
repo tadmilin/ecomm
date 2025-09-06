@@ -8,28 +8,27 @@ import { fileURLToPath } from 'url'
 
 import { Categories } from './collections/Categories'
 import { Media } from './collections/Media'
-import { Pages } from './collections/Pages'
-import { Posts } from './collections/Posts'
+import { Pages } from './collections/Pages/index'
+import { Posts } from './collections/Posts/index'
 
-import { Users } from './collections/Users'
+import { Users } from './collections/Users/index'
 import { Footer } from './Footer/config'
 import { Header } from './Header/config'
-import { I18nSettings } from './globals/I18nSettings'
-import { plugins } from './plugins'
+import { I18nSettings } from './globals/I18nSettings/index'
+import { plugins } from './plugins/index'
 import { defaultLexical } from '@/fields/defaultLexical'
 import { getServerSideURL } from './utilities/getURL'
 
 // Import language translations
 import { en } from '@payloadcms/translations/languages/en'
 import { th } from '@payloadcms/translations/languages/th'
-import { ja } from '@payloadcms/translations/languages/ja'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
 export default buildConfig({
     i18n: {
-    supportedLanguages: { th, en, ja },
+    supportedLanguages: { th, en },
   },
   admin: {
     components: {

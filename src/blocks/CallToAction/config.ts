@@ -16,6 +16,7 @@ export const CallToAction: Block = {
     {
       name: 'richText',
       type: 'richText',
+      localized: true, // เพิ่มการรองรับหลายภาษา
       editor: lexicalEditor({
         features: ({ rootFeatures }) => {
           return [

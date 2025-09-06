@@ -8,9 +8,6 @@ import type { Header } from '@/payload-types'
 
 import { Logo } from '@/components/Logo/Logo'
 import { HeaderNav } from './Nav'
-import { MainNav } from '@/components/Navigation/MainNav'
-import { MobileNav } from '@/components/Navigation/MobileNav'
-import { HeaderLanguageSwitcher } from '@/components/LanguageSwitcher'
 
 interface HeaderClientProps {
   data: Header
@@ -39,19 +36,8 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
           <Logo loading="eager" priority="high" className="invert dark:invert-0" />
         </Link>
         
-        {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center space-x-6">
-          <MainNav />
-          <HeaderLanguageSwitcher />
-          <HeaderNav data={data} />
-        </div>
-
-        {/* Mobile Navigation */}
-        <div className="md:hidden flex items-center space-x-3">
-          <HeaderLanguageSwitcher />
-          <HeaderNav data={data} />
-          <MobileNav />
-        </div>
+        {/* Original Navigation */}
+        <HeaderNav data={data} />
       </div>
     </header>
   )
