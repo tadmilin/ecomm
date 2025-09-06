@@ -3,7 +3,6 @@
 
 import Link from 'next/link'
 import React from 'react'
-import { useLanguage } from '@/contexts/LanguageContext'
 
 import type { Footer } from '@/payload-types'
 
@@ -16,7 +15,6 @@ interface FooterClientProps {
 }
 
 const FooterClient: React.FC<FooterClientProps> = ({ data }) => {
-  const { t } = useLanguage()
   const navItems = data?.navItems || []
   const currentYear = new Date().getFullYear()
 
@@ -39,7 +37,7 @@ const FooterClient: React.FC<FooterClientProps> = ({ data }) => {
       
       <div className="container py-4 border-t border-gray-700">
         <div className="text-center text-sm text-gray-400">
-          {t('footer.copyright', 'layout', { year: currentYear.toString() })}
+          © {currentYear} All rights reserved
         </div>
       </div>
     </footer>

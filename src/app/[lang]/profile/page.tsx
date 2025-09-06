@@ -27,10 +27,10 @@ params
     <div className="pt-24 pb-24">
       <div className="container">
         <div className="max-w-2xl mx-auto">
-          <h1 className="text-3xl font-bold mb-8">{dict.profile.title}</h1>
+          <h1 className="text-3xl font-bold mb-8">Profile</h1>
           
           <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-            <h2 className="text-xl font-semibold mb-4">{dict.profile.personal_info}</h2>
+            <h2 className="text-xl font-semibold mb-4">Personal Information</h2>
             
             <div className="space-y-4">
               <div>
@@ -62,8 +62,8 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
   const { lang } = await params
   
   return {
-    title: dict.profile.meta.title,
-    description: dict.profile.meta.description,
+    title: 'Profile',
+    description: 'User profile page',
     alternates: {
       languages: {
         'en': '/en/profile',

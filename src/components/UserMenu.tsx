@@ -3,10 +3,8 @@
 import { useSession, signOut } from "next-auth/react"
 import { useState } from "react"
 import { ChevronDown, User, LogOut, Settings } from "lucide-react"
-import { useLanguage } from '@/contexts/LanguageContext'
 
 export default function UserMenu() {
-  const { t } = useLanguage()
   const { data: session, status } = useSession()
   const [isOpen, setIsOpen] = useState(false)
 
@@ -21,7 +19,7 @@ export default function UserMenu() {
   if (!session) {
     return (
       <div className="flex items-center gap-2">
-        <span className="text-sm text-gray-600">{t('user.not_logged_in')}</span>
+        <span className="text-sm text-gray-600">Not logged in</span>
       </div>
     )
   }
@@ -35,7 +33,7 @@ export default function UserMenu() {
         {session.user?.image ? (
           <img
             src={session.user.image}
-            alt={session.user.name || t('user.default_name')}
+            alt={session.user.name || 'User'}
             className="w-8 h-8 rounded-full"
           />
         ) : (
@@ -44,7 +42,7 @@ export default function UserMenu() {
           </div>
         )}
         <span className="text-sm font-medium text-gray-700">
-          {session.user?.name || t('user.default_name')}
+          {session.user?.name || ('user.default_name')}
         </span>
         <ChevronDown className={`w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
       </button>
@@ -64,7 +62,7 @@ export default function UserMenu() {
               className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center gap-2"
             >
               <User className="w-4 h-4" />
-              {t('user.profile')}
+              Profile
             </button>
             
             {((session.user as any)?.role === 'admin') && (
@@ -75,7 +73,7 @@ export default function UserMenu() {
                 className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center gap-2"
               >
                 <Settings className="w-4 h-4" />
-                {t('user.admin_panel')}
+                Admin Panel
               </button>
             )}
             
@@ -84,7 +82,7 @@ export default function UserMenu() {
               className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 flex items-center gap-2"
             >
               <LogOut className="w-4 h-4" />
-              {t('user.sign_out')}
+              Sign Out
             </button>
           </div>
         </div>

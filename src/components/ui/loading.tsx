@@ -1,6 +1,5 @@
 'use client'
 
-import { useLanguage } from '@/contexts/LanguageContext'
 import { Loader2 } from 'lucide-react'
 
 interface LoadingProps {
@@ -14,7 +13,6 @@ export const Loading: React.FC<LoadingProps> = ({
   text,
   className = '' 
 }) => {
-  const { t } = useLanguage()
   
   const sizeClasses = {
     sm: 'w-4 h-4',
@@ -22,7 +20,7 @@ export const Loading: React.FC<LoadingProps> = ({
     lg: 'w-8 h-8'
   }
 
-  const displayText = text || t('common.loading')
+  const displayText = text || 'Loading...'
 
   return (
     <div className={`flex items-center justify-center gap-2 ${className}`}>
