@@ -9,7 +9,59 @@ export const Header: GlobalConfig = {
     read: () => true,
   },
   fields: [
-    // Original Navigation Items
+    {
+      name: 'logo',
+      type: 'group',
+      fields: [
+        {
+          name: 'type',
+          type: 'radio',
+          defaultValue: 'text',
+          options: [
+            {
+              label: 'Text Logo',
+              value: 'text',
+            },
+            {
+              label: 'Image Logo',
+              value: 'image',
+            },
+          ],
+          admin: {
+            layout: 'horizontal',
+          },
+        },
+        {
+          name: 'text',
+          type: 'text',
+          label: 'Logo Text',
+          required: false,
+          admin: {
+            condition: (_, siblingData) => siblingData?.type === 'text',
+          },
+        },
+        {
+          name: 'image',
+          type: 'upload',
+          label: 'Logo Image',
+          relationTo: 'media',
+          required: false,
+          admin: {
+            condition: (_, siblingData) => siblingData?.type === 'image',
+          },
+        },
+        {
+          name: 'alt',
+          type: 'text',
+          label: 'Alt Text',
+          required: false,
+          admin: {
+            condition: (_, siblingData) => siblingData?.type === 'image',
+          },
+        },
+      ],
+      label: 'Logo Settings',
+    },
     {
       name: 'navItems',
       type: 'array',

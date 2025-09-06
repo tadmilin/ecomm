@@ -1592,6 +1592,12 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
  */
 export interface Header {
   id: string;
+  logo?: {
+    type?: ('text' | 'image') | null;
+    text?: string | null;
+    image?: (string | null) | Media;
+    alt?: string | null;
+  };
   navItems?:
     | {
         link: {
@@ -1698,6 +1704,14 @@ export interface I18NSetting {
  * via the `definition` "header_select".
  */
 export interface HeaderSelect<T extends boolean = true> {
+  logo?:
+    | T
+    | {
+        type?: T;
+        text?: T;
+        image?: T;
+        alt?: T;
+      };
   navItems?:
     | T
     | {
