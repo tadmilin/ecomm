@@ -9,17 +9,10 @@ import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 import './index.css'
 
+import type { Media as MediaType } from '@/payload-types'
+
 interface ImageSlideItem {
-  image: {
-    id: string
-    url: string
-    filename: string
-    mimeType: string
-    filesize: number
-    width: number
-    height: number
-    alt?: string
-  }
+  image: MediaType
 }
 
 interface ImageSliderProps {
