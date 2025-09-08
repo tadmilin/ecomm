@@ -62,8 +62,8 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
         {slides.map((slide, index) => (
           <div key={`slide-${index}`} className="slide-item">
             <Media
-              // แปลง slide.image ให้เป็นชนิดที่ Media component รองรับ (string หรือ Media object)
-              resource={slide.image.id ? slide.image.id : slide.image.url}
+              // ส่ง slide.image ทั้งหมดไปให้ Media component
+              resource={slide.image}
               fill={fill}
               imgClassName={`slide-image ${imgClassName}`}
               // priority ต้องเป็น boolean หรือ undefined
