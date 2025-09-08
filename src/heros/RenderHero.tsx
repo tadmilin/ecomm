@@ -20,6 +20,12 @@ export const RenderHero: React.FC<Page['hero']> = (props) => {
   const HeroToRender = heroes[type]
 
   if (!HeroToRender) return null
+  
+  // ลบ media prop ออกเมื่อใช้ highImpact hero เพื่อป้องกันการส่ง buffer object
+  if (type === 'highImpact') {
+    const { media, ...restProps } = props
+    return <HeroToRender {...restProps} />
+  }
 
   return <HeroToRender {...props} />
 }

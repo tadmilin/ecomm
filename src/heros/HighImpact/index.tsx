@@ -6,9 +6,10 @@ import type { Page } from '@/payload-types'
 
 import { CMSLink } from '@/components/Link'
 import { Media } from '@/components/Media'
+import { ImageSlider } from '@/components/ImageSlider'
 import RichText from '@/components/RichText'
 
-export const HighImpactHero: React.FC<Page['hero']> = ({ links, media, richText }) => {
+export const HighImpactHero: React.FC<Page['hero']> = ({ links, mediaSlides, richText }) => {
   const { setHeaderTheme } = useHeaderTheme()
 
   useEffect(() => {
@@ -36,10 +37,18 @@ export const HighImpactHero: React.FC<Page['hero']> = ({ links, media, richText 
           )}
         </div>
       </div>
-      <div className="min-h-[80vh] select-none">
-        {media && typeof media === 'object' && (
-          <Media fill imgClassName="-z-10 object-cover" priority resource={media} />
-        )}
+      <div className="min-h-[80vh] select-none w-full">
+        {Array.isArray(mediaSlides) && mediaSlides.length > 0 ? (
+          <div className="absolute inset-0 flex items-center justify-center">
+            <ImageSlider 
+              slides={mediaSlides} 
+              fill={true}
+              imgClassName="-z-10 object-cover"
+              priority="high"
+              className="w-full h-full"
+            />
+          </div>
+        ) : null}
       </div>
     </div>
   )
