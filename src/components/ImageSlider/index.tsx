@@ -62,10 +62,12 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
         {slides.map((slide, index) => (
           <div key={`slide-${index}`} className="slide-item">
             <Media
-              resource={slide.image}
+              // แปลง slide.image ให้เป็นชนิดที่ Media component รองรับ (string หรือ Media object)
+              resource={slide.image.id ? slide.image.id : slide.image.url}
               fill={fill}
               imgClassName={`slide-image ${imgClassName}`}
-              priority={index === 0 ? priority : 'low'}
+              // priority ต้องเป็น boolean หรือ undefined
+              priority={index === 0 && priority === 'high'}
             />
           </div>
         ))}

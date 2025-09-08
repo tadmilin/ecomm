@@ -3,11 +3,11 @@ import React from 'react'
 import SignIn from '@/components/SignIn'
 
 export default async function LoginPage({
-  params
+  
 }: {
   params: Promise<{ lang: string }>
 }) {
-  const { lang } = await params
+  
 
   return (
     <div className="pt-24 pb-24">
