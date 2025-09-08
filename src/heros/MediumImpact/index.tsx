@@ -7,6 +7,13 @@ import { Media } from '@/components/Media'
 import RichText from '@/components/RichText'
 
 export const MediumImpactHero: React.FC<Page['hero']> = ({ links, media, richText }) => {
+  // ตรวจสอบว่า media เป็น array หรือไม่
+  const mediaArray = Array.isArray(media) ? media : []
+  // ดึงรูปภาพแรกจาก array ถ้ามี
+  const firstMediaItem = mediaArray.length > 0 ? mediaArray[0] : null
+  // ดึง resource จาก mediaItem
+  const mediaResource = firstMediaItem?.image || null
+
   return (
     <div className="">
       <div className="container mb-8">
@@ -25,17 +32,17 @@ export const MediumImpactHero: React.FC<Page['hero']> = ({ links, media, richTex
         )}
       </div>
       <div className="container ">
-        {media && typeof media === 'object' && (
+        {mediaResource && typeof mediaResource === 'object' && (
           <div>
             <Media
               className="-mx-4 md:-mx-8 2xl:-mx-16"
               imgClassName=""
               priority
-              resource={media}
+              resource={mediaResource}
             />
-            {media?.caption && (
+            {mediaResource?.caption && (
               <div className="mt-3">
-                <RichText data={media.caption} enableGutter={false} />
+                <RichText data={mediaResource.caption} enableGutter={false} />
               </div>
             )}
           </div>
