@@ -33,7 +33,11 @@ export const home: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> =
           },
         },
       ],
-      media: heroImage.id,
+      mediaSlides: [
+        {
+          image: heroImage.id,
+        },
+      ],
       richText: {
         root: {
           type: 'root',

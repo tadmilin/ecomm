@@ -5,7 +5,23 @@ export const homeStatic: RequiredDataFromCollectionSlug<'pages'> = {
   slug: 'home',
   _status: 'published',
   hero: {
-    type: 'lowImpact',
+    type: 'highImpact',
+    mediaSlides: [
+      {
+        image: {
+          id: '1',
+          alt: 'Hero Image',
+          filename: 'placeholder.jpg',
+          mimeType: 'image/jpeg',
+          filesize: 12345,
+          width: 1920,
+          height: 1080,
+          createdAt: '2023-01-01T00:00:00.000Z',
+          updatedAt: '2023-01-01T00:00:00.000Z',
+          url: '/placeholder-hero.jpg',
+        }
+      }
+    ],
     richText: {
       root: {
         type: 'root',

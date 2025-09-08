@@ -6,7 +6,7 @@ import type { Page } from '@/payload-types'
 
 import { CMSLink } from '@/components/Link'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Media } from '@/components/Media'
+
 import { ImageSlider } from '@/components/ImageSlider'
 import RichText from '@/components/RichText'
 
@@ -41,8 +41,23 @@ export const HighImpactHero: React.FC<Page['hero']> = ({ links, mediaSlides, ric
       <div className="min-h-[80vh] select-none w-full">
         {Array.isArray(mediaSlides) && mediaSlides.length > 0 ? (
           <div className="absolute inset-0 flex items-center justify-center">
-            <ImageSlider 
-              slides={mediaSlides} 
+            <ImageSlider
+              slides={
+                mediaSlides
+                  .filter((slide) => typeof slide.image !== 'string' && slide.image && typeof slide.image === 'object')
+                  .map((slide) => ({
+                    image: slide.image as {
+                      id: string
+                      url: string
+                      filename: string
+                      mimeType: string
+                      filesize: number
+                      width: number
+                      height: number
+                      alt?: string
+                    }
+                  }))
+              }
               fill={true}
               imgClassName="-z-10 object-cover"
               priority="high"
