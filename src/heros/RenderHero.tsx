@@ -23,6 +23,7 @@ export const RenderHero: React.FC<Page['hero']> = (props) => {
   
   // ลบ media prop ออกเมื่อใช้ highImpact hero เพื่อป้องกันการส่ง buffer object
   if (type === 'highImpact') {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { media, ...restProps } = props
     return <HeroToRender {...restProps} />
   }

@@ -5,6 +5,7 @@ import React, { useEffect } from 'react'
 import type { Page } from '@/payload-types'
 
 import { CMSLink } from '@/components/Link'
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Media } from '@/components/Media'
 import { ImageSlider } from '@/components/ImageSlider'
 import RichText from '@/components/RichText'
