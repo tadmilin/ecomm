@@ -61,11 +61,36 @@ export const hero: Field = {
     }),
     {
       name: 'media',
-      type: 'upload',
+      type: 'array',
       admin: {
-        condition: (_, { type } = {}) => ['highImpact', 'mediumImpact'].includes(type),
+        condition: (_, { type } = {}) => type === 'mediumImpact',
       },
-      relationTo: 'media',
+      fields: [
+        {
+          name: 'image',
+          type: 'upload',
+          relationTo: 'media',
+          required: true,
+        }
+      ],
+      maxRows: 1,
+    },
+    {
+      name: 'mediaSlides',
+      type: 'array',
+      admin: {
+        condition: (_, { type } = {}) => type === 'highImpact',
+      },
+      fields: [
+        {
+          name: 'image',
+          type: 'upload',
+          relationTo: 'media',
+          required: true,
+        }
+      ],
+      label: 'รูปภาพสไลด์',
+      minRows: 1,
       required: true,
     },
   ],
