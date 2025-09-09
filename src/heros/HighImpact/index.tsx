@@ -5,8 +5,6 @@ import React, { useEffect } from 'react'
 import type { Page } from '@/payload-types'
 
 import { CMSLink } from '@/components/Link'
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-
 import { ImageSlider } from '@/components/ImageSlider'
 import RichText from '@/components/RichText'
 
@@ -43,20 +41,11 @@ export const HighImpactHero: React.FC<Page['hero']> = ({ links, mediaSlides, ric
           <div className="absolute inset-0 flex items-center justify-center">
             <ImageSlider
               slides={
-                mediaSlides
-                  .filter((slide) => typeof slide.image !== 'string' && slide.image && typeof slide.image === 'object')
-                  .map((slide) => ({
-                    image: slide.image as {
-                      id: string
-                      url: string
-                      filename: string
-                      mimeType: string
-                      filesize: number
-                      width: number
-                      height: number
-                      alt?: string
-                    }
-                  }))
+                Array.isArray(mediaSlides) 
+                  ? mediaSlides
+                      .filter(slide => slide.image && typeof slide.image === 'object')
+                      .map(slide => ({ image: slide.image as any }))
+                  : []
               }
               fill={true}
               imgClassName="-z-10 object-cover"
