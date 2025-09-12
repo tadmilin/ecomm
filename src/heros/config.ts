@@ -87,7 +87,28 @@ export const hero: Field = {
           type: 'upload',
           relationTo: 'media',
           required: true,
-        }
+        },
+        {
+          name: 'title',
+          type: 'text',
+          label: 'Slide Title',
+        },
+        {
+          name: 'description',
+          type: 'richText',
+          label: 'Slide Description',
+          editor: lexicalEditor({
+            features: ({ rootFeatures }) => [
+              ...rootFeatures,
+              HeadingFeature({ enabledHeadingSizes: ['h3'] }),
+              InlineToolbarFeature(),
+              FixedToolbarFeature(),
+            ],
+          }),
+        },
+        link({
+          appearances: ['default', 'outline'],
+        })
       ],
       label: 'รูปภาพสไลด์',
       minRows: 1,

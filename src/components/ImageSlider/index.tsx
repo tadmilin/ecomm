@@ -3,6 +3,7 @@
 import React from 'react'
 import Slider from 'react-slick'
 import { Media } from '../Media'
+import { CMSLink } from '@/components/Link'
 
 // นำเข้า CSS ของ slick-carousel
 import 'slick-carousel/slick/slick.css'
@@ -13,6 +14,16 @@ import type { Media as MediaType } from '@/payload-types'
 
 interface ImageSlideItem {
   image: MediaType
+  title?: string | null
+  description?: any
+  link?: {
+    type?: 'reference' | 'custom' | null
+    newTab?: boolean | null
+    reference?: any
+    url?: string | null
+    label?: string | null
+    appearance?: 'default' | 'outline' | 'inline' | null
+  } | null
 }
 
 interface ImageSliderProps {
@@ -53,7 +64,7 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
     <div className={`image-slider-container ${className}`}>
       <Slider {...settings}>
         {slides.map((slide, index) => (
-          <div key={`slide-${index}`} className="slide-item">
+          <div key={`slide-${index}`} className="slide-item relative">
             <Media
               // ส่ง slide.image ทั้งหมดไปให้ Media component
               resource={slide.image}
@@ -62,6 +73,27 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
               // priority ต้องเป็น boolean หรือ undefined
               priority={index === 0 && priority === 'high'}
             />
+            {(slide.title || slide.description || slide.link) && (
+              <div className="absolute inset-0 pointer-events-none">
+                <div className="container h-full flex items-center">
+                  <div className="max-w-[36.5rem] bg-black/40 backdrop-blur-sm rounded-md p-6 text-white pointer-events-auto">
+                    {slide.title && (
+                      <h2 className="text-4xl font-extrabold tracking-tight mb-3">{slide.title}</h2>
+                    )}
+                    {slide.description && (
+                      <div className="prose prose-invert max-w-none mb-4">
+                        {/* description เป็น richText (lexical JSON) จะเรนเดอร์ผ่าน RichText ของหน้าแม่ จึงให้เป็น children แบบ plain ไม่แปลงที่นี่ */}
+                      </div>
+                    )}
+                    {slide.link && (
+                      <CMSLink appearance="default" {...slide.link}>
+                        {slide.link.label || 'Learn more'}
+                      </CMSLink>
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         ))}
       </Slider>
