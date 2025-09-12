@@ -6,6 +6,7 @@ import type { Page } from '@/payload-types'
 
 import { CMSLink } from '@/components/Link'
 import { ImageSlider } from '@/components/ImageSlider'
+import RichTextRenderer from '@/components/RichText'
 import RichText from '@/components/RichText'
 
 export const HighImpactHero: React.FC<Page['hero']> = ({ links, mediaSlides, richText }) => {
@@ -44,7 +45,12 @@ export const HighImpactHero: React.FC<Page['hero']> = ({ links, mediaSlides, ric
                 Array.isArray(mediaSlides) 
                   ? mediaSlides
                       .filter(slide => slide.image && typeof slide.image === 'object')
-                      .map(slide => ({ image: slide.image as any }))
+                      .map(slide => ({
+                        image: slide.image as any,
+                        title: (slide as any).title ?? null,
+                        description: (slide as any).description ?? null,
+                        link: (slide as any).link ?? null,
+                      }))
                   : []
               }
               fill={true}
