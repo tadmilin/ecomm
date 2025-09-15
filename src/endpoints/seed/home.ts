@@ -36,6 +36,35 @@ export const home: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> =
       mediaSlides: [
         {
           image: heroImage.id,
+          title: 'Welcome',
+          description: {
+            root: {
+              type: 'root',
+              children: [
+                {
+                  type: 'paragraph',
+                  children: [
+                    { type: 'text', text: 'Getting started with your site', version: 1, detail: 0, format: 0, mode: 'normal', style: '' },
+                  ],
+                  direction: 'ltr',
+                  format: '',
+                  indent: 0,
+                  version: 1,
+                },
+              ],
+              direction: 'ltr',
+              format: '',
+              indent: 0,
+              version: 1,
+            },
+          },
+          link: {
+            type: 'custom',
+            url: '/',
+            label: 'Learn more',
+            appearance: 'default',
+            newTab: false,
+          },
         },
       ],
       richText: {
