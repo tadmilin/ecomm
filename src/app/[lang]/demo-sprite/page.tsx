@@ -16,12 +16,23 @@ export default function DemoSpritePage() {
   // ขนาดโลกจะถูกตั้งให้เท่ากับขนาดแคนวาส เพื่อให้มองเห็นทั้งแมพตลอดเวลา
   const worldSizeRef = useRef<{ w: number; h: number }>({ w: 0, h: 0 })
   const draggingRef = useRef<boolean>(false)
+  // เก็บขนาดวาดล่าสุดของสไปรต์ (หน่วย logic px) เพื่อใช้คำนวณ anchor ให้ตรง แม้ไฟล์จะไม่ใช่ 32x32
+  const drawSizeRef = useRef<{ w: number; h: number }>({ w: 32, h: 32 })
+  // anchor ภายในกรอบเฟรม (หน่วย 0..1) สำหรับคำนวณตำแหน่งอ้างอิง
+  // เดสก์ท็อป: ใช้กึ่งกลางล่าง (ปลายหาง)
+  const desktopAnchorRef = useRef<{ ax: number; ay: number }>({ ax: 0.5, ay: 0.0 })
+  // ทัช/มือถือ: ใช้กึ่งกลางตัวรถ
+  const touchAnchorRef = useRef<{ ax: number; ay: number }>({ ax: 0.5, ay: 0.5 })
 
   useEffect(() => {
     const canvas = canvasRef.current
     if (!canvas) return
     const ctx = canvas.getContext('2d')
     if (!ctx) return
+
+    // อัปเดต anchor ทุกครั้งที่เมาท์เอฟเฟกต์ เพื่อให้การแก้ค่าเห็นผลทันทีแม้มี HMR
+    desktopAnchorRef.current = { ax: 0.5, ay: 0.5 }
+    touchAnchorRef.current = { ax: 0.5, ay: 0.5 }
 
     // ตั้งค่าขนาดแคนวาสตามหน้าจออย่างง่าย
     const DPR = Math.max(1, Math.floor(window.devicePixelRatio || 1))
@@ -111,8 +122,8 @@ export default function DemoSpritePage() {
     // โหมดลาก: แตะค้างแล้วลาก ยานจะย้ายไปตามนิ้ว/เมาส์
     const getPointerPos = (e: PointerEvent) => {
       const rect = canvas.getBoundingClientRect()
-      const x = e.clientX - rect.left
-      const y = e.clientY - rect.top
+      const x = (e.clientX - rect.left) * (canvas.width / rect.width) / (Math.max(1, Math.floor(window.devicePixelRatio || 1)))
+      const y = (e.clientY - rect.top) * (canvas.height / rect.height) / (Math.max(1, Math.floor(window.devicePixelRatio || 1)))
       return { x, y }
     }
     const getTopLeftFromPointer = (
@@ -121,19 +132,15 @@ export default function DemoSpritePage() {
       drawW: number,
       drawH: number,
     ) => {
-      // เดสก์ท็อป (เมาส์): ให้เคอร์เซอร์อยู่ที่ "กึ่งกลางล่าง" ของยาน (ตูดเครื่อง)
-      if (e.pointerType === 'mouse') {
-        return { x: p.x - drawW / 2, y: p.y - drawH }
-      }
-      // มือถือ/ทัช: ให้อยู่กึ่งกลางยานตามเดิม
-      return { x: p.x - drawW / 2, y: p.y - drawH / 2 }
+      const anchor = e.pointerType === 'mouse' ? desktopAnchorRef.current : touchAnchorRef.current
+      return { x: p.x - drawW * anchor.ax, y: p.y - drawH * anchor.ay }
     }
     const onPointerDown = (e: PointerEvent) => {
       draggingRef.current = true
       const p = getPointerPos(e)
-      // วางยานให้กึ่งกลางชิปอยู่ตำแหน่งนิ้ว
-      const drawW = (FRAME_W * scaleRef.current)
-      const drawH = (FRAME_H * scaleRef.current)
+      // ใช้ขนาดวาดจริงล่าสุดแทนค่า FRAME_W/H คงที่
+      const drawW = drawSizeRef.current.w
+      const drawH = drawSizeRef.current.h
       const topLeft = getTopLeftFromPointer(e, p, drawW, drawH)
       shipPosRef.current.x = Math.max(0, Math.min(worldSizeRef.current.w - drawW, topLeft.x))
       shipPosRef.current.y = Math.max(0, Math.min(worldSizeRef.current.h - drawH, topLeft.y))
@@ -142,8 +149,8 @@ export default function DemoSpritePage() {
     const onPointerMove = (e: PointerEvent) => {
       if (!draggingRef.current) return
       const p = getPointerPos(e)
-      const drawW = (FRAME_W * scaleRef.current)
-      const drawH = (FRAME_H * scaleRef.current)
+      const drawW = drawSizeRef.current.w
+      const drawH = drawSizeRef.current.h
       const topLeft = getTopLeftFromPointer(e, p, drawW, drawH)
       shipPosRef.current.x = Math.max(0, Math.min(worldSizeRef.current.w - drawW, topLeft.x))
       shipPosRef.current.y = Math.max(0, Math.min(worldSizeRef.current.h - drawH, topLeft.y))
@@ -182,13 +189,16 @@ export default function DemoSpritePage() {
             frameW = img.naturalWidth
             frameH = img.naturalHeight
           }
-          // ตำแหน่งเริ่มกลางจอและตั้งสเกลพื้นฐานให้พอดีความสูงประมาณ 160px
-          // เริ่มกลางจอ/โลก (เพราะโลกเท่ากับขนาดจอ)
-          shipPosRef.current.x = (logicalWidth - frameW) / 2
-          shipPosRef.current.y = (logicalHeight - frameH) / 2
+          // ตั้งสเกลก่อน แล้วค่อยคำนวณตำแหน่งเริ่มให้กึ่งกลางจริง ด้วยขนาดที่ถูกสเกลแล้ว
           const targetHeight = 120
           baseScaleRef.current = Math.min(2, Math.max(0.25, targetHeight / frameH))
           scaleRef.current = baseScaleRef.current
+          const initDrawW = frameW * scaleRef.current
+          const initDrawH = frameH * scaleRef.current
+          // จัดกึ่งกลางโดยยึด anchor เป็นจุดกลางจอ (สำหรับเริ่มต้นใช้กึ่งกลางตัวรถ)
+          const initAnchor = touchAnchorRef.current
+          shipPosRef.current.x = logicalWidth / 2 - initDrawW * initAnchor.ax
+          shipPosRef.current.y = logicalHeight / 2 - initDrawH * initAnchor.ay
           initialized = true
         }
 
@@ -212,6 +222,9 @@ export default function DemoSpritePage() {
 
         const drawW = frameW * scaleRef.current
         const drawH = frameH * scaleRef.current
+        // อัปเดตขนาดวาดล่าสุดสำหรับตัวคำนวณ anchor/pointer
+        drawSizeRef.current.w = drawW
+        drawSizeRef.current.h = drawH
         // จำกัดขอบเขตไม่ให้ออกนอกโลก (world)
         shipPosRef.current.x = Math.max(0, Math.min(worldSizeRef.current.w - drawW, shipPosRef.current.x))
         shipPosRef.current.y = Math.max(0, Math.min(worldSizeRef.current.h - drawH, shipPosRef.current.y))
