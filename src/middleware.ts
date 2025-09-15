@@ -27,7 +27,8 @@ export function middleware(request: NextRequest) {
 export const config = {
   matcher: [
     // Skip all internal paths (_next)
-    '/((?!_next|api|admin).*)',
+    // และข้ามไฟล์สาธารณะภายใต้ /game และไฟล์ทั่วไปบางรายการ
+    '/((?!_next|api|admin|game|favicon\\.ico|favicon\\.svg|robots\\.txt|sitemap\\.xml).*)',
     // Optional: add public files directory if you have one
     // '/((?!_next|api|admin|public).*)',
   ],
