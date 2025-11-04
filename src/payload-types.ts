@@ -239,7 +239,7 @@ export interface Page {
         }[]
       | null;
   };
-  layout: (CallToActionBlock | ContentBlock | MediaBlock | ArchiveBlock | FormBlock | LoginBlock)[];
+  layout: (CallToActionBlock | ContentBlock | MediaBlock | ArchiveBlock | FormBlock | LoginBlock | ProfileBlock)[];
   meta?: {
     title?: string | null;
     /**
@@ -643,6 +643,18 @@ export interface LoginBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'login';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ProfileBlock".
+ */
+export interface ProfileBlock {
+  title?: string | null;
+  allowEdit?: boolean | null;
+  showRole?: boolean | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'profile';
 }
 export interface Global {
 }

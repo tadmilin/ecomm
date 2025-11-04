@@ -17,7 +17,7 @@ interface Props {
 export const Logo = (props: Props) => {
   const { loading: loadingFromProps, priority: priorityFromProps, className, logo } = props
 
-  const loading = loadingFromProps || 'lazy'
+  const _loading = loadingFromProps || 'lazy'
   const priority = priorityFromProps || 'low'
 
   // แสดง logo ตามข้อมูลจาก Global/Header เท่านั้น

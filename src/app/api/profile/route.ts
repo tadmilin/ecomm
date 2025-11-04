@@ -1,33 +1,32 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
+import { auth } from '../../../../auth'
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
-    const { searchParams } = new URL(request.url)
-    const email = searchParams.get('email')
+    const session = await auth()
 
-    if (!email) {
-      return NextResponse.json({ success: false, error: 'Email is required' }, { status: 400 })
+    if (!session?.user?.id) {
+      return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 })
     }
 
     const payload = await getPayload({ config: configPromise })
 
-    // ค้นหา user ใน Users collection (รวม profile data)
-    const user = await payload.find({
+    const user = await payload.findByID({
       collection: 'users',
-      where: { email: { equals: email } },
-      limit: 1,
+      id: session.user.id,
     })
 
-    if (user.docs.length === 0) {
+    if (!user) {
       return NextResponse.json({ success: false, error: 'User not found' }, { status: 404 })
     }
 
-    // Return user data ที่มี profile fields
+    // Return user data without password
+    const { password: _password, ...userWithoutPassword } = user
     return NextResponse.json({
       success: true,
-      user: user.docs[0],
+      user: userWithoutPassword,
     })
   } catch (error) {
     console.error('Error fetching profile:', error)
@@ -37,31 +36,40 @@ export async function GET(request: NextRequest) {
 
 export async function PUT(request: NextRequest) {
   try {
-    const { email, ...profileData } = await request.json()
+    const session = await auth()
 
-    const payload = await getPayload({ config: configPromise })
-
-    // ค้นหา user
-    const user = await payload.find({
-      collection: 'users',
-      where: { email: { equals: email } },
-      limit: 1,
-    })
-
-    if (user.docs.length === 0) {
-      return NextResponse.json({ success: false, error: 'User not found' }, { status: 404 })
+    if (!session?.user?.id) {
+      return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 })
     }
 
-    // อัปเดต user พร้อม profile data
+    const data = await request.json()
+    const payload = await getPayload({ config: configPromise })
+
+    // Validate required fields
+    if (!data.name || data.name.trim() === '') {
+      return NextResponse.json({ success: false, error: 'Name is required' }, { status: 400 })
+    }
+
+    if (!data.email || data.email.trim() === '') {
+      return NextResponse.json({ success: false, error: 'Email is required' }, { status: 400 })
+    }
+
+    // Update user
     const updatedUser = await payload.update({
       collection: 'users',
-      id: user.docs[0].id,
-      data: profileData,
+      id: session.user.id,
+      data: {
+        name: data.name.trim(),
+        email: data.email.trim(),
+      },
     })
 
+    // Return updated user data without password
+    const { password: _password, ...userWithoutPassword } = updatedUser
     return NextResponse.json({
       success: true,
-      user: updatedUser,
+      user: userWithoutPassword,
+      message: 'Profile updated successfully',
     })
   } catch (error) {
     console.error('Error updating profile:', error)
