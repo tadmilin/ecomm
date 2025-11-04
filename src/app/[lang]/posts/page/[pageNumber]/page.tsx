@@ -19,7 +19,7 @@ type Args = {
 }
 
 export default async function Page({ params: paramsPromise }: Args) {
-  const { lang, pageNumber } = await paramsPromise
+  const { lang: _lang, pageNumber } = await paramsPromise
   const payload = await getPayload({ config: configPromise })
 
   const sanitizedPageNumber = Number(pageNumber)
@@ -65,7 +65,7 @@ export default async function Page({ params: paramsPromise }: Args) {
 
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
   const { lang, pageNumber } = await paramsPromise
-  
+
   return {
     title: `Posts - Page ${pageNumber || ''}`,
     description: 'Browse all posts',
@@ -90,7 +90,7 @@ export async function generateStaticParams() {
     pages.push(
       { lang: 'en', pageNumber: String(i) },
       { lang: 'th', pageNumber: String(i) },
-      { lang: 'ja', pageNumber: String(i) }
+      { lang: 'ja', pageNumber: String(i) },
     )
   }
 

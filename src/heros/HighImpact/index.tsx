@@ -2,12 +2,48 @@
 import { useHeaderTheme } from '@/providers/HeaderTheme'
 import React, { useEffect } from 'react'
 
-import type { Page } from '@/payload-types'
+import type { Page, Media, Post } from '@/payload-types'
 
 import { CMSLink } from '@/components/Link'
 import { ImageSlider } from '@/components/ImageSlider'
-import RichTextRenderer from '@/components/RichText'
 import RichText from '@/components/RichText'
+
+type MediaSlide = {
+  image: string | Media
+  title?: string | null
+  description?: {
+    root: {
+      type: string
+      children: {
+        type: string
+        version: number
+        [k: string]: unknown
+      }[]
+      direction: ('ltr' | 'rtl') | null
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | ''
+      indent: number
+      version: number
+    }
+    [k: string]: unknown
+  } | null
+  link: {
+    type?: ('reference' | 'custom') | null
+    newTab?: boolean | null
+    reference?:
+      | ({
+          relationTo: 'pages'
+          value: string | Page
+        } | null)
+      | ({
+          relationTo: 'posts'
+          value: string | Post
+        } | null)
+    url?: string | null
+    label: string
+    appearance?: ('default' | 'outline') | null
+  }
+  id?: string | null
+}
 
 export const HighImpactHero: React.FC<Page['hero']> = ({ links, mediaSlides, richText }) => {
   const { setHeaderTheme } = useHeaderTheme()
@@ -17,10 +53,7 @@ export const HighImpactHero: React.FC<Page['hero']> = ({ links, mediaSlides, ric
   })
 
   return (
-    <div
-      className="relative flex items-center justify-center text-white"
-      data-theme="dark"
-    >
+    <div className="relative flex items-center justify-center text-white" data-theme="dark">
       <div className="container mb-8 z-10 relative flex items-center justify-center">
         <div className="max-w-[36.5rem] md:text-center">
           {richText && <RichText className="mb-6" data={richText} enableGutter={false} />}
@@ -42,14 +75,16 @@ export const HighImpactHero: React.FC<Page['hero']> = ({ links, mediaSlides, ric
           <div className="absolute inset-0 flex items-center justify-center">
             <ImageSlider
               slides={
-                Array.isArray(mediaSlides) 
+                Array.isArray(mediaSlides)
                   ? mediaSlides
-                      .filter(slide => slide.image && typeof slide.image === 'object')
-                      .map(slide => ({
-                        image: slide.image as any,
-                        title: (slide as any).title ?? null,
-                        description: (slide as any).description ?? null,
-                        link: (slide as any).link ?? null,
+                      .filter((slide): slide is MediaSlide =>
+                        Boolean(slide.image && typeof slide.image === 'object'),
+                      )
+                      .map((slide) => ({
+                        image: slide.image as Media,
+                        title: slide.title ?? null,
+                        description: slide.description ?? null,
+                        link: slide.link ?? null,
                       }))
                   : []
               }

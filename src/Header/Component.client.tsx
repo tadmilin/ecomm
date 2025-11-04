@@ -33,11 +33,11 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
     <header className="w-full bg-blue-900 text-white" {...(theme ? { 'data-theme': theme } : {})}>
       <div className="container py-6 flex justify-between items-center">
         <Link href="/">
-          <DynamicLogo 
-            loading="eager" 
-            priority="high" 
-            className="dark:invert-0" 
-            logo={data.logo as any} 
+          <DynamicLogo
+            loading="eager"
+            priority="high"
+            className="dark:invert-0"
+            logo={data.logo as { url?: string; alt?: string; width?: number; height?: number }}
           />
         </Link>
         <HeaderNav data={data} />

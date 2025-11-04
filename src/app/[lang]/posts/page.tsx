@@ -11,12 +11,8 @@ import PageClient from './page.client'
 export const dynamic = 'force-static'
 export const revalidate = 600
 
-export default async function PostsPage({
-  params
-}: {
-  params: Promise<{ lang: string }>
-}) {
-  const { lang } = await params
+export default async function PostsPage({ params }: { params: Promise<{ lang: string }> }) {
+  const { lang: _lang } = await params
   const payload = await getPayload({ config: configPromise })
 
   const posts = await payload.find({
@@ -61,9 +57,13 @@ export default async function PostsPage({
   )
 }
 
-export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ lang: string }>
+}): Promise<Metadata> {
   const { lang } = await params
-  
+
   return {
     title: 'Posts',
     description: 'Browse all posts',

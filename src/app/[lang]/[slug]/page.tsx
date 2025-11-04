@@ -13,7 +13,6 @@ import { generateMeta } from '@/utilities/generateMeta'
 import PageClient from '@/app/[lang]/[slug]/page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
 
-
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
   const pages = await payload.find({
@@ -87,21 +86,21 @@ export default async function Page({ params: paramsPromise }: Args) {
 }
 
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
-  const { lang, slug = 'home' } = await paramsPromise
-  
+  const { lang: _lang, slug = 'home' } = await paramsPromise
+
   const page = await queryPageBySlug({
     slug,
   })
 
   const metadata = generateMeta({ doc: page })
-  
+
   return {
     ...metadata,
     alternates: {
       languages: {
-        'en': `/en/${slug}`,
-        'th': `/th/${slug}`,
-        'ja': `/ja/${slug}`,
+        en: `/en/${slug}`,
+        th: `/th/${slug}`,
+        ja: `/ja/${slug}`,
       },
     },
   }

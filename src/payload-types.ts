@@ -239,7 +239,7 @@ export interface Page {
         }[]
       | null;
   };
-  layout: (CallToActionBlock | ContentBlock | MediaBlock | ArchiveBlock | FormBlock)[];
+  layout: (CallToActionBlock | ContentBlock | MediaBlock | ArchiveBlock | FormBlock | LoginBlock)[];
   meta?: {
     title?: string | null;
     /**
@@ -627,6 +627,24 @@ export interface FormBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'formBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "LoginBlock".
+ */
+export interface LoginBlock {
+  title?: string | null;
+  subtitle?: string | null;
+  showRememberMe?: boolean | null;
+  showForgotPassword?: boolean | null;
+  showRegisterLink?: boolean | null;
+  registerText?: string | null;
+  showGoogleSignIn?: boolean | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'login';
+}
+export interface Global {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

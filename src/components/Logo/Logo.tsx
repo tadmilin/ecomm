@@ -1,5 +1,6 @@
 import clsx from 'clsx'
 import React from 'react'
+import Image from 'next/image'
 
 interface Props {
   className?: string
@@ -23,21 +24,17 @@ export const Logo = (props: Props) => {
   if (logo?.type === 'image' && logo.image) {
     const imageUrl = typeof logo.image === 'string' ? logo.image : logo.image?.url || ''
     return (
-      <img
+      <Image
         src={imageUrl}
         alt={logo.alt || 'Logo'}
+        width={150}
+        height={34}
         className={clsx('max-w-[9.375rem] w-full h-[34px]', className)}
-        loading={loading}
-        fetchPriority={priority}
-        decoding="async"
+        priority={priority === 'high'}
       />
     )
   } else if (logo?.type === 'text' && logo.text) {
-    return (
-      <span className={clsx('text-2xl font-bold text-primary', className)}>
-        {logo.text}
-      </span>
-    )
+    return <span className={clsx('text-2xl font-bold text-primary', className)}>{logo.text}</span>
   }
 
   // ถ้าไม่มีข้อมูลจาก Global/Header ให้แสดงข้อความว่าง

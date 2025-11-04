@@ -81,19 +81,19 @@ export default async function Post({ params: paramsPromise }: Args) {
 }
 
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
-  const { lang, slug = '' } = await paramsPromise
+  const { lang: _lang, slug = '' } = await paramsPromise
 
   const post = await queryPostBySlug({ slug })
 
   const metadata = generateMeta({ doc: post })
-  
+
   return {
     ...metadata,
     alternates: {
       languages: {
-        'en': `/en/posts/${slug}`,
-        'th': `/th/posts/${slug}`,
-        'ja': `/ja/posts/${slug}`,
+        en: `/en/posts/${slug}`,
+        th: `/th/posts/${slug}`,
+        ja: `/ja/posts/${slug}`,
       },
     },
   }

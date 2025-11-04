@@ -14,14 +14,13 @@ interface MultilangSelectOptions {
 }
 
 export const createMultilangSelect = (options: MultilangSelectOptions): Field => {
-  const { name, label, options: selectOptions, required = false, admin } = options
+  const { name, label, options: selectOptions, required = false, admin: _admin } = options
 
   return {
     name,
     type: 'group',
     label,
-    admin: {
-    },
+    admin: {},
     fields: [
       {
         name: 'th',

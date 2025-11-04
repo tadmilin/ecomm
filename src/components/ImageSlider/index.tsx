@@ -15,11 +15,28 @@ import type { Media as MediaType } from '@/payload-types'
 interface ImageSlideItem {
   image: MediaType
   title?: string | null
-  description?: any
+  description?: {
+    root: {
+      type: string
+      children: Array<{
+        type: string
+        version: number
+        [k: string]: unknown
+      }>
+      direction: ('ltr' | 'rtl') | null
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | ''
+      indent: number
+      version: number
+    }
+    [k: string]: unknown
+  } | null
   link?: {
     type?: 'reference' | 'custom' | null
     newTab?: boolean | null
-    reference?: any
+    reference?: {
+      relationTo: 'pages' | 'posts'
+      value: string | number | any
+    } | null
     url?: string | null
     label?: string | null
     appearance?: 'default' | 'outline' | 'inline' | null
@@ -86,7 +103,14 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
                       </div>
                     )}
                     {slide.link && (
-                      <CMSLink appearance="default" {...slide.link}>
+                      <CMSLink
+                        appearance="default"
+                        type={slide.link.type}
+                        url={slide.link.url}
+                        newTab={slide.link.newTab}
+                        reference={slide.link.reference}
+                        label={slide.link.label}
+                      >
                         {slide.link.label || 'Learn more'}
                       </CMSLink>
                     )}
