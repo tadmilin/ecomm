@@ -76,12 +76,9 @@ export const ProfileBlock: React.FC<Props> = (props) => {
           <div className="max-w-md mx-auto text-center">
             <h2 className="text-2xl font-bold mb-4">กรุณาเข้าสู่ระบบ</h2>
             <p className="text-gray-600 mb-6">คุณต้องเข้าสู่ระบบเพื่อดูโปรไฟล์</p>
-            <button
-              onClick={() => router.push('/login')}
-              className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
-            >
-              เข้าสู่ระบบ
-            </button>
+            <p className="text-sm text-gray-500">
+              กรุณาเข้าสู่ระบบผ่านหน้า Login ที่ Admin สร้างไว้
+            </p>
           </div>
         </div>
       </section>
