@@ -9,7 +9,7 @@ export function middleware(request: NextRequest) {
 
   // Check if there is any supported locale in the pathname
   const pathnameIsMissingLocale = languages.every(
-    (locale) => !pathname.startsWith(`/${locale}/`) && pathname !== `/${locale}`
+    (locale) => !pathname.startsWith(`/${locale}/`) && pathname !== `/${locale}`,
   )
 
   // Redirect if there is no locale
@@ -18,17 +18,15 @@ export function middleware(request: NextRequest) {
 
     // e.g. incoming request is /products
     // The new URL is now /en/products
-    return NextResponse.redirect(
-      new URL(`/${locale}${pathname}`, request.url)
-    )
+    return NextResponse.redirect(new URL(`/${locale}${pathname}`, request.url))
   }
 }
 
 export const config = {
   matcher: [
     // Skip all internal paths (_next)
-    // และข้ามไฟล์สาธารณะภายใต้ /game และไฟล์ทั่วไปบางรายการ
-    '/((?!_next|api|admin|game|favicon\\.ico|favicon\\.svg|robots\\.txt|sitemap\\.xml).*)',
+    // และข้ามไฟล์สาธารณะและไฟล์ทั่วไปบางรายการ
+    '/((?!_next|api|admin|favicon\\.ico|favicon\\.svg|robots\\.txt|sitemap\\.xml).*)',
     // Optional: add public files directory if you have one
     // '/((?!_next|api|admin|public).*)',
   ],

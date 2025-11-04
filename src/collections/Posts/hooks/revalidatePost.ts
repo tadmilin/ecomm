@@ -34,7 +34,7 @@ export const revalidatePost: CollectionAfterChangeHook<Post> = ({
 
 export const revalidateDelete: CollectionAfterDeleteHook<Post> = ({ doc, req: { context } }) => {
   if (!context.disableRevalidate) {
-    const path = `/posts/${doc?.slug}`
+    const _path = `/posts/${doc?.slug}`
 
     // revalidatePath(path)
     // revalidateTag('posts-sitemap')

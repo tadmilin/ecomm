@@ -1,14 +1,15 @@
 'use client'
 
-import { useSession, signOut } from "next-auth/react"
-import { useState } from "react"
-import { ChevronDown, User, LogOut, Settings } from "lucide-react"
+import { useSession, signOut } from 'next-auth/react'
+import { useState } from 'react'
+import { ChevronDown, User, LogOut, Settings } from 'lucide-react'
+import Image from 'next/image'
 
 export default function UserMenu() {
   const { data: session, status } = useSession()
   const [isOpen, setIsOpen] = useState(false)
 
-  if (status === "loading") {
+  if (status === 'loading') {
     return (
       <div className="flex items-center">
         <div className="w-8 h-8 bg-gray-200 rounded-full animate-pulse"></div>
@@ -31,9 +32,11 @@ export default function UserMenu() {
         className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-gray-100 transition-colors"
       >
         {session.user?.image ? (
-          <img
+          <Image
             src={session.user.image}
             alt={session.user.name || 'User'}
+            width={32}
+            height={32}
             className="w-8 h-8 rounded-full"
           />
         ) : (
@@ -42,7 +45,7 @@ export default function UserMenu() {
           </div>
         )}
         <span className="text-sm font-medium text-gray-700">
-          {session.user?.name || ('user.default_name')}
+          {session.user?.name || 'user.default_name'}
         </span>
         <ChevronDown className={`w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
       </button>
@@ -53,7 +56,7 @@ export default function UserMenu() {
             <p className="text-sm font-medium text-gray-900">{session.user?.name}</p>
             <p className="text-xs text-gray-500">{session.user?.email}</p>
           </div>
-          
+
           <div className="py-1">
             <button
               onClick={() => {
@@ -64,8 +67,8 @@ export default function UserMenu() {
               <User className="w-4 h-4" />
               Profile
             </button>
-            
-            {((session.user as any)?.role === 'admin') && (
+
+            {(session.user as { role?: string })?.role === 'admin' && (
               <button
                 onClick={() => {
                   window.location.href = '/admin'
@@ -76,7 +79,7 @@ export default function UserMenu() {
                 Admin Panel
               </button>
             )}
-            
+
             <button
               onClick={() => signOut()}
               className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 flex items-center gap-2"

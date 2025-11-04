@@ -15,11 +15,8 @@ type Args = {
   }>
 }
 
-export default async function SearchPage({ 
-  params,
-  searchParams: searchParamsPromise 
-}: Args) {
-  const { lang } = await params
+export default async function SearchPage({ params, searchParams: searchParamsPromise }: Args) {
+  const { lang: _lang } = await params
   const { q: query } = await searchParamsPromise
   const payload = await getPayload({ config: configPromise })
 
@@ -87,18 +84,22 @@ export default async function SearchPage({
   )
 }
 
-export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ lang: string }>
+}): Promise<Metadata> {
   const { lang } = await params
-  
+
   return {
     title: 'Search',
     description: 'Search for posts',
     alternates: {
       canonical: `/${lang}/search`,
       languages: {
-        'en': '/en/search',
-        'th': '/th/search',
-        'ja': '/ja/search',
+        en: '/en/search',
+        th: '/th/search',
+        ja: '/ja/search',
       },
     },
   }

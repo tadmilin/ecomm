@@ -1,5 +1,5 @@
 'use client'
-import type { FormFieldBlock, Form as FormType } from '@payloadcms/plugin-form-builder/types'
+import type { Form as FormType } from '@payloadcms/plugin-form-builder/types'
 
 import { useRouter } from 'next/navigation'
 import React, { useCallback, useState } from 'react'
@@ -24,11 +24,7 @@ export const FormBlock: React.FC<
     id?: string
   } & FormBlockType
 > = (props) => {
-  const {
-    enableIntro,
-    form: formFromProps,
-    introContent,
-  } = props
+  const { enableIntro, form: formFromProps, introContent } = props
 
   const { confirmationType, confirmationMessage, redirect, submitButtonLabel } = formFromProps
 
@@ -41,11 +37,16 @@ export const FormBlock: React.FC<
 
   const formID = `form-${props.id || Math.random().toString(36).substr(2, 9)}`
   const formMethods = useForm()
-  const { handleSubmit, control, register, formState: { errors } } = formMethods
+  const {
+    handleSubmit,
+    control,
+    register,
+    formState: { errors },
+  } = formMethods
   const router = useRouter()
 
   const onSubmit = useCallback(
-    (data: any) => {
+    (data: Record<string, unknown>) => {
       let loadingTimerID: ReturnType<typeof setTimeout>
       const submitForm = async () => {
         setError(null)
