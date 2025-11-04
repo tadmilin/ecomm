@@ -3,11 +3,13 @@ import { useHeaderTheme } from '@/providers/HeaderTheme'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
+import { useSession } from 'next-auth/react'
 
 import type { Header } from '@/payload-types'
 
 import { Logo as DynamicLogo } from '@/components/Logo/Logo'
 import { HeaderNav } from './Nav'
+import UserMenu from '@/components/UserMenu'
 
 interface HeaderClientProps {
   data: Header
@@ -18,6 +20,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
   const [theme, setTheme] = useState<string | null>(null)
   const { headerTheme, setHeaderTheme } = useHeaderTheme()
   const pathname = usePathname()
+  const { data: session, status } = useSession()
 
   useEffect(() => {
     setHeaderTheme(null)
@@ -40,7 +43,26 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
             logo={data.logo as { url?: string; alt?: string; width?: number; height?: number }}
           />
         </Link>
-        <HeaderNav data={data} />
+        <div className="flex items-center gap-6">
+          <HeaderNav data={data} />
+          {status === 'loading' ? (
+            <div className="w-8 h-8 animate-pulse bg-white/20 rounded-full"></div>
+          ) : session?.user ? (
+            <div className="flex items-center gap-3">
+              <span className="text-sm font-medium">
+                สวัสดี, {session.user.name || session.user.email}
+              </span>
+              <UserMenu />
+            </div>
+          ) : (
+            <Link
+              href="/login"
+              className="px-4 py-2 bg-white text-blue-900 rounded-md hover:bg-gray-100 transition-colors"
+            >
+              เข้าสู่ระบบ
+            </Link>
+          )}
+        </div>
       </div>
     </header>
   )

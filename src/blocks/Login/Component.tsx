@@ -108,7 +108,7 @@ export const LoginBlock: React.FC<Props> = (props) => {
                     <form
                       action={async () => {
                         'use server'
-                        await signIn('google')
+                        await signIn('google', { redirectTo: '/?login=success' })
                       }}
                     >
                       <button
