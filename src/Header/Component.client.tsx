@@ -54,14 +54,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
               </span>
               <UserMenu />
             </div>
-          ) : (
-            <Link
-              href="/login"
-              className="px-4 py-2 bg-white text-blue-900 rounded-md hover:bg-gray-100 transition-colors"
-            >
-              เข้าสู่ระบบ
-            </Link>
-          )}
+          ) : null}
         </div>
       </div>
     </header>
