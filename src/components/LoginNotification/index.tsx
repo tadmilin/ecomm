@@ -1,9 +1,9 @@
 'use client'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, Suspense } from 'react'
 import { useSession } from 'next-auth/react'
 import { useSearchParams, useRouter } from 'next/navigation'
 
-export const LoginNotification: React.FC = () => {
+const LoginNotificationContent: React.FC = () => {
   const { data: session, status } = useSession()
   const [showNotification, setShowNotification] = useState(false)
   const searchParams = useSearchParams()
@@ -11,17 +11,15 @@ export const LoginNotification: React.FC = () => {
 
   useEffect(() => {
     // ตรวจสอบว่ามีการ redirect จากการ login หรือไม่
-    const callbackUrl = searchParams.get('callbackUrl')
-    const from = searchParams.get('from')
+    const loginSuccess = searchParams.get('login')
 
-    if (session?.user && (callbackUrl || from === 'login')) {
+    if (session?.user && loginSuccess === 'success') {
       setShowNotification(true)
 
       // ลบ query parameters ออกจาก URL
       const currentUrl = new URL(window.location.href)
-      currentUrl.searchParams.delete('callbackUrl')
-      currentUrl.searchParams.delete('from')
-      router.replace(currentUrl.pathname)
+      currentUrl.searchParams.delete('login')
+      router.replace(currentUrl.pathname + currentUrl.search)
 
       // ซ่อนการแจ้งเตือนหลังจาก 5 วินาที
       const timer = setTimeout(() => {
@@ -70,5 +68,13 @@ export const LoginNotification: React.FC = () => {
         </div>
       </div>
     </div>
+  )
+}
+
+export const LoginNotification: React.FC = () => {
+  return (
+    <Suspense fallback={null}>
+      <LoginNotificationContent />
+    </Suspense>
   )
 }
