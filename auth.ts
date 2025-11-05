@@ -26,6 +26,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
+            'x-internal-secret': process.env.INTERNAL_API_SECRET!,
           },
           body: JSON.stringify({
             email: user.email,

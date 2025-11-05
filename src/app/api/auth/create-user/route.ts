@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
+import { validateInternalRequest } from '@/lib/api-security'
 
 interface CreateUserRequest {
   email: string
@@ -10,6 +11,14 @@ interface CreateUserRequest {
 
 export async function POST(request: NextRequest) {
   try {
+    // ตรวจสอบ Internal API Secret ก่อน
+    if (!validateInternalRequest(request)) {
+      return NextResponse.json(
+        { success: false, error: 'Unauthorized - Invalid API Secret' },
+        { status: 401 },
+      )
+    }
+
     const body: CreateUserRequest = await request.json()
     const { email, name, image: _image } = body
 
