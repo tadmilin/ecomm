@@ -5,13 +5,7 @@ import { useState, useEffect, useRef } from 'react'
 import { ChevronDown, User, LogOut, Settings } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import type { Header } from '@/payload-types'
-
-type Props = {
-  headerData?: Header
-}
-
-export default function UserMenu({ headerData }: Props) {
+export default function UserMenu() {
   const { data: session, status } = useSession()
   const [isOpen, setIsOpen] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
@@ -33,24 +27,9 @@ export default function UserMenu({ headerData }: Props) {
     }
   }, [isOpen])
 
-  // หา profile link จาก header navigation
-  const profileLink = headerData?.navItems?.find((item) => {
-    const label = item.link.label.toLowerCase()
-    return label.includes('profile') || label.includes('โปรไฟล์')
-  })
-
   const getProfileUrl = () => {
-    if (profileLink?.link.type === 'reference' && profileLink.link.reference?.value) {
-      const value = profileLink.link.reference.value
-      if (typeof value === 'object' && 'slug' in value) {
-        return `/${value.slug}`
-      }
-    }
-    if (profileLink?.link.type === 'custom' && profileLink.link.url) {
-      return profileLink.link.url
-    }
-    // ไม่มี fallback - ต้องสร้างใน Admin Panel เท่านั้น
-    return null
+    // Hardcode หน้า profile - จะแสดงเฉพาะเมื่อ login
+    return '/profile'
   }
 
   if (status === 'loading') {
@@ -102,16 +81,14 @@ export default function UserMenu({ headerData }: Props) {
           </div>
 
           <div className="py-1">
-            {getProfileUrl() && (
-              <Link
-                href={getProfileUrl() as string}
-                onClick={() => setIsOpen(false)}
-                className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center gap-2 transition-colors"
-              >
-                <User className="w-4 h-4" />
-                <span>จัดการโปรไฟล์</span>
-              </Link>
-            )}
+            <Link
+              href={getProfileUrl()}
+              onClick={() => setIsOpen(false)}
+              className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center gap-2 transition-colors"
+            >
+              <User className="w-4 h-4" />
+              <span>จัดการโปรไฟล์</span>
+            </Link>
 
             {(session.user as { role?: string })?.role === 'admin' && (
               <button

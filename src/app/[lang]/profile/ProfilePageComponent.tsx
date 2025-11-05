@@ -1,12 +1,9 @@
 'use client'
-import React, { useState } from 'react'
-import { useSession, signOut } from 'next-auth/react'
-import { useRouter } from 'next/navigation'
+
+import React, { useState, useEffect } from 'react'
+import { useSession } from 'next-auth/react'
 import Image from 'next/image'
-
-import type { ProfileBlock as ProfileBlockProps } from '@/payload-types'
-
-import { cn } from '@/utilities/ui'
+import { useRouter } from 'next/navigation'
 
 interface User {
   id: string
@@ -16,12 +13,7 @@ interface User {
   role?: string
 }
 
-type Props = {
-  className?: string
-} & ProfileBlockProps
-
-export const ProfileBlock: React.FC<Props> = (props) => {
-  const { className, title = 'โปรไฟล์ของฉัน' } = props
+export const ProfilePageComponent: React.FC = () => {
   const { data: session, status } = useSession()
   const router = useRouter()
   const [isEditing, setIsEditing] = useState(false)
@@ -34,7 +26,7 @@ export const ProfileBlock: React.FC<Props> = (props) => {
   const [message, setMessage] = useState('')
 
   // Load user profile data
-  React.useEffect(() => {
+  useEffect(() => {
     const fetchProfile = async () => {
       if (session?.user?.id) {
         try {
@@ -59,7 +51,7 @@ export const ProfileBlock: React.FC<Props> = (props) => {
 
   if (status === 'loading') {
     return (
-      <section className={cn('py-16 md:py-24', className)}>
+      <section className="py-16 md:py-24">
         <div className="container">
           <div className="flex justify-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
@@ -71,7 +63,7 @@ export const ProfileBlock: React.FC<Props> = (props) => {
 
   if (!session?.user) {
     return (
-      <section className={cn('py-16 md:py-24', className)}>
+      <section className="py-16 md:py-24">
         <div className="container">
           <div className="max-w-md mx-auto text-center">
             <h2 className="text-2xl font-bold mb-4">กรุณาเข้าสู่ระบบ</h2>
@@ -119,12 +111,12 @@ export const ProfileBlock: React.FC<Props> = (props) => {
   }
 
   return (
-    <section className={cn('py-16 md:py-24', className)}>
+    <section className="py-16 md:py-24">
       <div className="container">
         <div className="max-w-2xl mx-auto">
           <div className="bg-white rounded-lg shadow-md p-8">
             <div className="flex items-center justify-between mb-8">
-              <h2 className="text-2xl font-bold">{title}</h2>
+              <h2 className="text-2xl font-bold">จัดการโปรไฟล์</h2>
               <button
                 onClick={() => setIsEditing(!isEditing)}
                 className="px-4 py-2 text-blue-600 border border-blue-600 rounded-md hover:bg-blue-50"
@@ -148,11 +140,11 @@ export const ProfileBlock: React.FC<Props> = (props) => {
             )}
 
             <div className="flex items-center mb-8">
-              {(user?.image || session.user?.image) && (
+              {(user?.image || session.user.image) && (
                 <div className="relative w-20 h-20 mr-6">
                   <Image
-                    src={(user?.image || session.user?.image) as string}
-                    alt={user?.name || session.user?.name || 'Profile'}
+                    src={(user?.image || session.user.image) as string}
+                    alt={user?.name || session.user.name || 'Profile'}
                     fill
                     className="rounded-full object-cover"
                   />
@@ -191,7 +183,7 @@ export const ProfileBlock: React.FC<Props> = (props) => {
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     disabled={isLoading}
                   />
-                  <p className="text-xs text-gray-500 mt-1">อีเมลไม่สามารถเปลี่ยนแปลงได้</p>
+                  <p className="text-xs text-gray-500 mt-1">อีเมลสามารถแก้ไขได้</p>
                 </div>
                 <div className="flex gap-3">
                   <button
@@ -231,15 +223,30 @@ export const ProfileBlock: React.FC<Props> = (props) => {
                       'user'}
                   </p>
                 </div>
+
+                {/* TODO: เพิ่มฟีเจอร์ในอนาคต */}
+                <div className="mt-8 pt-6 border-t">
+                  <h3 className="text-lg font-medium mb-4">ประวัติการซื้อขาย</h3>
+                  <div className="bg-gray-50 p-4 rounded-md">
+                    <p className="text-gray-500 text-center">ฟีเจอร์นี้จะเพิ่มในอนาคต</p>
+                  </div>
+                </div>
+
+                <div className="mt-6">
+                  <h3 className="text-lg font-medium mb-4">การตั้งค่าอื่นๆ</h3>
+                  <div className="bg-gray-50 p-4 rounded-md">
+                    <p className="text-gray-500 text-center">ฟีเจอร์นี้จะเพิ่มในอนาคต</p>
+                  </div>
+                </div>
               </div>
             )}
 
             <div className="mt-8 pt-6 border-t">
               <button
-                onClick={() => signOut({ callbackUrl: '/' })}
-                className="w-full px-6 py-3 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors"
+                onClick={() => router.push('/')}
+                className="w-full px-6 py-3 bg-gray-600 text-white rounded-md hover:bg-gray-700 transition-colors"
               >
-                ออกจากระบบ
+                กลับหน้าหลัก
               </button>
             </div>
           </div>

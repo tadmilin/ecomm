@@ -8,7 +8,6 @@ import { ContentBlock } from '@/blocks/Content/Component'
 import { FormBlock } from '@/blocks/Form/Component'
 import { LoginBlock } from '@/blocks/Login/Component'
 import { MediaBlock } from '@/blocks/MediaBlock/Component'
-import { ProfileBlock } from '@/blocks/Profile/Component'
 
 const blockComponents = {
   archive: ArchiveBlock,
@@ -17,8 +16,7 @@ const blockComponents = {
   formBlock: FormBlock,
   login: LoginBlock,
   mediaBlock: MediaBlock,
-  profile: ProfileBlock,
-}
+} as const
 
 export const RenderBlocks: React.FC<{
   blocks: Page['layout'][0][]
@@ -34,7 +32,7 @@ export const RenderBlocks: React.FC<{
           const { blockType } = block
 
           if (blockType && blockType in blockComponents) {
-            const Block = blockComponents[blockType]
+            const Block = blockComponents[blockType as keyof typeof blockComponents]
 
             if (Block) {
               return (
