@@ -1,13 +1,18 @@
 import React from 'react'
 
-import type { LoginBlock as LoginBlockProps } from '@/payload-types'
-
 import { cn } from '@/utilities/ui'
 import { signIn } from '../../../auth'
 
 type Props = {
   className?: string
-} & LoginBlockProps
+  title?: string
+  subtitle?: string
+  showRememberMe?: boolean
+  showForgotPassword?: boolean
+  showRegisterLink?: boolean
+  registerText?: string
+  showGoogleSignIn?: boolean
+}
 
 export const LoginBlock: React.FC<Props> = (props) => {
   const {

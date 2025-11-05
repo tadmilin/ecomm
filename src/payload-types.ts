@@ -239,7 +239,25 @@ export interface Page {
         }[]
       | null;
   };
-  layout: (CallToActionBlock | ContentBlock | MediaBlock | ArchiveBlock | FormBlock | LoginBlock | ProfileBlock)[];
+  layout: (
+    | CallToActionBlock
+    | ContentBlock
+    | MediaBlock
+    | ArchiveBlock
+    | FormBlock
+    | {
+        title?: string | null;
+        subtitle?: string | null;
+        showRememberMe?: boolean | null;
+        showForgotPassword?: boolean | null;
+        showRegisterLink?: boolean | null;
+        registerText?: string | null;
+        showGoogleSignIn?: boolean | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'login';
+      }
+  )[];
   meta?: {
     title?: string | null;
     /**
@@ -627,36 +645,6 @@ export interface FormBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'formBlock';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "LoginBlock".
- */
-export interface LoginBlock {
-  title?: string | null;
-  subtitle?: string | null;
-  showRememberMe?: boolean | null;
-  showForgotPassword?: boolean | null;
-  showRegisterLink?: boolean | null;
-  registerText?: string | null;
-  showGoogleSignIn?: boolean | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'login';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ProfileBlock".
- */
-export interface ProfileBlock {
-  title?: string | null;
-  allowEdit?: boolean | null;
-  showRole?: boolean | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'profile';
-}
-export interface Global {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1146,6 +1134,19 @@ export interface PagesSelect<T extends boolean = true> {
         mediaBlock?: T | MediaBlockSelect<T>;
         archive?: T | ArchiveBlockSelect<T>;
         formBlock?: T | FormBlockSelect<T>;
+        login?:
+          | T
+          | {
+              title?: T;
+              subtitle?: T;
+              showRememberMe?: T;
+              showForgotPassword?: T;
+              showRegisterLink?: T;
+              registerText?: T;
+              showGoogleSignIn?: T;
+              id?: T;
+              blockName?: T;
+            };
       };
   meta?:
     | T
