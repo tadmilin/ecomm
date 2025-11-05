@@ -49,8 +49,8 @@ export default function UserMenu({ headerData }: Props) {
     if (profileLink?.link.type === 'custom' && profileLink.link.url) {
       return profileLink.link.url
     }
-    // Fallback: ให้ admin สร้างหน้า profile ด้วย slug 'profile'
-    return '/profile'
+    // ไม่มี fallback - ต้องสร้างใน Admin Panel เท่านั้น
+    return null
   }
 
   if (status === 'loading') {
@@ -102,14 +102,16 @@ export default function UserMenu({ headerData }: Props) {
           </div>
 
           <div className="py-1">
-            <Link
-              href={getProfileUrl()}
-              onClick={() => setIsOpen(false)}
-              className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center gap-2 transition-colors"
-            >
-              <User className="w-4 h-4" />
-              <span>จัดการโปรไฟล์</span>
-            </Link>
+            {getProfileUrl() && (
+              <Link
+                href={getProfileUrl() as string}
+                onClick={() => setIsOpen(false)}
+                className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center gap-2 transition-colors"
+              >
+                <User className="w-4 h-4" />
+                <span>จัดการโปรไฟล์</span>
+              </Link>
+            )}
 
             {(session.user as { role?: string })?.role === 'admin' && (
               <button
