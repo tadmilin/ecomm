@@ -1,13 +1,57 @@
 'use client'
 
 import { useSession, signOut } from 'next-auth/react'
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { ChevronDown, User, LogOut, Settings } from 'lucide-react'
 import Image from 'next/image'
+import Link from 'next/link'
+import type { Header } from '@/payload-types'
 
-export default function UserMenu() {
+type Props = {
+  headerData?: Header
+}
+
+export default function UserMenu({ headerData }: Props) {
   const { data: session, status } = useSession()
   const [isOpen, setIsOpen] = useState(false)
+  const dropdownRef = useRef<HTMLDivElement>(null)
+
+  // ปิด dropdown เมื่อคลิกข้างนอก
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsOpen(false)
+      }
+    }
+
+    if (isOpen) {
+      document.addEventListener('mousedown', handleClickOutside)
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [isOpen])
+
+  // หา profile link จาก header navigation
+  const profileLink = headerData?.navItems?.find((item) => {
+    const label = item.link.label.toLowerCase()
+    return label.includes('profile') || label.includes('โปรไฟล์')
+  })
+
+  const getProfileUrl = () => {
+    if (profileLink?.link.type === 'reference' && profileLink.link.reference?.value) {
+      const value = profileLink.link.reference.value
+      if (typeof value === 'object' && 'slug' in value) {
+        return `/${value.slug}`
+      }
+    }
+    if (profileLink?.link.type === 'custom' && profileLink.link.url) {
+      return profileLink.link.url
+    }
+    // Fallback: ให้ admin สร้างหน้า profile ด้วย slug 'profile'
+    return '/profile'
+  }
 
   if (status === 'loading') {
     return (
@@ -26,7 +70,7 @@ export default function UserMenu() {
   }
 
   return (
-    <div className="relative">
+    <div className="relative" ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-gray-100 transition-colors"
@@ -58,15 +102,14 @@ export default function UserMenu() {
           </div>
 
           <div className="py-1">
-            <button
-              onClick={() => {
-                window.location.href = '/profile'
-              }}
-              className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center gap-2"
+            <Link
+              href={getProfileUrl()}
+              onClick={() => setIsOpen(false)}
+              className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center gap-2 transition-colors"
             >
               <User className="w-4 h-4" />
-              Profile
-            </button>
+              <span>จัดการโปรไฟล์</span>
+            </Link>
 
             {(session.user as { role?: string })?.role === 'admin' && (
               <button
