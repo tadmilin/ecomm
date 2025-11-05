@@ -1,11 +1,18 @@
-import NextAuth from "next-auth"
-import Google from "next-auth/providers/google"
+import NextAuth from 'next-auth'
+import Google from 'next-auth/providers/google'
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
     Google({
       clientId: process.env.AUTH_GOOGLE_ID!,
       clientSecret: process.env.AUTH_GOOGLE_SECRET!,
+      authorization: {
+        params: {
+          prompt: 'select_account', // บังคับให้เลือก account ทุกครั้ง
+          access_type: 'offline',
+          response_type: 'code',
+        },
+      },
     }),
   ],
   callbacks: {
@@ -13,7 +20,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       // สร้าง user ใน Payload CMS เมื่อ login สำเร็จ
       try {
         // ใช้ internal URL สำหรับ server-to-server call
-        const baseUrl = process.env.NEXTAUTH_URL || process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'
+        const baseUrl =
+          process.env.NEXTAUTH_URL || process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'
         const response = await fetch(`${baseUrl}/api/auth/create-user`, {
           method: 'POST',
           headers: {
@@ -40,12 +48,15 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     async session({ session, token }) {
       // ดึง role จาก Payload CMS และส่งไปยัง session
       try {
-        const baseUrl = process.env.NEXTAUTH_URL || process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'
-        const response = await fetch(`${baseUrl}/api/auth/get-user-role?email=${session.user?.email}`)
+        const baseUrl =
+          process.env.NEXTAUTH_URL || process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'
+        const response = await fetch(
+          `${baseUrl}/api/auth/get-user-role?email=${session.user?.email}`,
+        )
         if (response.ok) {
           const userData = await response.json()
           if (userData.user) {
-            (session.user as any).role = userData.user.role
+            ;(session.user as any).role = userData.user.role
           }
         } else {
           console.error('Failed to fetch user role:', response.status, response.statusText)
