@@ -52,7 +52,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
               <span className="text-sm font-medium">
                 สวัสดี, {session.user.name || session.user.email}
               </span>
-              <UserMenu />
+              <UserMenu headerData={data} />
             </div>
           ) : null}
         </div>
