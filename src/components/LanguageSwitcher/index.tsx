@@ -17,20 +17,27 @@ export function LanguageSwitcher() {
   const pathSegments = pathname.split('/').filter(Boolean)
   const currentLang = pathSegments[0] || 'th'
 
+  // ตรวจสอบว่า segment แรกเป็น lang code หรือไม่
+  const isLangCode = languages.some((l) => l.code === pathSegments[0])
+
   // สร้าง path ใหม่โดยเปลี่ยนเฉพาะ lang code
   const getLanguagePath = (langCode: string) => {
-    // ถ้า path เป็น "/" หรือ "/th"
-    if (
-      pathSegments.length === 0 ||
-      (pathSegments.length === 1 && languages.some((l) => l.code === pathSegments[0]))
-    ) {
+    // ถ้าไม่มี path segments หรือเป็นแค่ home
+    if (pathSegments.length === 0) {
       return `/${langCode}`
     }
 
-    // แทนที่ lang code แรก ด้วย lang ใหม่
-    const newSegments = [...pathSegments]
-    newSegments[0] = langCode
-    return `/${newSegments.join('/')}`
+    // ถ้า segment แรกเป็น lang code → แทนที่ด้วย lang ใหม่
+    if (isLangCode) {
+      const remainingSegments = pathSegments.slice(1) // เอาส่วนที่เหลือหลังจาก lang
+      if (remainingSegments.length === 0) {
+        return `/${langCode}` // แค่ home page
+      }
+      return `/${langCode}/${remainingSegments.join('/')}` // ต่อเส้นทางที่เหลือ
+    }
+
+    // ถ้า segment แรกไม่ใช่ lang code → เพิ่ม lang code ไปข้างหน้า
+    return `/${langCode}/${pathSegments.join('/')}`
   }
 
   return (
