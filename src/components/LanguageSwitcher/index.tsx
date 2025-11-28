@@ -12,13 +12,25 @@ const languages = [
 
 export function LanguageSwitcher() {
   const pathname = usePathname()
-  const currentLang = pathname.split('/')[1] || 'th'
+
+  // ดึง lang code ปัจจุบันจาก pathname
+  const pathSegments = pathname.split('/').filter(Boolean)
+  const currentLang = pathSegments[0] || 'th'
 
   // สร้าง path ใหม่โดยเปลี่ยนเฉพาะ lang code
   const getLanguagePath = (langCode: string) => {
-    const pathParts = pathname.split('/')
-    pathParts[1] = langCode
-    return pathParts.join('/')
+    // ถ้า path เป็น "/" หรือ "/th"
+    if (
+      pathSegments.length === 0 ||
+      (pathSegments.length === 1 && languages.some((l) => l.code === pathSegments[0]))
+    ) {
+      return `/${langCode}`
+    }
+
+    // แทนที่ lang code แรก ด้วย lang ใหม่
+    const newSegments = [...pathSegments]
+    newSegments[0] = langCode
+    return `/${newSegments.join('/')}`
   }
 
   return (
