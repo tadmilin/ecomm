@@ -14,7 +14,6 @@ import { Products } from './collections/Products/index'
 import { Users } from './collections/Users/index'
 import { Footer } from './Footer/config'
 import { Header } from './Header/config'
-import { I18nSettings } from './globals/I18nSettings/index'
 import { plugins } from './plugins/index'
 import { defaultLexical } from '@/fields/defaultLexical'
 import { getServerSideURL } from './utilities/getURL'
@@ -29,6 +28,11 @@ const dirname = path.dirname(filename)
 export default buildConfig({
   i18n: {
     supportedLanguages: { th, en },
+  },
+  localization: {
+    locales: ['th', 'en', 'cn'],
+    defaultLocale: 'th',
+    fallback: true,
   },
   admin: {
     components: {
@@ -73,7 +77,7 @@ export default buildConfig({
   }),
   collections: [Pages, Posts, Media, Categories, Products, Users],
   cors: [getServerSideURL()].filter(Boolean),
-  globals: [Header, Footer, I18nSettings],
+  globals: [Header, Footer],
   plugins: [
     ...plugins,
     // storage-adapter-placeholder
