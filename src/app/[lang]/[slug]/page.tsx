@@ -115,7 +115,7 @@ const queryPageBySlug = cache(async ({ slug, locale }: { slug: string; locale?: 
 
   const result = await payload.find({
     collection: 'pages',
-    locale: locale || 'th',
+    locale: (locale || 'th') as 'th' | 'en' | 'cn' | 'all',
     draft,
     limit: 1,
     pagination: false,
