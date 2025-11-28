@@ -13,31 +13,27 @@ const languages = [
 export function LanguageSwitcher() {
   const pathname = usePathname()
 
-  // ดึง lang code ปัจจุบันจาก pathname
+  // ดึง path segments
   const pathSegments = pathname.split('/').filter(Boolean)
-  const currentLang = pathSegments[0] || 'th'
 
-  // ตรวจสอบว่า segment แรกเป็น lang code หรือไม่
-  const isLangCode = languages.some((l) => l.code === pathSegments[0])
+  // หา lang code ปัจจุบัน
+  const validLangCodes = ['th', 'en', 'cn']
+  const currentLang = validLangCodes.includes(pathSegments[0]) ? pathSegments[0] : 'th'
 
-  // สร้าง path ใหม่โดยเปลี่ยนเฉพาะ lang code
-  const getLanguagePath = (langCode: string) => {
-    // ถ้าไม่มี path segments หรือเป็นแค่ home
-    if (pathSegments.length === 0) {
-      return `/${langCode}`
+  // สร้าง path ใหม่
+  const getLanguagePath = (newLang: string) => {
+    // ตรวจสอบว่า segment แรกเป็น lang code หรือไม่
+    const firstSegmentIsLang = validLangCodes.includes(pathSegments[0])
+
+    if (firstSegmentIsLang) {
+      // ถ้า segment แรกเป็น lang → แทนที่ด้วย lang ใหม่
+      const restPath = pathSegments.slice(1).join('/')
+      return restPath ? `/${newLang}/${restPath}` : `/${newLang}`
+    } else {
+      // ถ้าไม่มี lang → เพิ่ม lang ไปข้างหน้า
+      const fullPath = pathSegments.join('/')
+      return fullPath ? `/${newLang}/${fullPath}` : `/${newLang}`
     }
-
-    // ถ้า segment แรกเป็น lang code → แทนที่ด้วย lang ใหม่
-    if (isLangCode) {
-      const remainingSegments = pathSegments.slice(1) // เอาส่วนที่เหลือหลังจาก lang
-      if (remainingSegments.length === 0) {
-        return `/${langCode}` // แค่ home page
-      }
-      return `/${langCode}/${remainingSegments.join('/')}` // ต่อเส้นทางที่เหลือ
-    }
-
-    // ถ้า segment แรกไม่ใช่ lang code → เพิ่ม lang code ไปข้างหน้า
-    return `/${langCode}/${pathSegments.join('/')}`
   }
 
   return (
