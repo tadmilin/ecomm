@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
-const languages = ['en', 'th']
+const languages = ['en', 'th', 'cn']
 const fallbackLng = 'en'
 
 export function middleware(request: NextRequest) {
