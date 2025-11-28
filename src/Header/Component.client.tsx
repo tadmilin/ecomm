@@ -24,6 +24,9 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
   const pathname = usePathname()
   const { data: session, status } = useSession()
 
+  // Extract current language from pathname
+  const lang = pathname.split('/')[1] || 'en'
+
   useEffect(() => {
     setHeaderTheme(null)
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -37,7 +40,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
   return (
     <header className="w-full bg-blue-900 text-white" {...(theme ? { 'data-theme': theme } : {})}>
       <div className="container py-6 flex justify-between items-center">
-        <Link href="/">
+        <Link href={`/${lang}`}>
           <DynamicLogo
             loading="eager"
             priority="high"
@@ -46,7 +49,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
           />
         </Link>
         <div className="flex items-center gap-6">
-          <HeaderNav data={data} />
+          <HeaderNav data={data} lang={lang} />
           <LanguageSwitcher />
           <CartButton />
           {status === 'loading' ? (
