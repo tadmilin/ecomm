@@ -58,7 +58,6 @@ export default async function Page({ params: paramsPromise }: Args) {
 
   page = await queryPageBySlug({
     slug,
-    locale: lang,
   })
 
   // Remove this code once your website is seeded
@@ -87,11 +86,10 @@ export default async function Page({ params: paramsPromise }: Args) {
 }
 
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
-  const { lang, slug = 'home' } = await paramsPromise
+  const { lang: _lang, slug = 'home' } = await paramsPromise
 
   const page = await queryPageBySlug({
     slug,
-    locale: lang,
   })
 
   const metadata = generateMeta({ doc: page })
@@ -108,14 +106,13 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
   }
 }
 
-const queryPageBySlug = cache(async ({ slug, locale }: { slug: string; locale?: string }) => {
+const queryPageBySlug = cache(async ({ slug }: { slug: string }) => {
   const { isEnabled: draft } = await draftMode()
 
   const payload = await getPayload({ config: configPromise })
 
   const result = await payload.find({
     collection: 'pages',
-    locale: (locale || 'th') as 'th' | 'en' | 'cn' | 'all',
     draft,
     limit: 1,
     pagination: false,
