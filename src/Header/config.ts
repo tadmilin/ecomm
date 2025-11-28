@@ -36,6 +36,7 @@ export const Header: GlobalConfig = {
           type: 'text',
           label: 'Logo Text',
           required: false,
+          localized: true,
           admin: {
             condition: (_, siblingData) => siblingData?.type === 'text',
           },
