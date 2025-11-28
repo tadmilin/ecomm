@@ -3,6 +3,7 @@ import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import React from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { getTranslatedText } from '@/utilities/getTranslatedText'
 
 export const dynamic = 'force-static'
@@ -43,22 +44,59 @@ export default async function CategoriesPage({ params }: Args) {
                 ? category.title
                 : getTranslatedText(category.title, lang, 'Untitled Category')
 
+            const description =
+              typeof category.description === 'string'
+                ? category.description
+                : category.description
+                  ? getTranslatedText(category.description, lang, '')
+                  : ''
+
+            const imageUrl =
+              category.image && typeof category.image === 'object' && category.image.url
+                ? category.image.url
+                : null
+
             return (
               <Link
                 key={category.id}
                 href={`/${lang}/categories/${category.slug}`}
                 className="group"
               >
-                <div className="border rounded-lg p-6 hover:shadow-lg transition-shadow duration-200 h-full flex flex-col justify-between">
-                  <div>
-                    <h2 className="text-xl font-semibold mb-2 group-hover:text-blue-600 transition-colors">
-                      {title}
-                    </h2>
-                  </div>
-                  <div className="mt-4 text-sm text-muted-foreground">
-                    {lang === 'th' && 'ดูสินค้าทั้งหมด →'}
-                    {lang === 'en' && 'View all products →'}
-                    {lang === 'cn' && '查看所有产品 →'}
+                <div className="border rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-200 h-full flex flex-col">
+                  {/* Category Image */}
+                  {imageUrl ? (
+                    <div className="relative aspect-square bg-gray-100">
+                      <Image
+                        src={imageUrl}
+                        alt={title}
+                        fill
+                        className="object-cover group-hover:scale-105 transition-transform duration-200"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                      />
+                    </div>
+                  ) : (
+                    <div className="relative aspect-square bg-gray-100 flex items-center justify-center">
+                      <span className="text-gray-400 text-4xl">📁</span>
+                    </div>
+                  )}
+
+                  {/* Category Info */}
+                  <div className="p-6 flex-1 flex flex-col justify-between">
+                    <div>
+                      <h2 className="text-xl font-semibold mb-2 group-hover:text-blue-600 transition-colors">
+                        {title}
+                      </h2>
+                      {description && (
+                        <p className="text-sm text-muted-foreground line-clamp-2 mb-3">
+                          {description}
+                        </p>
+                      )}
+                    </div>
+                    <div className="text-sm text-blue-600 font-medium">
+                      {lang === 'th' && 'ดูสินค้าทั้งหมด →'}
+                      {lang === 'en' && 'View all products →'}
+                      {lang === 'cn' && '查看所有产品 →'}
+                    </div>
                   </div>
                 </div>
               </Link>

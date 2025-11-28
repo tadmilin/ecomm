@@ -87,6 +87,13 @@ export default async function CategoryDetailPage({ params }: Args) {
       ? category.title
       : getTranslatedText(category.title, lang, 'Untitled Category')
 
+  const categoryDescription = category.description || ''
+
+  const categoryImageUrl =
+    category.image && typeof category.image === 'object' && category.image.url
+      ? category.image.url
+      : null
+
   return (
     <div className="container py-16">
       <div className="max-w-7xl mx-auto">
@@ -107,14 +114,30 @@ export default async function CategoryDetailPage({ params }: Args) {
           <span className="text-muted-foreground">{categoryTitle}</span>
         </nav>
 
-        {/* Category Header */}
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold mb-2">{categoryTitle}</h1>
-          <p className="text-muted-foreground">
-            {productsResult.totalDocs} {lang === 'th' && 'สินค้า'}
-            {lang === 'en' && 'products'}
-            {lang === 'cn' && '产品'}
-          </p>
+        {/* Category Header with Image */}
+        <div className="mb-12 flex flex-col md:flex-row gap-8 items-start">
+          {categoryImageUrl && (
+            <div className="relative w-full md:w-48 h-48 rounded-lg overflow-hidden flex-shrink-0 bg-gray-100">
+              <Image
+                src={categoryImageUrl}
+                alt={categoryTitle}
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 192px"
+              />
+            </div>
+          )}
+          <div className="flex-1">
+            <h1 className="text-4xl font-bold mb-3">{categoryTitle}</h1>
+            {categoryDescription && (
+              <p className="text-lg text-muted-foreground mb-4">{categoryDescription}</p>
+            )}
+            <p className="text-sm text-muted-foreground">
+              {productsResult.totalDocs} {lang === 'th' && 'สินค้า'}
+              {lang === 'en' && 'products'}
+              {lang === 'cn' && '产品'}
+            </p>
+          </div>
         </div>
 
         {/* Products Grid */}
@@ -122,12 +145,24 @@ export default async function CategoryDetailPage({ params }: Args) {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {productsResult.docs.map((product) => {
               const productName = getTranslatedText(
-                product.multilangName,
+                product.multilangName
+                  ? {
+                      th: product.multilangName.th || '',
+                      en: product.multilangName.en || '',
+                      zh: product.multilangName.zh || '',
+                    }
+                  : null,
                 lang,
                 product.name || 'Untitled Product',
               )
               const productDesc = getTranslatedText(
-                product.multilangDescription,
+                product.multilangDescription
+                  ? {
+                      th: product.multilangDescription.th || '',
+                      en: product.multilangDescription.en || '',
+                      zh: product.multilangDescription.zh || '',
+                    }
+                  : null,
                 lang,
                 product.description || '',
               )
