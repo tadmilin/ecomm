@@ -10,7 +10,7 @@ import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 import './index.css'
 
-import type { Media as MediaType } from '@/payload-types'
+import type { Media as MediaType, Page, Post } from '@/payload-types'
 
 interface ImageSlideItem {
   image: MediaType
@@ -35,7 +35,7 @@ interface ImageSlideItem {
     newTab?: boolean | null
     reference?: {
       relationTo: 'pages' | 'posts'
-      value: string | number | any
+      value: string | number | Page | Post
     } | null
     url?: string | null
     label?: string | null

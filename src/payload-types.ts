@@ -71,6 +71,7 @@ export interface Config {
     posts: Post;
     media: Media;
     categories: Category;
+    products: Product;
     users: User;
     redirects: Redirect;
     forms: Form;
@@ -87,6 +88,7 @@ export interface Config {
     posts: PostsSelect<false> | PostsSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
+    products: ProductsSelect<false> | ProductsSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
@@ -822,6 +824,69 @@ export interface Form {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "products".
+ */
+export interface Product {
+  id: string;
+  /**
+   * ชื่อสินค้าในภาษาไทย, อังกฤษ, และจีน
+   */
+  multilangName: {
+    th: string;
+    en?: string | null;
+    zh?: string | null;
+  };
+  /**
+   * คำอธิบายสินค้าในภาษาไทย, อังกฤษ, และจีน
+   */
+  multilangDescription?: {
+    th?: string | null;
+    en?: string | null;
+    zh?: string | null;
+  };
+  /**
+   * ชื่อสินค้าหลัก (จะใช้เป็น fallback ถ้าไม่มีภาษาที่เลือก)
+   */
+  name: string;
+  sku: string;
+  /**
+   * คำอธิบายหลัก (fallback)
+   */
+  description?: string | null;
+  price: number;
+  compareAtPrice?: number | null;
+  cost?: number | null;
+  stock: number;
+  images?:
+    | {
+        image: string | Media;
+        alt?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  category?: (string | Category)[] | null;
+  tags?:
+    | {
+        tag?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  weight?: number | null;
+  dimensions?: {
+    length?: number | null;
+    width?: number | null;
+    height?: number | null;
+  };
+  status: 'draft' | 'active' | 'out_of_stock' | 'discontinued';
+  featured?: boolean | null;
+  externalId?: string | null;
+  slug?: string | null;
+  slugLock?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -1008,6 +1073,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'categories';
         value: string | Category;
+      } | null)
+    | ({
+        relationTo: 'products';
+        value: string | Product;
       } | null)
     | ({
         relationTo: 'users';
@@ -1387,6 +1456,62 @@ export interface CategoriesSelect<T extends boolean = true> {
         label?: T;
         id?: T;
       };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "products_select".
+ */
+export interface ProductsSelect<T extends boolean = true> {
+  multilangName?:
+    | T
+    | {
+        th?: T;
+        en?: T;
+        zh?: T;
+      };
+  multilangDescription?:
+    | T
+    | {
+        th?: T;
+        en?: T;
+        zh?: T;
+      };
+  name?: T;
+  sku?: T;
+  description?: T;
+  price?: T;
+  compareAtPrice?: T;
+  cost?: T;
+  stock?: T;
+  images?:
+    | T
+    | {
+        image?: T;
+        alt?: T;
+        id?: T;
+      };
+  category?: T;
+  tags?:
+    | T
+    | {
+        tag?: T;
+        id?: T;
+      };
+  weight?: T;
+  dimensions?:
+    | T
+    | {
+        length?: T;
+        width?: T;
+        height?: T;
+      };
+  status?: T;
+  featured?: T;
+  externalId?: T;
+  slug?: T;
+  slugLock?: T;
   updatedAt?: T;
   createdAt?: T;
 }
