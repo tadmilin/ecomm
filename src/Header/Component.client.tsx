@@ -10,6 +10,7 @@ import type { Header } from '@/payload-types'
 import { Logo as DynamicLogo } from '@/components/Logo/Logo'
 import { HeaderNav } from './Nav'
 import UserMenu from '@/components/UserMenu'
+import { CartButton } from '@/components/CartButton'
 
 interface HeaderClientProps {
   data: Header
@@ -45,6 +46,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
         </Link>
         <div className="flex items-center gap-6">
           <HeaderNav data={data} />
+          <CartButton />
           {status === 'loading' ? (
             <div className="w-8 h-8 animate-pulse bg-white/20 rounded-full"></div>
           ) : session?.user ? (

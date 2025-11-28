@@ -1,0 +1,143 @@
+'use client'
+
+import React from 'react'
+import { useCart } from '@/providers/CartProvider'
+import Link from 'next/link'
+import { useParams } from 'next/navigation'
+import { getTranslatedText } from '@/utilities/getTranslatedText'
+
+export default function CartPage() {
+  const { items, removeItem, updateQuantity, clearCart, totalItems, totalPrice } = useCart()
+  const params = useParams()
+  const lang = (params?.lang as string) || 'th'
+
+  if (items.length === 0) {
+    return (
+      <div className="container py-28">
+        <div className="max-w-2xl mx-auto text-center">
+          <h1 className="text-3xl font-bold mb-4">Shopping Cart</h1>
+          <p className="text-gray-600 mb-8">Your cart is empty</p>
+          <Link
+            href="/products"
+            className="inline-block px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+          >
+            Continue Shopping
+          </Link>
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <div className="container py-28">
+      <div className="max-w-4xl mx-auto">
+        <div className="flex items-center justify-between mb-8">
+          <h1 className="text-3xl font-bold">Shopping Cart</h1>
+          <button onClick={clearCart} className="text-sm text-red-600 hover:text-red-700 underline">
+            Clear Cart
+          </button>
+        </div>
+
+        <div className="space-y-4 mb-8">
+          {items.map((item) => {
+            const firstImage =
+              item.product.images && item.product.images.length > 0 ? item.product.images[0] : null
+            const imageUrl =
+              firstImage &&
+              typeof firstImage.image === 'object' &&
+              'url' in firstImage.image &&
+              firstImage.image.url
+                ? firstImage.image.url
+                : null
+
+            // ดึงข้อความตามภาษา
+            const productName = getTranslatedText(
+              item.product.multilangName as any,
+              lang,
+              item.product.name,
+            )
+
+            return (
+              <div key={item.product.id} className="border rounded-lg p-4 flex gap-4">
+                {imageUrl && (
+                  <div className="w-24 h-24 flex-shrink-0 bg-gray-100 rounded-lg overflow-hidden">
+                    <img src={imageUrl} alt={productName} className="w-full h-full object-cover" />
+                  </div>
+                )}
+
+                <div className="flex-1">
+                  <h3 className="font-semibold text-lg mb-1">{productName}</h3>
+                  <p className="text-sm text-gray-600 mb-2">SKU: {item.product.sku}</p>
+                  <p className="text-lg font-bold text-blue-600">
+                    ฿{item.product.price.toLocaleString('th-TH')}
+                  </p>
+                </div>
+
+                <div className="flex flex-col items-end gap-2">
+                  <button
+                    onClick={() => removeItem(item.product.id)}
+                    className="text-sm text-red-600 hover:text-red-700 underline"
+                  >
+                    Remove
+                  </button>
+
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => updateQuantity(item.product.id, item.quantity - 1)}
+                      className="w-8 h-8 border rounded hover:bg-gray-100"
+                      disabled={item.quantity <= 1}
+                    >
+                      −
+                    </button>
+                    <span className="w-12 text-center font-medium">{item.quantity}</span>
+                    <button
+                      onClick={() => updateQuantity(item.product.id, item.quantity + 1)}
+                      className="w-8 h-8 border rounded hover:bg-gray-100"
+                      disabled={item.quantity >= item.product.stock}
+                    >
+                      +
+                    </button>
+                  </div>
+
+                  <p className="font-bold">
+                    ฿{(item.product.price * item.quantity).toLocaleString('th-TH')}
+                  </p>
+                </div>
+              </div>
+            )
+          })}
+        </div>
+
+        <div className="border-t pt-6">
+          <div className="bg-gray-50 rounded-lg p-6 space-y-4">
+            <div className="flex justify-between text-lg">
+              <span>Total Items:</span>
+              <span className="font-semibold">{totalItems}</span>
+            </div>
+            <div className="flex justify-between text-2xl font-bold">
+              <span>Total Price:</span>
+              <span className="text-blue-600">฿{totalPrice.toLocaleString('th-TH')}</span>
+            </div>
+          </div>
+
+          <div className="mt-6 flex gap-4">
+            <Link
+              href="/products"
+              className="flex-1 px-6 py-3 border border-gray-300 rounded-lg text-center hover:bg-gray-50"
+            >
+              Continue Shopping
+            </Link>
+            <button
+              onClick={() => {
+                alert(`Total: ฿${totalPrice.toLocaleString('th-TH')}\nTotal Items: ${totalItems}`)
+              }}
+              className="flex-1 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+            >
+              Calculate Total
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
