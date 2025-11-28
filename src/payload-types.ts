@@ -105,14 +105,12 @@ export interface Config {
   globals: {
     header: Header;
     footer: Footer;
-    'i18n-settings': I18NSetting;
   };
   globalsSelect: {
     header: HeaderSelect<false> | HeaderSelect<true>;
     footer: FooterSelect<false> | FooterSelect<true>;
-    'i18n-settings': I18NSettingsSelect<false> | I18NSettingsSelect<true>;
   };
-  locale: null;
+  locale: 'th' | 'en' | 'cn';
   user: User & {
     collection: 'users';
   };
@@ -423,15 +421,37 @@ export interface Category {
   title: string;
   slug?: string | null;
   slugLock?: boolean | null;
-  parent?: (string | null) | Category;
+  /**
+   * รูปภาพประกอบหมวดหมู่สินค้า (แนะนำขนาด 400x400 พิกเซล)
+   */
+  image?: (string | null) | Media;
+  /**
+   * คำอธิบายเกี่ยวกับหมวดหมู่นี้
+   */
+  description?: string | null;
+  /**
+   * ตัวเลขน้อยแสดงก่อน (0 = แสดงก่อน, 999 = แสดงทีหลัง)
+   */
+  order?: number | null;
+  /**
+   * จำนวนคอลัมน์ที่จะแสดงสินค้าในหมวดหมู่นี้ (1-12)
+   */
+  columns?: number | null;
+  /**
+   * แสดงหมวดหมู่นี้ในหน้าแรก
+   */
+  featured?: boolean | null;
+  /**
+   * ลิงก์สำหรับ breadcrumb navigation
+   */
   breadcrumbs?:
     | {
-        doc?: (string | null) | Category;
-        url?: string | null;
-        label?: string | null;
+        url: string;
+        label: string;
         id?: string | null;
       }[]
     | null;
+  parent?: (string | null) | Category;
   updatedAt: string;
   createdAt: string;
 }
@@ -1447,15 +1467,19 @@ export interface CategoriesSelect<T extends boolean = true> {
   title?: T;
   slug?: T;
   slugLock?: T;
-  parent?: T;
+  image?: T;
+  description?: T;
+  order?: T;
+  columns?: T;
+  featured?: T;
   breadcrumbs?:
     | T
     | {
-        doc?: T;
         url?: T;
         label?: T;
         id?: T;
       };
+  parent?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1876,55 +1900,6 @@ export interface Footer {
   createdAt?: string | null;
 }
 /**
- * การตั้งค่าระบบแปลภาษา
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "i18n-settings".
- */
-export interface I18NSetting {
-  id: string;
-  /**
-   * เปิด/ปิดระบบแปลภาษาทั้งหมด
-   */
-  enableTranslations?: boolean | null;
-  /**
-   * เลือกภาษาที่ต้องการรองรับ (สูงสุด 5 ภาษา)
-   */
-  supportedLanguages: ('th' | 'en' | 'ja' | 'zh' | 'es' | 'fr')[];
-  /**
-   * ภาษาที่แสดงเมื่อเข้าเว็บไซต์ครั้งแรก
-   */
-  defaultLanguage?: ('th' | 'en' | 'ja' | 'zh' | 'es' | 'fr') | null;
-  languageDisplaySettings?: {
-    /**
-     * แสดงปุ่มเปลี่ยนภาษาใน Header
-     */
-    showLanguageSwitcher?: boolean | null;
-    /**
-     * แสดงธงชาติในปุ่มเปลี่ยนภาษา
-     */
-    showFlags?: boolean | null;
-    /**
-     * แสดงชื่อภาษาดั้งเดิม (เช่น ไทย, English)
-     */
-    showNativeNames?: boolean | null;
-    languageSwitcherPosition?: ('header' | 'footer' | 'both') | null;
-  };
-  translationSettings?: {
-    /**
-     * ใช้ AI แปลอัตโนมัติเมื่อสร้างเนื้อหาใหม่
-     */
-    autoTranslate?: boolean | null;
-    translationProvider?: ('manual' | 'google' | 'microsoft') | null;
-    /**
-     * ภาษาที่จะแสดงเมื่อไม่มีคำแปลในภาษาที่เลือก
-     */
-    fallbackLanguage?: ('th' | 'en' | 'ja' | 'zh' | 'es' | 'fr') | null;
-  };
-  updatedAt?: string | null;
-  createdAt?: string | null;
-}
-/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "header_select".
  */
@@ -1973,33 +1948,6 @@ export interface FooterSelect<T extends boolean = true> {
               label?: T;
             };
         id?: T;
-      };
-  updatedAt?: T;
-  createdAt?: T;
-  globalType?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "i18n-settings_select".
- */
-export interface I18NSettingsSelect<T extends boolean = true> {
-  enableTranslations?: T;
-  supportedLanguages?: T;
-  defaultLanguage?: T;
-  languageDisplaySettings?:
-    | T
-    | {
-        showLanguageSwitcher?: T;
-        showFlags?: T;
-        showNativeNames?: T;
-        languageSwitcherPosition?: T;
-      };
-  translationSettings?:
-    | T
-    | {
-        autoTranslate?: T;
-        translationProvider?: T;
-        fallbackLanguage?: T;
       };
   updatedAt?: T;
   createdAt?: T;
