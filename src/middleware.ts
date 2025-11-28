@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
 const languages = ['en', 'th', 'cn']
-const fallbackLng = 'en'
+const fallbackLng = 'th'
 
 export function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname
