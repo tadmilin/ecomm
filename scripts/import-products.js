@@ -129,12 +129,22 @@ async function findOrCreateCategory(payload, categoryName) {
   if (!categoryName) return null
 
   try {
-    // Find existing category
+    // Generate slug from category name
+    const slug = categoryName
+      .trim()
+      .toLowerCase()
+      .replace(/\s+/g, '-')
+      .replace(/[^\w\-]+/g, '')
+      .replace(/\-\-+/g, '-')
+      .replace(/^-+/, '')
+      .replace(/-+$/, '')
+
+    // Find existing category by slug
     const existing = await payload.find({
       collection: 'categories',
       where: {
-        title: {
-          equals: categoryName.trim(),
+        slug: {
+          equals: slug,
         },
       },
       limit: 1,
@@ -144,14 +154,16 @@ async function findOrCreateCategory(payload, categoryName) {
       return existing.docs[0].id
     }
 
-    // Create new category
+    // Create new category with localized title
     const category = await payload.create({
       collection: 'categories',
       data: {
-        title: categoryName.trim(),
+        title: categoryName.trim(), // This will be used for all locales initially
+        slug: slug,
       },
     })
 
+    console.log(`  ✨ Created new category: ${categoryName} (slug: ${slug})`)
     return category.id
   } catch (error) {
     console.error(`  ❌ Failed to handle category ${categoryName}:`, error.message)
