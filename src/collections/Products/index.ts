@@ -186,6 +186,152 @@ export const Products: CollectionConfig = {
       label: 'Featured Product',
       defaultValue: false,
     },
+
+    // Product Variants (ตัวเลือกย่อย)
+    {
+      name: 'hasVariants',
+      type: 'checkbox',
+      label: 'มีตัวเลือกสินค้า (Has Variants)',
+      defaultValue: false,
+      admin: {
+        description: 'เปิดใช้งานถ้าสินค้ามีหลายตัวเลือก เช่น ขนาด สี',
+      },
+    },
+    {
+      name: 'variants',
+      type: 'array',
+      label: 'ตัวเลือกสินค้า (Product Variants)',
+      admin: {
+        condition: (data) => data.hasVariants === true,
+        description: 'กำหนดตัวเลือกต่างๆ เช่น ขนาด S, M, L หรือสีแดง, น้ำเงิน',
+      },
+      fields: [
+        {
+          name: 'name',
+          type: 'text',
+          required: true,
+          label: 'ชื่อตัวเลือก',
+          admin: {
+            description: 'เช่น "ขนาด M", "สีแดง", "แพ็ค 5 ชิ้น"',
+          },
+        },
+        {
+          name: 'sku',
+          type: 'text',
+          label: 'SKU ของตัวเลือกนี้',
+          admin: {
+            description: 'รหัสสินค้าเฉพาะตัวเลือกนี้ (ถ้าไม่ระบุจะใช้ SKU หลัก)',
+          },
+        },
+        {
+          name: 'price',
+          type: 'number',
+          label: 'ราคา (THB)',
+          admin: {
+            description: 'ถ้าไม่ระบุจะใช้ราคาหลักของสินค้า',
+          },
+        },
+        {
+          name: 'compareAtPrice',
+          type: 'number',
+          label: 'ราคาก่อนลด',
+          admin: {
+            description: 'สำหรับแสดงราคาเปรียบเทียบ (ขีดฆ่า)',
+          },
+        },
+        {
+          name: 'discountPrice',
+          type: 'number',
+          label: 'ราคาพิเศษ/ลดราคา',
+          admin: {
+            description: 'ราคาหลังลดพิเศษ (ถ้ามี)',
+          },
+        },
+        {
+          name: 'stock',
+          type: 'number',
+          defaultValue: 0,
+          label: 'จำนวนคงคลัง',
+          admin: {
+            description: 'จำนวนสต๊อกของตัวเลือกนี้',
+          },
+        },
+        {
+          name: 'status',
+          type: 'select',
+          defaultValue: 'active',
+          label: 'สถานะ',
+          options: [
+            {
+              label: 'Active (ขายได้)',
+              value: 'active',
+            },
+            {
+              label: 'Out of Stock (หมด)',
+              value: 'out_of_stock',
+            },
+            {
+              label: 'Discontinued (ยกเลิก)',
+              value: 'discontinued',
+            },
+          ],
+        },
+        {
+          name: 'image',
+          type: 'upload',
+          relationTo: 'media',
+          label: 'รูปภาพตัวเลือก',
+          admin: {
+            description: 'รูปสำหรับตัวเลือกนี้ (เช่น รูปสินค้าสีแดง)',
+          },
+        },
+        {
+          name: 'weight',
+          type: 'number',
+          label: 'น้ำหนัก (kg)',
+        },
+        {
+          name: 'options',
+          type: 'group',
+          label: 'คุณสมบัติตัวเลือก',
+          fields: [
+            {
+              name: 'size',
+              type: 'text',
+              label: 'ขนาด (Size)',
+              admin: {
+                description: 'เช่น S, M, L, XL',
+              },
+            },
+            {
+              name: 'color',
+              type: 'text',
+              label: 'สี (Color)',
+              admin: {
+                description: 'เช่น แดง, น้ำเงิน, ขาว',
+              },
+            },
+            {
+              name: 'material',
+              type: 'text',
+              label: 'วัสดุ (Material)',
+              admin: {
+                description: 'เช่น ฝ้าย, โพลีเอสเตอร์',
+              },
+            },
+            {
+              name: 'type',
+              type: 'text',
+              label: 'ประเภท (Type)',
+              admin: {
+                description: 'เช่น แพ็คเดี่ยว, แพ็คคู่',
+              },
+            },
+          ],
+        },
+      ],
+    },
+
     {
       name: 'externalId',
       type: 'text',
