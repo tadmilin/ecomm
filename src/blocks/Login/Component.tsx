@@ -7,10 +7,16 @@ type Props = {
   className?: string
   title?: string
   subtitle?: string
+  lang?: string
 }
 
 export const LoginBlock: React.FC<Props> = (props) => {
-  const { className, title = 'เข้าสู่ระบบ', subtitle = 'กรุณาเข้าสู่ระบบเพื่อเข้าใช้งาน' } = props
+  const {
+    className,
+    title = 'เข้าสู่ระบบ',
+    subtitle = 'กรุณาเข้าสู่ระบบเพื่อเข้าใช้งาน',
+    lang = 'th',
+  } = props
 
   return (
     <section className={cn('py-16 md:py-24', className)}>
@@ -50,7 +56,11 @@ export const LoginBlock: React.FC<Props> = (props) => {
                       d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
                     />
                   </svg>
-                  เข้าสู่ระบบด้วย Google
+                  {lang === 'en'
+                    ? 'Sign in with Google'
+                    : lang === 'cn'
+                      ? '使用 Google 登录'
+                      : 'เข้าสู่ระบบด้วย Google'}
                 </button>
               </form>
             </div>
