@@ -58,7 +58,7 @@ export default async function Page({ params: paramsPromise }: Args) {
 
   page = await queryPageBySlug({
     slug,
-    locale: slug === 'home' ? undefined : lang, // Don't use locale for home page
+    locale: lang,
   })
 
   // Remove this code once your website is seeded
@@ -91,7 +91,7 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
 
   const page = await queryPageBySlug({
     slug,
-    locale: slug === 'home' ? undefined : lang, // Don't use locale for home page
+    locale: lang,
   })
 
   const metadata = generateMeta({ doc: page })
