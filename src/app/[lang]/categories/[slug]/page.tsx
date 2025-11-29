@@ -5,7 +5,6 @@ import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { getTranslatedText } from '@/utilities/getTranslatedText'
-import type { Product, Category } from '@/payload-types'
 
 export const dynamic = 'force-static'
 export const revalidate = 600

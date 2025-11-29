@@ -899,6 +899,66 @@ export interface Product {
   };
   status: 'draft' | 'active' | 'out_of_stock' | 'discontinued';
   featured?: boolean | null;
+  /**
+   * เปิดใช้งานถ้าสินค้ามีหลายตัวเลือก เช่น ขนาด สี
+   */
+  hasVariants?: boolean | null;
+  /**
+   * กำหนดตัวเลือกต่างๆ เช่น ขนาด S, M, L หรือสีแดง, น้ำเงิน
+   */
+  variants?:
+    | {
+        /**
+         * เช่น "ขนาด M", "สีแดง", "แพ็ค 5 ชิ้น"
+         */
+        name: string;
+        /**
+         * รหัสสินค้าเฉพาะตัวเลือกนี้ (ถ้าไม่ระบุจะใช้ SKU หลัก)
+         */
+        sku?: string | null;
+        /**
+         * ถ้าไม่ระบุจะใช้ราคาหลักของสินค้า
+         */
+        price?: number | null;
+        /**
+         * สำหรับแสดงราคาเปรียบเทียบ (ขีดฆ่า)
+         */
+        compareAtPrice?: number | null;
+        /**
+         * ราคาหลังลดพิเศษ (ถ้ามี)
+         */
+        discountPrice?: number | null;
+        /**
+         * จำนวนสต๊อกของตัวเลือกนี้
+         */
+        stock?: number | null;
+        status?: ('active' | 'out_of_stock' | 'discontinued') | null;
+        /**
+         * รูปสำหรับตัวเลือกนี้ (เช่น รูปสินค้าสีแดง)
+         */
+        image?: (string | null) | Media;
+        weight?: number | null;
+        options?: {
+          /**
+           * เช่น S, M, L, XL
+           */
+          size?: string | null;
+          /**
+           * เช่น แดง, น้ำเงิน, ขาว
+           */
+          color?: string | null;
+          /**
+           * เช่น ฝ้าย, โพลีเอสเตอร์
+           */
+          material?: string | null;
+          /**
+           * เช่น แพ็คเดี่ยว, แพ็คคู่
+           */
+          type?: string | null;
+        };
+        id?: string | null;
+      }[]
+    | null;
   externalId?: string | null;
   slug?: string | null;
   slugLock?: boolean | null;
@@ -1533,6 +1593,29 @@ export interface ProductsSelect<T extends boolean = true> {
       };
   status?: T;
   featured?: T;
+  hasVariants?: T;
+  variants?:
+    | T
+    | {
+        name?: T;
+        sku?: T;
+        price?: T;
+        compareAtPrice?: T;
+        discountPrice?: T;
+        stock?: T;
+        status?: T;
+        image?: T;
+        weight?: T;
+        options?:
+          | T
+          | {
+              size?: T;
+              color?: T;
+              material?: T;
+              type?: T;
+            };
+        id?: T;
+      };
   externalId?: T;
   slug?: T;
   slugLock?: T;
