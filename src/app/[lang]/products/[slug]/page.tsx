@@ -40,14 +40,24 @@ export default async function ProductDetailPage({ params }: Args) {
   // Get translated text
   const getName = () => {
     if (product.multilangName) {
-      return getTranslatedText(product.multilangName, lang, product.name || 'Untitled Product')
+      const cleaned = {
+        th: product.multilangName.th || undefined,
+        en: product.multilangName.en || undefined,
+        cn: product.multilangName.zh || undefined,
+      }
+      return getTranslatedText(cleaned, lang, product.name || 'Untitled Product')
     }
     return product.name || 'Untitled Product'
   }
 
   const getDescription = () => {
     if (product.multilangDescription) {
-      return getTranslatedText(product.multilangDescription, lang, product.description || '')
+      const cleaned = {
+        th: product.multilangDescription.th || undefined,
+        en: product.multilangDescription.en || undefined,
+        cn: product.multilangDescription.zh || undefined,
+      }
+      return getTranslatedText(cleaned, lang, product.description || '')
     }
     return product.description || ''
   }
@@ -77,16 +87,15 @@ export default async function ProductDetailPage({ params }: Args) {
             {product.images && product.images.length > 0 ? (
               <div className="space-y-4">
                 <div className="relative aspect-square bg-gray-100 rounded-lg overflow-hidden">
-                  {typeof product.images[0].image === 'object' &&
-                    product.images[0].image?.url && (
-                      <Image
-                        src={product.images[0].image.url}
-                        alt={product.images[0].alt || productName}
-                        fill
-                        className="object-cover"
-                        priority
-                      />
-                    )}
+                  {typeof product.images[0].image === 'object' && product.images[0].image?.url && (
+                    <Image
+                      src={product.images[0].image.url}
+                      alt={product.images[0].alt || productName}
+                      fill
+                      className="object-cover"
+                      priority
+                    />
+                  )}
                 </div>
                 {product.images.length > 1 && (
                   <div className="grid grid-cols-4 gap-4">
@@ -158,7 +167,11 @@ export default async function ProductDetailPage({ params }: Args) {
             {product.hasVariants && product.variants && product.variants.length > 0 && (
               <div className="mb-8 p-6 bg-gray-50 rounded-lg">
                 <h3 className="text-lg font-semibold mb-4">
-                  {lang === 'th' ? 'ตัวเลือกสินค้า' : lang === 'en' ? 'Product Options' : '产品选项'}
+                  {lang === 'th'
+                    ? 'ตัวเลือกสินค้า'
+                    : lang === 'en'
+                      ? 'Product Options'
+                      : '产品选项'}
                 </h3>
                 <div className="space-y-4">
                   {product.variants.map((variant: any, index: number) => (
@@ -167,16 +180,18 @@ export default async function ProductDetailPage({ params }: Args) {
                       className="flex items-center justify-between p-4 bg-white rounded-lg border hover:border-blue-500 transition-colors cursor-pointer"
                     >
                       <div className="flex items-center gap-4">
-                        {variant.image && typeof variant.image === 'object' && variant.image?.url && (
-                          <div className="relative w-16 h-16 rounded overflow-hidden">
-                            <Image
-                              src={variant.image.url}
-                              alt={variant.name}
-                              fill
-                              className="object-cover"
-                            />
-                          </div>
-                        )}
+                        {variant.image &&
+                          typeof variant.image === 'object' &&
+                          variant.image?.url && (
+                            <div className="relative w-16 h-16 rounded overflow-hidden">
+                              <Image
+                                src={variant.image.url}
+                                alt={variant.name}
+                                fill
+                                className="object-cover"
+                              />
+                            </div>
+                          )}
                         <div>
                           <p className="font-medium">{variant.name}</p>
                           <div className="text-sm text-gray-500 space-x-2">
@@ -303,10 +318,7 @@ export default async function ProductDetailPage({ params }: Args) {
                         {catTitle}
                       </Link>
                     ) : (
-                      <span
-                        key={cat.id}
-                        className="px-3 py-1 bg-gray-100 rounded-full text-sm"
-                      >
+                      <span key={cat.id} className="px-3 py-1 bg-gray-100 rounded-full text-sm">
                         {catTitle}
                       </span>
                     )
@@ -345,7 +357,12 @@ export async function generateMetadata({ params }: Args): Promise<Metadata> {
 
   const getName = () => {
     if (product.multilangName) {
-      return getTranslatedText(product.multilangName, lang, product.name || 'Product')
+      const cleaned = {
+        th: product.multilangName.th || undefined,
+        en: product.multilangName.en || undefined,
+        cn: product.multilangName.zh || undefined,
+      }
+      return getTranslatedText(cleaned, lang, product.name || 'Product')
     }
     return product.name || 'Product'
   }
