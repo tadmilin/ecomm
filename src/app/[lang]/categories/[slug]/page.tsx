@@ -6,8 +6,8 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { getTranslatedText } from '@/utilities/getTranslatedText'
 
-export const dynamic = 'force-static'
-export const revalidate = 600
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
 
 type Args = {
   params: Promise<{
@@ -178,7 +178,7 @@ export default async function CategoryDetailPage({ params }: Args) {
               return (
                 <Link
                   key={product.id}
-                  href={`/${lang}/products/${product.id}`}
+                  href={`/${lang}/products/${product.slug}`}
                   className="group border rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-200"
                 >
                   {/* Product Image */}
