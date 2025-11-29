@@ -23,6 +23,19 @@ const nextConfig = {
         hostname: 'ecomm-ten-neon.vercel.app',
         protocol: 'https',
       },
+      {
+        hostname: 'wiwatpanpanich.vercel.app',
+        protocol: 'https',
+      },
+      // External image sources
+      {
+        hostname: '**.unsplash.com',
+        protocol: 'https',
+      },
+      {
+        hostname: 'images.unsplash.com',
+        protocol: 'https',
+      },
       // เพิ่ม hostname สำหรับ localhost
       {
         hostname: 'localhost',
