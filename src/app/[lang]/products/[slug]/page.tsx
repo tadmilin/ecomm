@@ -164,77 +164,80 @@ export default async function ProductDetailPage({ params }: Args) {
             </div>
 
             {/* Variants */}
-            {product.hasVariants && product.variants && product.variants.length > 0 && (
-              <div className="mb-8 p-6 bg-gray-50 rounded-lg">
-                <h3 className="text-lg font-semibold mb-4">
-                  {lang === 'th'
-                    ? 'ตัวเลือกสินค้า'
-                    : lang === 'en'
-                      ? 'Product Options'
-                      : '产品选项'}
-                </h3>
-                <div className="space-y-4">
-                  {product.variants.map((variant: any, index: number) => (
-                    <div
-                      key={index}
-                      className="flex items-center justify-between p-4 bg-white rounded-lg border hover:border-blue-500 transition-colors cursor-pointer"
-                    >
-                      <div className="flex items-center gap-4">
-                        {variant.image &&
-                          typeof variant.image === 'object' &&
-                          variant.image?.url && (
-                            <div className="relative w-16 h-16 rounded overflow-hidden">
-                              <Image
-                                src={variant.image.url}
-                                alt={variant.name}
-                                fill
-                                className="object-cover"
-                              />
+            {product.hasVariants &&
+              product.variants &&
+              Array.isArray(product.variants) &&
+              product.variants.length > 0 && (
+                <div className="mb-8 p-6 bg-gray-50 rounded-lg">
+                  <h3 className="text-lg font-semibold mb-4">
+                    {lang === 'th'
+                      ? 'ตัวเลือกสินค้า'
+                      : lang === 'en'
+                        ? 'Product Options'
+                        : '产品选项'}
+                  </h3>
+                  <div className="space-y-4">
+                    {product.variants.map((variant, index) => (
+                      <div
+                        key={index}
+                        className="flex items-center justify-between p-4 bg-white rounded-lg border hover:border-blue-500 transition-colors cursor-pointer"
+                      >
+                        <div className="flex items-center gap-4">
+                          {variant.image &&
+                            typeof variant.image === 'object' &&
+                            variant.image?.url && (
+                              <div className="relative w-16 h-16 rounded overflow-hidden">
+                                <Image
+                                  src={variant.image.url}
+                                  alt={variant.name}
+                                  fill
+                                  className="object-cover"
+                                />
+                              </div>
+                            )}
+                          <div>
+                            <p className="font-medium">{variant.name}</p>
+                            <div className="text-sm text-gray-500 space-x-2">
+                              {variant.options?.size && <span>ขนาด: {variant.options.size}</span>}
+                              {variant.options?.color && <span>สี: {variant.options.color}</span>}
+                              {variant.options?.type && <span>{variant.options.type}</span>}
                             </div>
-                          )}
-                        <div>
-                          <p className="font-medium">{variant.name}</p>
-                          <div className="text-sm text-gray-500 space-x-2">
-                            {variant.options?.size && <span>ขนาด: {variant.options.size}</span>}
-                            {variant.options?.color && <span>สี: {variant.options.color}</span>}
-                            {variant.options?.type && <span>{variant.options.type}</span>}
+                            {variant.sku && (
+                              <p className="text-xs text-gray-400 mt-1">SKU: {variant.sku}</p>
+                            )}
                           </div>
-                          {variant.sku && (
-                            <p className="text-xs text-gray-400 mt-1">SKU: {variant.sku}</p>
+                        </div>
+                        <div className="text-right">
+                          {variant.discountPrice ? (
+                            <div>
+                              <p className="text-lg font-bold text-red-600">
+                                ฿{variant.discountPrice.toLocaleString()}
+                              </p>
+                              <p className="text-sm text-gray-400 line-through">
+                                ฿{(variant.price || product.price).toLocaleString()}
+                              </p>
+                            </div>
+                          ) : (
+                            <p className="text-lg font-bold">
+                              ฿{(variant.price || product.price).toLocaleString()}
+                            </p>
+                          )}
+                          {variant.status === 'active' && variant.stock && variant.stock > 0 ? (
+                            <p className="text-xs text-green-600 mt-1">
+                              {lang === 'th' ? 'มีสินค้า' : lang === 'en' ? 'Available' : '有货'} (
+                              {variant.stock})
+                            </p>
+                          ) : (
+                            <p className="text-xs text-red-600 mt-1">
+                              {lang === 'th' ? 'หมด' : lang === 'en' ? 'Sold Out' : '售罄'}
+                            </p>
                           )}
                         </div>
                       </div>
-                      <div className="text-right">
-                        {variant.discountPrice ? (
-                          <div>
-                            <p className="text-lg font-bold text-red-600">
-                              ฿{variant.discountPrice.toLocaleString()}
-                            </p>
-                            <p className="text-sm text-gray-400 line-through">
-                              ฿{(variant.price || product.price).toLocaleString()}
-                            </p>
-                          </div>
-                        ) : (
-                          <p className="text-lg font-bold">
-                            ฿{(variant.price || product.price).toLocaleString()}
-                          </p>
-                        )}
-                        {variant.status === 'active' && variant.stock > 0 ? (
-                          <p className="text-xs text-green-600 mt-1">
-                            {lang === 'th' ? 'มีสินค้า' : lang === 'en' ? 'Available' : '有货'} (
-                            {variant.stock})
-                          </p>
-                        ) : (
-                          <p className="text-xs text-red-600 mt-1">
-                            {lang === 'th' ? 'หมด' : lang === 'en' ? 'Sold Out' : '售罄'}
-                          </p>
-                        )}
-                      </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
 
             {/* Description */}
             {productDescription && (
@@ -300,25 +303,26 @@ export default async function ProductDetailPage({ params }: Args) {
                   {lang === 'th' ? 'หมวดหมู่' : lang === 'en' ? 'Categories' : '类别'}:
                 </h3>
                 <div className="flex flex-wrap gap-2">
-                  {product.category.map((cat: any) => {
+                  {product.category.map((cat, index) => {
                     const catTitle =
-                      typeof cat === 'object'
+                      typeof cat === 'object' && cat !== null
                         ? typeof cat.title === 'string'
                           ? cat.title
-                          : getTranslatedText(cat.title, lang, 'Category')
+                          : cat.title && getTranslatedText(cat.title, lang, 'Category')
                         : 'Category'
-                    const catSlug = typeof cat === 'object' ? cat.slug : null
+                    const catSlug = typeof cat === 'object' && cat !== null ? cat.slug : null
+                    const catId = typeof cat === 'object' && cat !== null ? cat.id : `cat-${index}`
 
                     return catSlug ? (
                       <Link
-                        key={cat.id}
+                        key={catId}
                         href={`/${lang}/categories/${catSlug}`}
                         className="px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded-full text-sm transition-colors"
                       >
                         {catTitle}
                       </Link>
                     ) : (
-                      <span key={cat.id} className="px-3 py-1 bg-gray-100 rounded-full text-sm">
+                      <span key={catId} className="px-3 py-1 bg-gray-100 rounded-full text-sm">
                         {catTitle}
                       </span>
                     )

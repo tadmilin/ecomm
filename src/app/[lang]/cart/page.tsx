@@ -3,6 +3,7 @@
 import React from 'react'
 import { useCart } from '@/providers/CartProvider'
 import Link from 'next/link'
+import Image from 'next/image'
 import { useParams } from 'next/navigation'
 import { getTranslatedText } from '@/utilities/getTranslatedText'
 
@@ -51,17 +52,29 @@ export default function CartPage() {
                 : null
 
             // ดึงข้อความตามภาษา
-            const productName = getTranslatedText(
-              item.product.multilangName as any,
-              lang,
-              item.product.name,
-            )
+            const multilangName = item.product.multilangName
+            const cleanedName = multilangName
+              ? {
+                  th: multilangName.th || undefined,
+                  en: multilangName.en || undefined,
+                  cn: multilangName.zh || undefined,
+                }
+              : undefined
+            const productName = cleanedName
+              ? getTranslatedText(cleanedName, lang, item.product.name)
+              : item.product.name
 
             return (
               <div key={item.product.id} className="border rounded-lg p-4 flex gap-4">
                 {imageUrl && (
-                  <div className="w-24 h-24 flex-shrink-0 bg-gray-100 rounded-lg overflow-hidden">
-                    <img src={imageUrl} alt={productName} className="w-full h-full object-cover" />
+                  <div className="relative w-24 h-24 flex-shrink-0 bg-gray-100 rounded-lg overflow-hidden">
+                    <Image
+                      src={imageUrl}
+                      alt={productName}
+                      fill
+                      className="object-cover"
+                      sizes="96px"
+                    />
                   </div>
                 )}
 
