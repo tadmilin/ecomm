@@ -3,6 +3,7 @@ import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import React from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 import { AddToCartButton } from '@/components/AddToCartButton'
 import type { Product } from '@/payload-types'
 import { getTranslatedText, type MultilangField } from '@/utilities/getTranslatedText'
@@ -83,24 +84,30 @@ export default async function ProductsPage({ params: paramsPromise }: Args) {
               key={typedProduct.id}
               className="border rounded-lg overflow-hidden hover:shadow-lg transition-shadow"
             >
-              {imageUrl && (
-                <div className="aspect-square bg-gray-100 relative">
-                  <Image
-                    src={imageUrl}
-                    alt={firstImage?.alt || productName}
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 25vw"
-                  />
-                </div>
-              )}
+              <Link href={`/${lang}/products/${typedProduct.slug}`}>
+                {imageUrl && (
+                  <div className="aspect-square bg-gray-100 relative">
+                    <Image
+                      src={imageUrl}
+                      alt={firstImage?.alt || productName}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 25vw"
+                    />
+                  </div>
+                )}
+              </Link>
               <div className="p-4 space-y-3">
-                <div>
-                  <h3 className="font-semibold text-lg mb-1">{productName}</h3>
-                  {productDescription && (
-                    <p className="text-sm text-gray-600 line-clamp-2">{productDescription}</p>
-                  )}
-                </div>
+                <Link href={`/${lang}/products/${typedProduct.slug}`}>
+                  <div>
+                    <h3 className="font-semibold text-lg mb-1 hover:text-blue-600 transition-colors">
+                      {productName}
+                    </h3>
+                    {productDescription && (
+                      <p className="text-sm text-gray-600 line-clamp-2">{productDescription}</p>
+                    )}
+                  </div>
+                </Link>
 
                 <div className="flex items-center justify-between">
                   <div>
