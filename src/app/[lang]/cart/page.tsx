@@ -57,7 +57,7 @@ export default function CartPage() {
               ? {
                   th: multilangName.th || undefined,
                   en: multilangName.en || undefined,
-                  cn: multilangName.zh || undefined,
+                  zh: multilangName.zh || undefined,
                 }
               : undefined
             const productName = cleanedName
