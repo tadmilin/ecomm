@@ -16,21 +16,6 @@ type Args = {
   }>
 }
 
-export async function generateStaticParams() {
-  const payload = await getPayload({ config: configPromise })
-  const categories = await payload.find({
-    collection: 'categories',
-    limit: 1000,
-    pagination: false,
-  })
-
-  return categories.docs.flatMap((category) => [
-    { lang: 'th', slug: category.slug },
-    { lang: 'en', slug: category.slug },
-    { lang: 'cn', slug: category.slug },
-  ])
-}
-
 export default async function CategoryDetailPage({ params }: Args) {
   const { lang, slug } = await params
   const payload = await getPayload({ config: configPromise })
@@ -106,6 +91,9 @@ export default async function CategoryDetailPage({ params }: Args) {
     category.image && typeof category.image === 'object' && category.image.url
       ? category.image.url
       : null
+
+  // Debug breadcrumbs
+  console.log('Category breadcrumbs:', category.breadcrumbs)
 
   return (
     <div className="container py-16">
