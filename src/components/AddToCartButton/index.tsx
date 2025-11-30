@@ -25,7 +25,7 @@ export function AddToCartButton({ product, className = '' }: Props) {
     <button
       onClick={handleClick}
       disabled={isOutOfStock || added}
-      className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+      className={`px-4 py-2 rounded-lg font-medium transition-colors flex items-center justify-center gap-2 ${
         isOutOfStock
           ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
           : added
@@ -33,7 +33,26 @@ export function AddToCartButton({ product, className = '' }: Props) {
             : 'bg-blue-600 text-white hover:bg-blue-700'
       } ${className}`}
     >
-      {isOutOfStock ? 'Out of Stock' : added ? 'Added ✓' : 'Add to Cart'}
+      {isOutOfStock ? (
+        'Out of Stock'
+      ) : added ? (
+        <>
+          <span>Added</span>
+          <span>✓</span>
+        </>
+      ) : (
+        <>
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+            />
+          </svg>
+          <span>Add to Cart</span>
+        </>
+      )}
     </button>
   )
 }

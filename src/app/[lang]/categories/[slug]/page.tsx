@@ -331,7 +331,7 @@ export default async function CategoryDetailPage({ params }: Args) {
                         {productName}
                       </h3>
                       {productDesc && (
-                        <p className="text-xs md:text-sm text-muted-foreground mb-2 line-clamp-2 hidden md:block">
+                        <p className="text-xs text-muted-foreground mb-2 line-clamp-1 hidden lg:block">
                           {productDesc}
                         </p>
                       )}

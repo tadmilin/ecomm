@@ -104,7 +104,7 @@ export default async function ProductsPage({ params: paramsPromise }: Args) {
                       {productName}
                     </h3>
                     {productDescription && (
-                      <p className="text-xs md:text-sm text-gray-600 line-clamp-2 hidden md:block">
+                      <p className="text-xs text-gray-600 line-clamp-1 hidden lg:block">
                         {productDescription}
                       </p>
                     )}

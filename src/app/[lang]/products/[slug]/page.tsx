@@ -6,6 +6,8 @@ import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import { getTranslatedText } from '@/utilities/getTranslatedText'
 import Link from 'next/link'
+import { AddToCartButton } from '@/components/AddToCartButton'
+import type { Product } from '@/payload-types'
 
 export const dynamic = 'force-dynamic'
 
@@ -161,6 +163,14 @@ export default async function ProductDetailPage({ params }: Args) {
                   {lang === 'th' ? '✗ สินค้าหมด' : lang === 'en' ? '✗ Out of Stock' : '✗ 缺货'}
                 </span>
               )}
+            </div>
+
+            {/* Add to Cart Button */}
+            <div className="mb-8">
+              <AddToCartButton
+                product={product as Product}
+                className="w-full md:w-auto px-8 py-3 text-base"
+              />
             </div>
 
             {/* Variants */}
