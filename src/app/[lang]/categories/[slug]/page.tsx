@@ -127,16 +127,22 @@ export default async function CategoryDetailPage({ params }: Args) {
           {/* Show parent breadcrumbs */}
           {category.breadcrumbs &&
             Array.isArray(category.breadcrumbs) &&
-            category.breadcrumbs.map((crumb: any, index: number) => (
-              <span key={index}>
-                <span className="mx-2">/</span>
-                <Link href={`/${lang}${crumb.url}`} className="text-blue-600 hover:underline">
-                  {typeof crumb.label === 'string'
-                    ? crumb.label
-                    : getTranslatedText(crumb.label, lang, 'Category')}
-                </Link>
-              </span>
-            ))}
+            category.breadcrumbs.map((crumb: any, index: number) => {
+              // Ensure URL has language prefix
+              const crumbUrl = crumb.url.startsWith('/')
+                ? `/${lang}${crumb.url}`
+                : `/${lang}/categories/${crumb.url}`
+              return (
+                <span key={index}>
+                  <span className="mx-2">/</span>
+                  <Link href={crumbUrl} className="text-blue-600 hover:underline">
+                    {typeof crumb.label === 'string'
+                      ? crumb.label
+                      : getTranslatedText(crumb.label, lang, 'Category')}
+                  </Link>
+                </span>
+              )
+            })}
 
           <span className="mx-2">/</span>
           <span className="text-muted-foreground">{categoryTitle}</span>
