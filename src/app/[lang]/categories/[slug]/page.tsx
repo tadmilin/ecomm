@@ -209,12 +209,12 @@ export default async function CategoryDetailPage({ params }: Args) {
         {/* Sub-Categories Grid */}
         {subCategoriesResult.docs.length > 0 && (
           <div className="mb-12">
-            <h2 className="text-2xl font-bold mb-6">
+            <h2 className="text-xl md:text-2xl font-bold mb-4 md:mb-6">
               {lang === 'th' && 'หมวดหมู่ย่อย'}
               {lang === 'en' && 'Sub-Categories'}
               {lang === 'cn' && '子类别'}
             </h2>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-4">
               {subCategoriesResult.docs.map((subCat) => {
                 const subTitle =
                   typeof subCat.title === 'string'
@@ -229,23 +229,24 @@ export default async function CategoryDetailPage({ params }: Args) {
                   <Link
                     key={subCat.id}
                     href={`/${lang}/categories/${subCat.slug}`}
-                    className="group border rounded-lg p-4 hover:shadow-lg transition-all duration-200 flex flex-col items-center text-center"
+                    className="group border rounded-lg p-3 md:p-4 hover:shadow-lg transition-all duration-200 flex flex-col items-center text-center"
                   >
                     {subImageUrl ? (
-                      <div className="relative w-20 h-20 mb-3 rounded-lg overflow-hidden">
+                      <div className="relative w-16 h-16 md:w-20 md:h-20 mb-2 md:mb-3 rounded-lg overflow-hidden">
                         <Image
                           src={subImageUrl}
                           alt={subTitle}
                           fill
                           className="object-cover group-hover:scale-110 transition-transform"
+                          sizes="(max-width: 768px) 64px, 80px"
                         />
                       </div>
                     ) : (
-                      <div className="w-20 h-20 mb-3 bg-gray-100 rounded-lg flex items-center justify-center">
-                        <span className="text-3xl">📁</span>
+                      <div className="w-16 h-16 md:w-20 md:h-20 mb-2 md:mb-3 bg-gray-100 rounded-lg flex items-center justify-center">
+                        <span className="text-2xl md:text-3xl">📁</span>
                       </div>
                     )}
-                    <h3 className="font-semibold group-hover:text-blue-600 transition-colors">
+                    <h3 className="text-xs md:text-sm font-semibold group-hover:text-blue-600 transition-colors line-clamp-2">
                       {subTitle}
                     </h3>
                   </Link>
@@ -258,12 +259,12 @@ export default async function CategoryDetailPage({ params }: Args) {
         {/* Products Grid */}
         {productsResult.docs.length > 0 ? (
           <div>
-            <h2 className="text-2xl font-bold mb-6">
+            <h2 className="text-xl md:text-2xl font-bold mb-4 md:mb-6">
               {lang === 'th' && 'สินค้าในหมวดหมู่นี้'}
               {lang === 'en' && 'Products in this category'}
               {lang === 'cn' && '此类别中的产品'}
             </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4 lg:gap-6">
               {productsResult.docs.map((product) => {
                 const productName = getTranslatedText(
                   product.multilangName
@@ -311,10 +312,10 @@ export default async function CategoryDetailPage({ params }: Args) {
                           alt={productName}
                           fill
                           className="object-cover group-hover:scale-105 transition-transform duration-200"
-                          sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                          sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 20vw"
                         />
                       ) : (
-                        <div className="w-full h-full flex items-center justify-center text-gray-400">
+                        <div className="w-full h-full flex items-center justify-center text-gray-400 text-xs md:text-sm">
                           {lang === 'th' && 'ไม่มีรูปภาพ'}
                           {lang === 'en' && 'No Image'}
                           {lang === 'cn' && '无图片'}
@@ -323,22 +324,22 @@ export default async function CategoryDetailPage({ params }: Args) {
                     </div>
 
                     {/* Product Info */}
-                    <div className="p-4">
-                      <h3 className="font-semibold mb-1 line-clamp-2 group-hover:text-blue-600 transition-colors">
+                    <div className="p-2 md:p-3 lg:p-4">
+                      <h3 className="text-sm md:text-base font-semibold mb-1 line-clamp-2 group-hover:text-blue-600 transition-colors">
                         {productName}
                       </h3>
                       {productDesc && (
-                        <p className="text-sm text-muted-foreground mb-2 line-clamp-2">
+                        <p className="text-xs md:text-sm text-muted-foreground mb-2 line-clamp-2 hidden md:block">
                           {productDesc}
                         </p>
                       )}
-                      <div className="flex items-center justify-between">
-                        <span className="text-lg font-bold text-blue-600">
+                      <div className="flex items-center justify-between flex-wrap gap-1">
+                        <span className="text-sm md:text-base lg:text-lg font-bold text-blue-600">
                           ฿{product.price?.toLocaleString()}
                         </span>
                         {product.stock !== undefined && product.stock !== null && (
                           <span
-                            className={`text-sm ${product.stock > 0 ? 'text-green-600' : 'text-red-600'}`}
+                            className={`text-xs md:text-sm ${product.stock > 0 ? 'text-green-600' : 'text-red-600'}`}
                           >
                             {product.stock > 0
                               ? lang === 'th'

@@ -43,7 +43,7 @@ export default async function CategoriesPage({ params }: Args) {
           {lang === 'cn' && '产品类别'}
         </h1>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
           {categories.docs.map((category) => {
             const title =
               typeof category.title === 'string'
@@ -77,28 +77,28 @@ export default async function CategoriesPage({ params }: Args) {
                         alt={title}
                         fill
                         className="object-cover group-hover:scale-105 transition-transform duration-200"
-                        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                        sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
                       />
                     </div>
                   ) : (
                     <div className="relative aspect-square bg-gray-100 flex items-center justify-center">
-                      <span className="text-gray-400 text-4xl">📁</span>
+                      <span className="text-gray-400 text-3xl md:text-4xl">📁</span>
                     </div>
                   )}
 
                   {/* Category Info */}
-                  <div className="p-6 flex-1 flex flex-col justify-between">
+                  <div className="p-3 md:p-4 lg:p-5 flex-1 flex flex-col justify-between">
                     <div>
-                      <h2 className="text-xl font-semibold mb-2 group-hover:text-blue-600 transition-colors">
+                      <h2 className="text-sm md:text-base lg:text-lg font-semibold mb-1 md:mb-2 group-hover:text-blue-600 transition-colors line-clamp-2">
                         {title}
                       </h2>
                       {description && (
-                        <p className="text-sm text-muted-foreground line-clamp-2 mb-3">
+                        <p className="text-xs md:text-sm text-muted-foreground line-clamp-2 mb-2 md:mb-3 hidden md:block">
                           {description}
                         </p>
                       )}
                     </div>
-                    <div className="text-sm text-blue-600 font-medium">
+                    <div className="text-xs md:text-sm text-blue-600 font-medium">
                       {lang === 'th' && 'ดูสินค้าทั้งหมด →'}
                       {lang === 'en' && 'View all products →'}
                       {lang === 'cn' && '查看所有产品 →'}
