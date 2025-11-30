@@ -123,6 +123,21 @@ export default async function CategoryDetailPage({ params }: Args) {
             {lang === 'en' && 'Categories'}
             {lang === 'cn' && '类别'}
           </Link>
+
+          {/* Show parent breadcrumbs */}
+          {category.breadcrumbs &&
+            Array.isArray(category.breadcrumbs) &&
+            category.breadcrumbs.map((crumb: any, index: number) => (
+              <span key={index}>
+                <span className="mx-2">/</span>
+                <Link href={`/${lang}${crumb.url}`} className="text-blue-600 hover:underline">
+                  {typeof crumb.label === 'string'
+                    ? crumb.label
+                    : getTranslatedText(crumb.label, lang, 'Category')}
+                </Link>
+              </span>
+            ))}
+
           <span className="mx-2">/</span>
           <span className="text-muted-foreground">{categoryTitle}</span>
         </nav>
@@ -211,101 +226,101 @@ export default async function CategoryDetailPage({ params }: Args) {
               {lang === 'cn' && '此类别中的产品'}
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {productsResult.docs.map((product) => {
-              const productName = getTranslatedText(
-                product.multilangName
-                  ? {
-                      th: product.multilangName.th || '',
-                      en: product.multilangName.en || '',
-                      zh: product.multilangName.zh || '',
-                    }
-                  : null,
-                lang,
-                product.name || 'Untitled Product',
-              )
-              const productDesc = getTranslatedText(
-                product.multilangDescription
-                  ? {
-                      th: product.multilangDescription.th || '',
-                      en: product.multilangDescription.en || '',
-                      zh: product.multilangDescription.zh || '',
-                    }
-                  : null,
-                lang,
-                product.description || '',
-              )
+              {productsResult.docs.map((product) => {
+                const productName = getTranslatedText(
+                  product.multilangName
+                    ? {
+                        th: product.multilangName.th || '',
+                        en: product.multilangName.en || '',
+                        zh: product.multilangName.zh || '',
+                      }
+                    : null,
+                  lang,
+                  product.name || 'Untitled Product',
+                )
+                const productDesc = getTranslatedText(
+                  product.multilangDescription
+                    ? {
+                        th: product.multilangDescription.th || '',
+                        en: product.multilangDescription.en || '',
+                        zh: product.multilangDescription.zh || '',
+                      }
+                    : null,
+                  lang,
+                  product.description || '',
+                )
 
-              const firstImage =
-                Array.isArray(product.images) && product.images.length > 0
-                  ? product.images[0]
-                  : null
-              const imageUrl =
-                firstImage && typeof firstImage.image === 'object' && firstImage.image?.url
-                  ? firstImage.image.url
-                  : null
+                const firstImage =
+                  Array.isArray(product.images) && product.images.length > 0
+                    ? product.images[0]
+                    : null
+                const imageUrl =
+                  firstImage && typeof firstImage.image === 'object' && firstImage.image?.url
+                    ? firstImage.image.url
+                    : null
 
-              return (
-                <Link
-                  key={product.id}
-                  href={`/${lang}/products/${product.slug}`}
-                  className="group border rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-200"
-                >
-                  {/* Product Image */}
-                  <div className="relative aspect-square bg-gray-100">
-                    {imageUrl ? (
-                      <Image
-                        src={imageUrl}
-                        alt={productName}
-                        fill
-                        className="object-cover group-hover:scale-105 transition-transform duration-200"
-                        sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                      />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center text-gray-400">
-                        {lang === 'th' && 'ไม่มีรูปภาพ'}
-                        {lang === 'en' && 'No Image'}
-                        {lang === 'cn' && '无图片'}
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Product Info */}
-                  <div className="p-4">
-                    <h3 className="font-semibold mb-1 line-clamp-2 group-hover:text-blue-600 transition-colors">
-                      {productName}
-                    </h3>
-                    {productDesc && (
-                      <p className="text-sm text-muted-foreground mb-2 line-clamp-2">
-                        {productDesc}
-                      </p>
-                    )}
-                    <div className="flex items-center justify-between">
-                      <span className="text-lg font-bold text-blue-600">
-                        ฿{product.price?.toLocaleString()}
-                      </span>
-                      {product.stock !== undefined && product.stock !== null && (
-                        <span
-                          className={`text-sm ${product.stock > 0 ? 'text-green-600' : 'text-red-600'}`}
-                        >
-                          {product.stock > 0
-                            ? lang === 'th'
-                              ? 'มีสินค้า'
-                              : lang === 'en'
-                                ? 'In Stock'
-                                : '有货'
-                            : lang === 'th'
-                              ? 'สินค้าหมด'
-                              : lang === 'en'
-                                ? 'Out of Stock'
-                                : '缺货'}
-                        </span>
+                return (
+                  <Link
+                    key={product.id}
+                    href={`/${lang}/products/${product.slug}`}
+                    className="group border rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-200"
+                  >
+                    {/* Product Image */}
+                    <div className="relative aspect-square bg-gray-100">
+                      {imageUrl ? (
+                        <Image
+                          src={imageUrl}
+                          alt={productName}
+                          fill
+                          className="object-cover group-hover:scale-105 transition-transform duration-200"
+                          sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center text-gray-400">
+                          {lang === 'th' && 'ไม่มีรูปภาพ'}
+                          {lang === 'en' && 'No Image'}
+                          {lang === 'cn' && '无图片'}
+                        </div>
                       )}
                     </div>
-                  </div>
-                </Link>
-              )
-            })}
-          </div>
+
+                    {/* Product Info */}
+                    <div className="p-4">
+                      <h3 className="font-semibold mb-1 line-clamp-2 group-hover:text-blue-600 transition-colors">
+                        {productName}
+                      </h3>
+                      {productDesc && (
+                        <p className="text-sm text-muted-foreground mb-2 line-clamp-2">
+                          {productDesc}
+                        </p>
+                      )}
+                      <div className="flex items-center justify-between">
+                        <span className="text-lg font-bold text-blue-600">
+                          ฿{product.price?.toLocaleString()}
+                        </span>
+                        {product.stock !== undefined && product.stock !== null && (
+                          <span
+                            className={`text-sm ${product.stock > 0 ? 'text-green-600' : 'text-red-600'}`}
+                          >
+                            {product.stock > 0
+                              ? lang === 'th'
+                                ? 'มีสินค้า'
+                                : lang === 'en'
+                                  ? 'In Stock'
+                                  : '有货'
+                              : lang === 'th'
+                                ? 'สินค้าหมด'
+                                : lang === 'en'
+                                  ? 'Out of Stock'
+                                  : '缺货'}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  </Link>
+                )
+              })}
+            </div>
           </div>
         ) : subCategoriesResult.docs.length === 0 ? (
           <div className="text-center py-12 border rounded-lg">
