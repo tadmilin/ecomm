@@ -26,6 +26,12 @@ export default async function CategoriesPage({ params }: Args) {
     overrideAccess: false,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     locale: lang as any,
+    where: {
+      parent: {
+        exists: false,
+      },
+    },
+    sort: 'order',
   })
 
   return (
