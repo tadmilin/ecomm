@@ -214,7 +214,7 @@ export default async function CategoryDetailPage({ params }: Args) {
               {lang === 'en' && 'Sub-Categories'}
               {lang === 'cn' && '子类别'}
             </h2>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4 lg:gap-6">
               {subCategoriesResult.docs.map((subCat) => {
                 const subTitle =
                   typeof subCat.title === 'string'
@@ -229,26 +229,28 @@ export default async function CategoryDetailPage({ params }: Args) {
                   <Link
                     key={subCat.id}
                     href={`/${lang}/categories/${subCat.slug}`}
-                    className="group border rounded-lg p-3 md:p-4 hover:shadow-lg transition-all duration-200 flex flex-col items-center text-center"
+                    className="group border rounded-lg overflow-hidden hover:shadow-lg transition-all duration-200"
                   >
                     {subImageUrl ? (
-                      <div className="relative w-16 h-16 md:w-20 md:h-20 mb-2 md:mb-3 rounded-lg overflow-hidden">
+                      <div className="relative aspect-square bg-gray-100">
                         <Image
                           src={subImageUrl}
                           alt={subTitle}
                           fill
-                          className="object-cover group-hover:scale-110 transition-transform"
-                          sizes="(max-width: 768px) 64px, 80px"
+                          className="object-cover group-hover:scale-105 transition-transform duration-200"
+                          sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
                         />
                       </div>
                     ) : (
-                      <div className="w-16 h-16 md:w-20 md:h-20 mb-2 md:mb-3 bg-gray-100 rounded-lg flex items-center justify-center">
-                        <span className="text-2xl md:text-3xl">📁</span>
+                      <div className="relative aspect-square bg-gray-100 flex items-center justify-center">
+                        <span className="text-4xl md:text-5xl">📁</span>
                       </div>
                     )}
-                    <h3 className="text-xs md:text-sm font-semibold group-hover:text-blue-600 transition-colors line-clamp-2">
-                      {subTitle}
-                    </h3>
+                    <div className="p-3 md:p-4">
+                      <h3 className="text-sm md:text-base font-semibold group-hover:text-blue-600 transition-colors line-clamp-2 text-center">
+                        {subTitle}
+                      </h3>
+                    </div>
                   </Link>
                 )
               })}
