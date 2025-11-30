@@ -5,6 +5,8 @@ import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { getTranslatedText } from '@/utilities/getTranslatedText'
+import { AddToCartButton } from '@/components/AddToCartButton'
+import type { Product } from '@/payload-types'
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 60 // Revalidate every 60 seconds
@@ -279,17 +281,6 @@ export default async function CategoryDetailPage({ params }: Args) {
                   lang,
                   product.name || 'Untitled Product',
                 )
-                const productDesc = getTranslatedText(
-                  product.multilangDescription
-                    ? {
-                        th: product.multilangDescription.th || '',
-                        en: product.multilangDescription.en || '',
-                        zh: product.multilangDescription.zh || '',
-                      }
-                    : null,
-                  lang,
-                  product.description || '',
-                )
 
                 const firstImage =
                   Array.isArray(product.images) && product.images.length > 0
@@ -301,64 +292,73 @@ export default async function CategoryDetailPage({ params }: Args) {
                     : null
 
                 return (
-                  <Link
+                  <div
                     key={product.id}
-                    href={`/${lang}/products/${product.slug}`}
-                    className="group border rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-200"
+                    className="border rounded-lg overflow-hidden hover:shadow-lg transition-shadow"
                   >
-                    {/* Product Image */}
-                    <div className="relative aspect-square bg-gray-100">
-                      {imageUrl ? (
-                        <Image
-                          src={imageUrl}
-                          alt={productName}
-                          fill
-                          className="object-cover group-hover:scale-105 transition-transform duration-200"
-                          sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 20vw"
-                        />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center text-gray-400 text-xs md:text-sm">
-                          {lang === 'th' && 'ไม่มีรูปภาพ'}
-                          {lang === 'en' && 'No Image'}
-                          {lang === 'cn' && '无图片'}
+                    <Link href={`/${lang}/products/${product.slug}`}>
+                      {/* Product Image */}
+                      <div className="aspect-square bg-gray-100 relative">
+                        {imageUrl ? (
+                          <Image
+                            src={imageUrl}
+                            alt={productName}
+                            fill
+                            className="object-cover hover:scale-105 transition-transform duration-200"
+                            sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
+                          />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center text-gray-400 text-xs md:text-sm">
+                            {lang === 'th' && 'ไม่มีรูปภาพ'}
+                            {lang === 'en' && 'No Image'}
+                            {lang === 'cn' && '无图片'}
+                          </div>
+                        )}
+                      </div>
+                    </Link>
+                    <div className="p-2 md:p-3 lg:p-4 space-y-2 md:space-y-3">
+                      <Link href={`/${lang}/products/${product.slug}`}>
+                        <div>
+                          <h3 className="text-sm md:text-base lg:text-lg font-semibold mb-1 hover:text-blue-600 transition-colors line-clamp-2">
+                            {productName}
+                          </h3>
                         </div>
-                      )}
-                    </div>
+                      </Link>
 
-                    {/* Product Info */}
-                    <div className="p-2 md:p-3 lg:p-4">
-                      <h3 className="text-sm md:text-base font-semibold mb-1 line-clamp-2 group-hover:text-blue-600 transition-colors">
-                        {productName}
-                      </h3>
-                      {productDesc && (
-                        <p className="text-xs text-muted-foreground mb-2 line-clamp-1 hidden lg:block">
-                          {productDesc}
-                        </p>
-                      )}
                       <div className="flex items-center justify-between flex-wrap gap-1">
-                        <span className="text-sm md:text-base lg:text-lg font-bold text-blue-600">
-                          ฿{product.price?.toLocaleString()}
+                        <div>
+                          <p className="text-sm md:text-base lg:text-xl font-bold">
+                            ฿{product.price?.toLocaleString('th-TH')}
+                          </p>
+                          {product.compareAtPrice && product.compareAtPrice > product.price && (
+                            <p className="text-xs md:text-sm text-gray-500 line-through">
+                              ฿{product.compareAtPrice.toLocaleString('th-TH')}
+                            </p>
+                          )}
+                        </div>
+                        <div className="text-xs md:text-sm">
+                          {product.stock > 0 ? (
+                            <span className="text-green-600 hidden md:inline">{product.stock} left</span>
+                          ) : (
+                            <span className="text-red-600">Out</span>
+                          )}
+                        </div>
+                      </div>
+
+                      <AddToCartButton product={product as Product} className="w-full text-xs md:text-sm" />
+
+                      <div className="flex items-center gap-1 md:gap-2 text-xs text-gray-500 flex-wrap">
+                        <span className="bg-gray-100 px-1.5 md:px-2 py-0.5 md:py-1 rounded truncate max-w-full">
+                          {product.sku}
                         </span>
-                        {product.stock !== undefined && product.stock !== null && (
-                          <span
-                            className={`text-xs md:text-sm ${product.stock > 0 ? 'text-green-600' : 'text-red-600'}`}
-                          >
-                            {product.stock > 0
-                              ? lang === 'th'
-                                ? 'มีสินค้า'
-                                : lang === 'en'
-                                  ? 'In Stock'
-                                  : '有货'
-                              : lang === 'th'
-                                ? 'สินค้าหมด'
-                                : lang === 'en'
-                                  ? 'Out of Stock'
-                                  : '缺货'}
+                        {product.featured && (
+                          <span className="bg-yellow-100 text-yellow-800 px-1.5 md:px-2 py-0.5 md:py-1 rounded whitespace-nowrap">
+                            ⭐
                           </span>
                         )}
                       </div>
                     </div>
-                  </Link>
+                  </div>
                 )
               })}
             </div>
