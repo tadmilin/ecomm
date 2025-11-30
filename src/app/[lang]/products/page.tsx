@@ -54,7 +54,7 @@ export default async function ProductsPage({ params: paramsPromise }: Args) {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4 lg:gap-6">
         {products.docs.map((product) => {
           const typedProduct = product as unknown as Product
           const firstImage =
@@ -91,52 +91,58 @@ export default async function ProductsPage({ params: paramsPromise }: Args) {
                       src={imageUrl}
                       alt={firstImage?.alt || productName}
                       fill
-                      className="object-cover"
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 25vw"
+                      className="object-cover hover:scale-105 transition-transform duration-200"
+                      sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
                     />
                   </div>
                 )}
               </Link>
-              <div className="p-4 space-y-3">
+              <div className="p-2 md:p-3 lg:p-4 space-y-2 md:space-y-3">
                 <Link href={`/${lang}/products/${typedProduct.slug}`}>
                   <div>
-                    <h3 className="font-semibold text-lg mb-1 hover:text-blue-600 transition-colors">
+                    <h3 className="text-sm md:text-base lg:text-lg font-semibold mb-1 hover:text-blue-600 transition-colors line-clamp-2">
                       {productName}
                     </h3>
                     {productDescription && (
-                      <p className="text-sm text-gray-600 line-clamp-2">{productDescription}</p>
+                      <p className="text-xs md:text-sm text-gray-600 line-clamp-2 hidden md:block">
+                        {productDescription}
+                      </p>
                     )}
                   </div>
                 </Link>
 
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between flex-wrap gap-1">
                   <div>
-                    <p className="text-xl font-bold">
+                    <p className="text-sm md:text-base lg:text-xl font-bold">
                       ฿{typedProduct.price.toLocaleString('th-TH')}
                     </p>
                     {typedProduct.compareAtPrice &&
                       typedProduct.compareAtPrice > typedProduct.price && (
-                        <p className="text-sm text-gray-500 line-through">
+                        <p className="text-xs md:text-sm text-gray-500 line-through">
                           ฿{typedProduct.compareAtPrice.toLocaleString('th-TH')}
                         </p>
                       )}
                   </div>
-                  <div className="text-sm">
+                  <div className="text-xs md:text-sm">
                     {typedProduct.stock > 0 ? (
-                      <span className="text-green-600">{typedProduct.stock} left</span>
+                      <span className="text-green-600 hidden md:inline">
+                        {typedProduct.stock} left
+                      </span>
                     ) : (
-                      <span className="text-red-600">Out of Stock</span>
+                      <span className="text-red-600">Out</span>
                     )}
                   </div>
                 </div>
 
-                <AddToCartButton product={typedProduct} className="w-full" />
+                <AddToCartButton product={typedProduct} className="w-full text-xs md:text-sm" />
 
-                <div className="flex items-center gap-2 text-xs text-gray-500">
-                  <span className="bg-gray-100 px-2 py-1 rounded">{typedProduct.sku}</span>
+                <div className="flex items-center gap-1 md:gap-2 text-xs text-gray-500 flex-wrap">
+                  <span className="bg-gray-100 px-1.5 md:px-2 py-0.5 md:py-1 rounded truncate max-w-full">
+                    {typedProduct.sku}
+                  </span>
                   {typedProduct.featured && (
-                    <span className="bg-yellow-100 text-yellow-800 px-2 py-1 rounded">
-                      Featured
+                    <span className="bg-yellow-100 text-yellow-800 px-1.5 md:px-2 py-0.5 md:py-1 rounded whitespace-nowrap">
+                      ⭐
                     </span>
                   )}
                 </div>
