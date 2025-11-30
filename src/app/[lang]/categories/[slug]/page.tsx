@@ -69,6 +69,20 @@ export default async function CategoryDetailPage({ params }: Args) {
     )
   }
 
+  // Get sub-categories
+  const subCategoriesResult = await payload.find({
+    collection: 'categories',
+    where: {
+      parent: {
+        equals: category.id,
+      },
+    },
+    limit: 100,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    locale: lang as any,
+    sort: 'order',
+  })
+
   // Get products in this category
   const productsResult = await payload.find({
     collection: 'products',
@@ -139,9 +153,64 @@ export default async function CategoryDetailPage({ params }: Args) {
           </div>
         </div>
 
+        {/* Sub-Categories Grid */}
+        {subCategoriesResult.docs.length > 0 && (
+          <div className="mb-12">
+            <h2 className="text-2xl font-bold mb-6">
+              {lang === 'th' && 'หมวดหมู่ย่อย'}
+              {lang === 'en' && 'Sub-Categories'}
+              {lang === 'cn' && '子类别'}
+            </h2>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              {subCategoriesResult.docs.map((subCat) => {
+                const subTitle =
+                  typeof subCat.title === 'string'
+                    ? subCat.title
+                    : getTranslatedText(subCat.title, lang, 'Category')
+                const subImageUrl =
+                  subCat.image && typeof subCat.image === 'object' && subCat.image.url
+                    ? subCat.image.url
+                    : null
+
+                return (
+                  <Link
+                    key={subCat.id}
+                    href={`/${lang}/categories/${subCat.slug}`}
+                    className="group border rounded-lg p-4 hover:shadow-lg transition-all duration-200 flex flex-col items-center text-center"
+                  >
+                    {subImageUrl ? (
+                      <div className="relative w-20 h-20 mb-3 rounded-lg overflow-hidden">
+                        <Image
+                          src={subImageUrl}
+                          alt={subTitle}
+                          fill
+                          className="object-cover group-hover:scale-110 transition-transform"
+                        />
+                      </div>
+                    ) : (
+                      <div className="w-20 h-20 mb-3 bg-gray-100 rounded-lg flex items-center justify-center">
+                        <span className="text-3xl">📁</span>
+                      </div>
+                    )}
+                    <h3 className="font-semibold group-hover:text-blue-600 transition-colors">
+                      {subTitle}
+                    </h3>
+                  </Link>
+                )
+              })}
+            </div>
+          </div>
+        )}
+
         {/* Products Grid */}
         {productsResult.docs.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          <div>
+            <h2 className="text-2xl font-bold mb-6">
+              {lang === 'th' && 'สินค้าในหมวดหมู่นี้'}
+              {lang === 'en' && 'Products in this category'}
+              {lang === 'cn' && '此类别中的产品'}
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {productsResult.docs.map((product) => {
               const productName = getTranslatedText(
                 product.multilangName
@@ -237,7 +306,8 @@ export default async function CategoryDetailPage({ params }: Args) {
               )
             })}
           </div>
-        ) : (
+          </div>
+        ) : subCategoriesResult.docs.length === 0 ? (
           <div className="text-center py-12 border rounded-lg">
             <p className="text-muted-foreground mb-4">
               {lang === 'th' && 'ยังไม่มีสินค้าในหมวดหมู่นี้'}
@@ -253,7 +323,7 @@ export default async function CategoryDetailPage({ params }: Args) {
               {lang === 'cn' && '← 浏览其他类别'}
             </Link>
           </div>
-        )}
+        ) : null}
       </div>
     </div>
   )
