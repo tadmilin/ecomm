@@ -43,7 +43,7 @@ export default async function ProductDetailPage({ params }: Args) {
       const cleaned = {
         th: product.multilangName.th || undefined,
         en: product.multilangName.en || undefined,
-        cn: product.multilangName.zh || undefined,
+        zh: product.multilangName.zh || undefined,
       }
       return getTranslatedText(cleaned, lang, product.name || 'Untitled Product')
     }
@@ -55,7 +55,7 @@ export default async function ProductDetailPage({ params }: Args) {
       const cleaned = {
         th: product.multilangDescription.th || undefined,
         en: product.multilangDescription.en || undefined,
-        cn: product.multilangDescription.zh || undefined,
+        zh: product.multilangDescription.zh || undefined,
       }
       return getTranslatedText(cleaned, lang, product.description || '')
     }
@@ -364,7 +364,7 @@ export async function generateMetadata({ params }: Args): Promise<Metadata> {
       const cleaned = {
         th: product.multilangName.th || undefined,
         en: product.multilangName.en || undefined,
-        cn: product.multilangName.zh || undefined,
+        zh: product.multilangName.zh || undefined,
       }
       return getTranslatedText(cleaned, lang, product.name || 'Product')
     }
