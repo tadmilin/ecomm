@@ -7,13 +7,28 @@ import Image from 'next/image'
 import { getTranslatedText } from '@/utilities/getTranslatedText'
 
 export const dynamic = 'force-dynamic'
-export const revalidate = 0
+export const revalidate = 60 // Revalidate every 60 seconds
 
 type Args = {
   params: Promise<{
     lang: string
     slug: string
   }>
+}
+
+export async function generateStaticParams() {
+  const payload = await getPayload({ config: configPromise })
+  const categories = await payload.find({
+    collection: 'categories',
+    limit: 1000,
+    pagination: false,
+  })
+
+  return categories.docs.flatMap((category) => [
+    { lang: 'th', slug: category.slug },
+    { lang: 'en', slug: category.slug },
+    { lang: 'cn', slug: category.slug },
+  ])
 }
 
 export default async function CategoryDetailPage({ params }: Args) {
@@ -53,6 +68,42 @@ export default async function CategoryDetailPage({ params }: Args) {
       </div>
     )
   }
+
+  // Build breadcrumb path dynamically by traversing parents
+  const buildBreadcrumbs = async (cat: any): Promise<Array<{ slug: string; title: string }>> => {
+    const crumbs: Array<{ slug: string; title: string }> = []
+    let current = cat
+
+    while (current.parent) {
+      try {
+        const parentId = typeof current.parent === 'string' ? current.parent : current.parent.id
+        const parent = await payload.findByID({
+          collection: 'categories',
+          id: parentId,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          locale: lang as any,
+        })
+
+        const parentTitle =
+          typeof parent.title === 'string'
+            ? parent.title
+            : getTranslatedText(parent.title, lang, 'Category')
+
+        crumbs.unshift({
+          slug: parent.slug || '',
+          title: parentTitle,
+        })
+
+        current = parent
+      } catch {
+        break
+      }
+    }
+
+    return crumbs
+  }
+
+  const breadcrumbs = await buildBreadcrumbs(category)
 
   // Get sub-categories
   const subCategoriesResult = await payload.find({
@@ -112,25 +163,18 @@ export default async function CategoryDetailPage({ params }: Args) {
             {lang === 'cn' && '类别'}
           </Link>
 
-          {/* Show parent breadcrumbs */}
-          {category.breadcrumbs &&
-            Array.isArray(category.breadcrumbs) &&
-            category.breadcrumbs.map((crumb: any, index: number) => {
-              // Ensure URL has language prefix
-              const crumbUrl = crumb.url.startsWith('/')
-                ? `/${lang}${crumb.url}`
-                : `/${lang}/categories/${crumb.url}`
-              return (
-                <span key={index}>
-                  <span className="mx-2">/</span>
-                  <Link href={crumbUrl} className="text-blue-600 hover:underline">
-                    {typeof crumb.label === 'string'
-                      ? crumb.label
-                      : getTranslatedText(crumb.label, lang, 'Category')}
-                  </Link>
-                </span>
-              )
-            })}
+          {/* Show parent breadcrumbs - now using fresh slugs */}
+          {breadcrumbs.map((crumb, index) => (
+            <span key={index}>
+              <span className="mx-2">/</span>
+              <Link
+                href={`/${lang}/categories/${crumb.slug}`}
+                className="text-blue-600 hover:underline"
+              >
+                {crumb.title}
+              </Link>
+            </span>
+          ))}
 
           <span className="mx-2">/</span>
           <span className="text-muted-foreground">{categoryTitle}</span>
