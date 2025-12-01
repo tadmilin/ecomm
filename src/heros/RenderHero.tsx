@@ -30,19 +30,17 @@ export const RenderHero: React.FC<HeroWithSidebar> = (props) => {
   // Render with Category Sidebar if enabled
   if (showCategorySidebar) {
     return (
-      <div className="container py-6">
-        <div className="flex gap-6">
-          {/* Category Sidebar - Left */}
-          <CategorySidebarComponent
-            title={lang === 'th' ? 'หมวดหมู่สินค้า' : lang === 'en' ? 'Categories' : '分类'}
-            showOnDesktopOnly={true}
-            lang={lang}
-          />
+      <div className="flex">
+        {/* Category Sidebar - Left */}
+        <CategorySidebarComponent
+          title={lang === 'th' ? 'หมวดหมู่สินค้า' : lang === 'en' ? 'Categories' : '分类'}
+          showOnDesktopOnly={true}
+          lang={lang}
+        />
 
-          {/* Hero Content - Right */}
-          <div className="flex-1">
-            {type === 'highImpact' ? <HeroToRender {...props} /> : <HeroToRender {...props} />}
-          </div>
+        {/* Hero Content - Right */}
+        <div className="flex-1">
+          {type === 'highImpact' ? <HeroToRender {...props} /> : <HeroToRender {...props} />}
         </div>
       </div>
     )
