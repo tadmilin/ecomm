@@ -30,7 +30,7 @@ export const RenderHero: React.FC<HeroWithSidebar> = (props) => {
   // Render with Category Sidebar if enabled
   if (showCategorySidebar) {
     return (
-      <div className="container mx-auto px-4 py-4">
+      <div className="container mx-auto px-4">
         <div className="flex gap-4">
           {/* Category Sidebar - Left */}
           <CategorySidebarComponent
@@ -40,7 +40,7 @@ export const RenderHero: React.FC<HeroWithSidebar> = (props) => {
           />
 
           {/* Hero Content - Right */}
-          <div className="flex-1 overflow-hidden rounded-lg shadow-sm">
+          <div className="flex-1 overflow-hidden">
             {type === 'highImpact' ? <HeroToRender {...props} /> : <HeroToRender {...props} />}
           </div>
         </div>
