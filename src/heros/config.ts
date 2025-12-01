@@ -72,7 +72,7 @@ export const hero: Field = {
           type: 'upload',
           relationTo: 'media',
           required: true,
-        }
+        },
       ],
       maxRows: 1,
     },
@@ -109,11 +109,20 @@ export const hero: Field = {
         },
         link({
           appearances: ['default', 'outline'],
-        })
+        }),
       ],
       label: 'รูปภาพสไลด์',
       minRows: 1,
       required: true,
+    },
+    {
+      name: 'showCategorySidebar',
+      type: 'checkbox',
+      label: 'Show Category Sidebar (Desktop)',
+      defaultValue: false,
+      admin: {
+        description: 'แสดงเมนูหมวดหมู่ด้านซ้าย (เฉพาะ Desktop)',
+      },
     },
   ],
   label: false,
