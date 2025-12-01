@@ -53,9 +53,11 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
             />
           </Link>
 
-          {/* Search Bar - Center (Medium size) */}
-          <div className="hidden md:block flex-1 max-w-md">
-            <SearchBar lang={lang} className="w-full" />
+          {/* Search Bar - Center (Wider) */}
+          <div className="hidden md:flex justify-center flex-1">
+            <div className="w-full max-w-xl">
+              <SearchBar lang={lang} className="w-full" />
+            </div>
           </div>
 
           {/* User Actions - Right */}
@@ -95,7 +97,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
         </div>
 
         {/* Bottom Row: Menu Navigation */}
-        <div className="hidden lg:flex items-center justify-center">
+        <div className="hidden lg:flex items-center justify-start">
           <HeaderNav data={data} lang={lang} />
         </div>
       </div>
