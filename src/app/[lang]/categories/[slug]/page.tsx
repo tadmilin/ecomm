@@ -338,14 +338,19 @@ export default async function CategoryDetailPage({ params }: Args) {
                         </div>
                         <div className="text-xs md:text-sm">
                           {product.stock > 0 ? (
-                            <span className="text-green-600 hidden md:inline">{product.stock} left</span>
+                            <span className="text-green-600 hidden md:inline">
+                              {product.stock} left
+                            </span>
                           ) : (
                             <span className="text-red-600">Out</span>
                           )}
                         </div>
                       </div>
 
-                      <AddToCartButton product={product as Product} className="w-full text-xs md:text-sm" />
+                      <AddToCartButton
+                        product={product as Product}
+                        className="w-full text-xs md:text-sm"
+                      />
 
                       <div className="flex items-center gap-1 md:gap-2 text-xs text-gray-500 flex-wrap">
                         <span className="bg-gray-100 px-1.5 md:px-2 py-0.5 md:py-1 rounded truncate max-w-full">
