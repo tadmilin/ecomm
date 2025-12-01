@@ -40,9 +40,9 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
 
   return (
     <header className="w-full bg-blue-900 text-white" {...(theme ? { 'data-theme': theme } : {})}>
-      <div className="container py-4">
-        {/* Top Row: Logo + Menu + User Actions */}
-        <div className="flex items-center justify-between gap-8 mb-3">
+      <div className="container py-3">
+        {/* Top Row: Logo + Search + User Actions */}
+        <div className="flex items-center justify-between gap-4 mb-3">
           {/* Logo - Left */}
           <Link href={`/${lang}`} className="flex-shrink-0">
             <DynamicLogo
@@ -53,9 +53,9 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
             />
           </Link>
 
-          {/* Menu - Center/Left */}
-          <div className="hidden lg:flex items-center gap-6 flex-1">
-            <HeaderNav data={data} lang={lang} />
+          {/* Search Bar - Center (Medium size) */}
+          <div className="hidden md:block flex-1 max-w-md">
+            <SearchBar lang={lang} className="w-full" />
           </div>
 
           {/* User Actions - Right */}
@@ -94,9 +94,9 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
           </div>
         </div>
 
-        {/* Bottom Row: Search Bar - Full Width */}
-        <div className="w-full">
-          <SearchBar lang={lang} className="w-full" />
+        {/* Bottom Row: Menu Navigation */}
+        <div className="hidden lg:flex items-center justify-center">
+          <HeaderNav data={data} lang={lang} />
         </div>
       </div>
     </header>
