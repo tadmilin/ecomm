@@ -76,7 +76,7 @@ export const CategorySidebarComponent: React.FC<CategorySidebarComponentProps> =
 
   return (
     <div className={showOnDesktopOnly ? 'hidden lg:block' : 'block'}>
-      <div className="w-64 bg-white rounded-lg overflow-hidden shadow-md">
+      <div className="w-64 bg-white overflow-hidden shadow-md">
         {/* Header */}
         <div className="bg-gradient-to-r from-blue-900 to-blue-800 text-white px-4 py-3 flex items-center gap-2">
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

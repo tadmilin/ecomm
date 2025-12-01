@@ -1,8 +1,6 @@
-/* stylelint-disable */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-/* stylelint-enable */
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
 
 @layer base {
   h1,
@@ -100,10 +98,13 @@
 
 @layer base {
   * {
-    @apply border-border;
+    border-color: hsl(var(--border));
   }
   body {
-    @apply text-foreground min-h-[100vh] flex flex-col;
+    color: hsl(var(--foreground));
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
   }
 }
 
