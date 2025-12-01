@@ -13,7 +13,12 @@ const heroes = {
   mediumImpact: MediumImpactHero,
 }
 
-export const RenderHero: React.FC<Page['hero'] & { lang?: string }> = (props) => {
+type HeroWithSidebar = Page['hero'] & {
+  showCategorySidebar?: boolean
+  lang?: string
+}
+
+export const RenderHero: React.FC<HeroWithSidebar> = (props) => {
   const { type, showCategorySidebar, lang = 'th' } = props || {}
 
   if (!type || type === 'none') return null
