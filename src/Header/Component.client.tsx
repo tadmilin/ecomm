@@ -91,7 +91,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
         </div>
 
         {/* แถวล่าง: เมนูนำทาง */}
-        <div className="hidden lg:flex items-center justify-start">
+        <div className="hidden lg:flex items-center justify-end">
           <HeaderNav data={data} lang={lang} />
         </div>
       </div>
