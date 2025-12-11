@@ -16,13 +16,13 @@ export default function CartPage() {
     return (
       <div className="container py-28">
         <div className="max-w-2xl mx-auto text-center">
-          <h1 className="text-3xl font-bold mb-4">Shopping Cart</h1>
-          <p className="text-gray-600 mb-8">Your cart is empty</p>
+          <h1 className="text-3xl font-bold mb-4">ตะกร้าสินค้า</h1>
+          <p className="text-gray-600 mb-8">ตะกร้าของคุณว่างเปล่า</p>
           <Link
             href="/products"
             className="inline-block px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
           >
-            Continue Shopping
+            ซื้อสินค้าต่อ
           </Link>
         </div>
       </div>
@@ -33,9 +33,9 @@ export default function CartPage() {
     <div className="container py-28">
       <div className="max-w-4xl mx-auto">
         <div className="flex items-center justify-between mb-8">
-          <h1 className="text-3xl font-bold">Shopping Cart</h1>
+          <h1 className="text-3xl font-bold">ตะกร้าสินค้า</h1>
           <button onClick={clearCart} className="text-sm text-red-600 hover:text-red-700 underline">
-            Clear Cart
+            ล้างตะกร้า
           </button>
         </div>
 
@@ -91,7 +91,7 @@ export default function CartPage() {
                     onClick={() => removeItem(item.product.id)}
                     className="text-sm text-red-600 hover:text-red-700 underline"
                   >
-                    Remove
+                    ลบ
                   </button>
 
                   <div className="flex items-center gap-2">
@@ -124,11 +124,11 @@ export default function CartPage() {
         <div className="border-t pt-6">
           <div className="bg-gray-50 rounded-lg p-6 space-y-4">
             <div className="flex justify-between text-lg">
-              <span>Total Items:</span>
+              <span>จำนวนสินค้าทั้งหมด:</span>
               <span className="font-semibold">{totalItems}</span>
             </div>
             <div className="flex justify-between text-2xl font-bold">
-              <span>Total Price:</span>
+              <span>ราคารวม:</span>
               <span className="text-blue-600">฿{totalPrice.toLocaleString('th-TH')}</span>
             </div>
           </div>
@@ -138,15 +138,15 @@ export default function CartPage() {
               href="/products"
               className="flex-1 px-6 py-3 border border-gray-300 rounded-lg text-center hover:bg-gray-50"
             >
-              Continue Shopping
+              ซื้อสินค้าต่อ
             </Link>
             <button
               onClick={() => {
-                alert(`Total: ฿${totalPrice.toLocaleString('th-TH')}\nTotal Items: ${totalItems}`)
+                alert(`ราคารวม: ฿${totalPrice.toLocaleString('th-TH')}\nจำนวนสินค้า: ${totalItems}`)
               }}
               className="flex-1 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
             >
-              Calculate Total
+              คำนวณราคารวม
             </button>
           </div>
         </div>

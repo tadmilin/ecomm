@@ -43,35 +43,31 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
       <div className="container py-3">
         {/* Top Row: Logo + Search + User Actions */}
         <div className="flex items-center justify-between gap-4 mb-3">
-          {/* Logo - Left */}
+          {/* โลโก้ - ซ้าย */}
           <Link href={`/${lang}`} className="flex-shrink-0">
             <DynamicLogo
               loading="eager"
               priority="high"
               className="dark:invert-0"
-              logo={data.logo as { url?: string; alt?: string; width?: number; height?: number }}
+              logo={data.logo}
             />
           </Link>
 
-          {/* Search Bar - Center (Wider) */}
+          {/* ช่องค้นหา - กลาง */}
           <div className="hidden md:flex justify-center flex-1">
             <div className="w-full max-w-xl">
               <SearchBar lang={lang} className="w-full" />
             </div>
           </div>
 
-          {/* User Actions - Right */}
+          {/* ส่วนผู้ใช้ - ขวา */}
           <div className="flex items-center gap-4">
             <LanguageSwitcher />
             {status === 'loading' ? (
               <div className="w-8 h-8 animate-pulse bg-white/20 rounded-full"></div>
             ) : session?.user ? (
               <div className="hidden md:flex items-center gap-3">
-                <span className="text-sm font-medium">
-                  {lang === 'th' && 'เข้าสู่ระบบ'}
-                  {lang === 'en' && 'Login'}
-                  {lang === 'cn' && '登录'}
-                </span>
+                <span className="text-sm font-medium">เข้าสู่ระบบแล้ว</span>
                 <UserMenu />
               </div>
             ) : (
@@ -87,16 +83,14 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
                     d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
                   />
                 </svg>
-                {lang === 'th' && 'เข้าสู่ระบบ'}
-                {lang === 'en' && 'Login'}
-                {lang === 'cn' && '登录'}
+                เข้าสู่ระบบ
               </Link>
             )}
             <CartButton />
           </div>
         </div>
 
-        {/* Bottom Row: Menu Navigation */}
+        {/* แถวล่าง: เมนูนำทาง */}
         <div className="hidden lg:flex items-center justify-start">
           <HeaderNav data={data} lang={lang} />
         </div>

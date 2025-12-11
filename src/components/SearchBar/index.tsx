@@ -25,19 +25,13 @@ export function SearchBar({ lang, className = '' }: SearchBarProps) {
         type="text"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
-        placeholder={
-          lang === 'th'
-            ? 'ค้นหาสินค้าที่ต้องการทั้งหมด'
-            : lang === 'en'
-              ? 'Search all products'
-              : '搜索所有产品'
-        }
+        placeholder="ค้นหาสินค้าที่ต้องการทั้งหมด"
         className="w-full px-4 py-2 pr-10 bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
       <button
         type="submit"
         className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
-        aria-label="Search"
+        aria-label="ค้นหา"
       >
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path

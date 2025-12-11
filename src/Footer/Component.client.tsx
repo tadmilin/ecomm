@@ -34,7 +34,7 @@ export const FooterClient: React.FC<FooterClientProps> = ({ data }) => {
 
       <div className="container py-4 border-t border-gray-700">
         <div className="text-center text-sm text-gray-400">
-          © {currentYear} All rights reserved
+          © {currentYear} สงวนลิขสิทธิ์
         </div>
       </div>
     </footer>
