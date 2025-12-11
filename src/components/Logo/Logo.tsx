@@ -1,6 +1,7 @@
 import clsx from 'clsx'
 import React from 'react'
 import Image from 'next/image'
+import type { Media } from '@/payload-types'
 
 interface Props {
   className?: string
@@ -8,7 +9,7 @@ interface Props {
   priority?: 'auto' | 'high' | 'low'
   logo?: {
     type?: 'image' | 'text' | null
-    image?: string | { url?: string } | null
+    image?: string | Media | null
     text?: string | null
     alt?: string | null
   }
@@ -20,13 +21,22 @@ export const Logo = (props: Props) => {
   const _loading = loadingFromProps || 'lazy'
   const priority = priorityFromProps || 'low'
 
-  // แสดง logo ตามข้อมูลจาก Global/Header เท่านั้น
+  // แสดง logo ตามข้อมูลจาก Global/Header
   if (logo?.type === 'image' && logo.image) {
-    const imageUrl = typeof logo.image === 'string' ? logo.image : logo.image?.url || ''
+    // ดึง URL จาก object ที่มี structure ของ Media
+    let imageUrl = ''
+    if (typeof logo.image === 'string') {
+      imageUrl = logo.image
+    } else if (logo.image && typeof logo.image === 'object') {
+      imageUrl = (logo.image as any).url || ''
+    }
+
+    if (!imageUrl) return null
+
     return (
       <Image
         src={imageUrl}
-        alt={logo.alt || 'Logo'}
+        alt={logo.alt || 'โลโก้'}
         width={150}
         height={34}
         className={clsx('max-w-[9.375rem] w-full h-[34px]', className)}
@@ -34,9 +44,9 @@ export const Logo = (props: Props) => {
       />
     )
   } else if (logo?.type === 'text' && logo.text) {
-    return <span className={clsx('text-2xl font-bold text-primary', className)}>{logo.text}</span>
+    return <span className={clsx('text-2xl font-bold text-white', className)}>{logo.text}</span>
   }
 
-  // ถ้าไม่มีข้อมูลจาก Global/Header ให้แสดงข้อความว่าง
-  return null
+  // ถ้าไม่มีข้อมูล ให้แสดงข้อความเริ่มต้น
+  return <span className={clsx('text-2xl font-bold text-white', className)}>ร้านค้า</span>
 }

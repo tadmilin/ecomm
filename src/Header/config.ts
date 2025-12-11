@@ -19,11 +19,11 @@ export const Header: GlobalConfig = {
           defaultValue: 'text',
           options: [
             {
-              label: 'Text Logo',
+              label: 'โลโก้แบบข้อความ',
               value: 'text',
             },
             {
-              label: 'Image Logo',
+              label: 'โลโก้แบบรูปภาพ',
               value: 'image',
             },
           ],
@@ -34,7 +34,7 @@ export const Header: GlobalConfig = {
         {
           name: 'text',
           type: 'text',
-          label: 'Logo Text',
+          label: 'ข้อความโลโก้',
           required: false,
           localized: true,
           admin: {
@@ -44,7 +44,7 @@ export const Header: GlobalConfig = {
         {
           name: 'image',
           type: 'upload',
-          label: 'Logo Image',
+          label: 'รูปภาพโลโก้',
           relationTo: 'media',
           required: false,
           admin: {
@@ -54,14 +54,14 @@ export const Header: GlobalConfig = {
         {
           name: 'alt',
           type: 'text',
-          label: 'Alt Text',
+          label: 'ข้อความ Alt',
           required: false,
           admin: {
             condition: (_, siblingData) => siblingData?.type === 'image',
           },
         },
       ],
-      label: 'Logo Settings',
+      label: 'การตั้งค่าโลโก้',
     },
     {
       name: 'navItems',
