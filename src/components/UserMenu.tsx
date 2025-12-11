@@ -27,7 +27,7 @@ export default function UserMenu() {
   }, [isOpen])
 
   const getProfileUrl = () => {
-    // Hardcode หน้า profile - จะแสดงเฉพาะเมื่อ login
+    
     return '/profile'
   }
 
