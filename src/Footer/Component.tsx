@@ -6,5 +6,7 @@ import { FooterClient } from './Component.client'
 
 export async function Footer() {
   const footerData: Footer = await getCachedGlobal('footer', 1)()
-  return <FooterClient data={footerData} />
+  const headerData = await getCachedGlobal('header', 1)()
+  
+  return <FooterClient data={footerData} headerData={headerData} />
 }

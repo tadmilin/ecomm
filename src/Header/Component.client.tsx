@@ -25,6 +25,9 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
   const pathname = usePathname()
   const { data: session, status } = useSession()
 
+  // Debug: ดูข้อมูล logo
+  console.log('Header logo data in client:', data?.logo)
+
   // Extract current language from pathname
   const lang = pathname.split('/')[1] || 'en'
 

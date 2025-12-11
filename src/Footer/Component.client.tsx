@@ -3,24 +3,28 @@
 import Link from 'next/link'
 import React from 'react'
 
-import type { Footer } from '../payload-types'
+import type { Footer, Header } from '../payload-types'
 
 import { CMSLink } from '../components/Link'
 import { Logo } from '../components/Logo/Logo'
 
 interface FooterClientProps {
   data: Footer
+  headerData: Header
 }
 
-export const FooterClient: React.FC<FooterClientProps> = ({ data }) => {
+export const FooterClient: React.FC<FooterClientProps> = ({ data, headerData }) => {
   const navItems = data?.navItems || []
   const currentYear = new Date().getFullYear()
+
+  // Debug: ดูข้อมูล logo
+  console.log('Header logo data:', headerData?.logo)
 
   return (
     <footer className="mt-auto border-t border-border bg-black dark:bg-card text-white">
       <div className="container py-8 gap-8 flex flex-col md:flex-row md:justify-between">
         <Link className="flex items-center" href="/">
-          <Logo />
+          <Logo logo={headerData?.logo} />
         </Link>
 
         <div className="flex flex-col-reverse items-start md:flex-row gap-4 md:items-center">
