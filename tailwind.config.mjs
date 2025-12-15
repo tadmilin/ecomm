@@ -96,7 +96,7 @@ const config = {
       },
       fontFamily: {
         mono: ['ui-monospace', 'SFMono-Regular', 'monospace'],
-        sans: ['Inter', 'Noto Sans Thai', 'system-ui', 'sans-serif'],
+        sans: ['Kanit', 'Inter', 'Noto Sans Thai', 'system-ui', 'sans-serif'],
       },
       keyframes: {
         'accordion-down': {

@@ -31,10 +31,14 @@ export const FeaturedCategoriesComponent: React.FC<FeaturedCategoriesProps> = ({
   if (!categories || categories.length === 0) return null
 
   return (
-    <div className="w-full bg-white py-6 border-t border-gray-200">
+    <div style={{ width: '100%', backgroundColor: '#f5f5f5', padding: '32px 0' }}>
       <div className="container">
-        {/* Mobile: Horizontal scroll | Desktop: Grid */}
-        <div className="flex gap-4 overflow-x-auto lg:grid lg:grid-cols-4 lg:gap-6 lg:overflow-visible pb-4 lg:pb-0">
+        <div style={{ 
+          display: 'flex', 
+          gap: '16px', 
+          overflowX: 'auto',
+          paddingBottom: '16px'
+        }}>
           {categories.map((category, index) => {
             const image = category.image as Media
             const imageUrl = typeof image === 'object' && image?.url ? image.url : ''
@@ -43,45 +47,96 @@ export const FeaturedCategoriesComponent: React.FC<FeaturedCategoriesProps> = ({
               <CMSLink
                 key={category.id || index}
                 {...category.link}
-                className="flex-none min-w-[280px] lg:min-w-0 flex items-center gap-4 bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md hover:border-blue-300 transition-all duration-300 p-4 group"
+                className="featured-category-card"
               >
-                {/* Image - Left (64x64) */}
-                <div className="flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden bg-gray-50">
+                <style jsx>{`
+                  .featured-category-card {
+                    flex-shrink: 0;
+                    min-width: 300px;
+                    display: flex;
+                    align-items: center;
+                    gap: 16px;
+                    background-color: #ffffff;
+                    border-radius: 12px;
+                    border: 1px solid #e0e0e0;
+                    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                    padding: 20px;
+                    text-decoration: none;
+                    transition: all 0.3s ease;
+                  }
+                  .featured-category-card:hover {
+                    background-color: #e3f2fd;
+                    border-color: #2196f3;
+                    box-shadow: 0 4px 12px rgba(33,150,243,0.3);
+                  }
+                `}</style>
+
+                {/* Image */}
+                <div style={{
+                  flexShrink: 0,
+                  width: '80px',
+                  height: '80px',
+                  borderRadius: '12px',
+                  overflow: 'hidden',
+                  backgroundColor: '#f9f9f9'
+                }}>
                   {imageUrl ? (
                     <img
                       src={imageUrl}
                       alt={category.title || 'Category'}
-                      className="w-full h-full object-cover"
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover'
+                      }}
                     />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center">
-                      <span className="text-3xl">📦</span>
+                    <div style={{
+                      width: '100%',
+                      height: '100%',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontSize: '32px'
+                    }}>
+                      📦
                     </div>
                   )}
                 </div>
 
-                {/* Content - Middle */}
-                <div className="flex-1 min-w-0">
-                  <h3 className="font-bold text-gray-900 text-base leading-tight mb-1 group-hover:text-blue-600 transition-colors line-clamp-1">
+                {/* Content */}
+                <div style={{
+                  flex: 1,
+                  minWidth: 0
+                }}>
+                  <h3 style={{
+                    fontFamily: 'Kanit, sans-serif',
+                    fontWeight: 'bold',
+                    fontSize: '18px',
+                    color: '#1a1a1a',
+                    lineHeight: '1.3',
+                    marginBottom: '6px',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap'
+                  }}>
                     {category.title}
                   </h3>
                   {category.description && (
-                    <p className="text-sm text-gray-600 leading-snug line-clamp-2">
+                    <p style={{
+                      fontFamily: 'Kanit, sans-serif',
+                      fontSize: '14px',
+                      color: '#666666',
+                      lineHeight: '1.4',
+                      margin: 0,
+                      overflow: 'hidden',
+                      display: '-webkit-box',
+                      WebkitLineClamp: 2,
+                      WebkitBoxOrient: 'vertical'
+                    } as React.CSSProperties}>
                       {category.description}
                     </p>
                   )}
-                </div>
-
-                {/* Arrow - Right */}
-                <div className="flex-shrink-0">
-                  <svg 
-                    className="w-6 h-6 text-gray-400 group-hover:text-blue-600 group-hover:translate-x-0.5 transition-all" 
-                    fill="none" 
-                    stroke="currentColor" 
-                    viewBox="0 0 24 24"
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
                 </div>
               </CMSLink>
             )
