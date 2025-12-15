@@ -31,9 +31,10 @@ export const FeaturedCategoriesComponent: React.FC<FeaturedCategoriesProps> = ({
   if (!categories || categories.length === 0) return null
 
   return (
-    <div className="w-full bg-gray-50 py-8">
+    <div className="w-full bg-white py-6 border-t border-gray-200">
       <div className="container">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {/* Mobile: Horizontal scroll | Desktop: Grid */}
+        <div className="flex gap-4 overflow-x-auto lg:grid lg:grid-cols-4 lg:gap-6 lg:overflow-visible pb-4 lg:pb-0">
           {categories.map((category, index) => {
             const image = category.image as Media
             const imageUrl = typeof image === 'object' && image?.url ? image.url : ''
@@ -42,10 +43,10 @@ export const FeaturedCategoriesComponent: React.FC<FeaturedCategoriesProps> = ({
               <CMSLink
                 key={category.id || index}
                 {...category.link}
-                className="flex items-center gap-4 bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 p-5 group"
+                className="flex-none min-w-[280px] lg:min-w-0 flex items-center gap-4 bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md hover:border-blue-300 transition-all duration-300 p-4 group"
               >
-                {/* Image - Left */}
-                <div className="flex-shrink-0 w-24 h-24 rounded-xl overflow-hidden bg-gray-100">
+                {/* Image - Left (64x64) */}
+                <div className="flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden bg-gray-50">
                   {imageUrl ? (
                     <img
                       src={imageUrl}
@@ -54,18 +55,18 @@ export const FeaturedCategoriesComponent: React.FC<FeaturedCategoriesProps> = ({
                     />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center">
-                      <span className="text-4xl">📦</span>
+                      <span className="text-3xl">📦</span>
                     </div>
                   )}
                 </div>
 
                 {/* Content - Middle */}
                 <div className="flex-1 min-w-0">
-                  <h3 className="font-bold text-gray-900 text-lg leading-tight mb-1.5 group-hover:text-blue-600 transition-colors">
+                  <h3 className="font-bold text-gray-900 text-base leading-tight mb-1 group-hover:text-blue-600 transition-colors line-clamp-1">
                     {category.title}
                   </h3>
                   {category.description && (
-                    <p className="text-sm text-gray-600 leading-relaxed line-clamp-2">
+                    <p className="text-sm text-gray-600 leading-snug line-clamp-2">
                       {category.description}
                     </p>
                   )}
@@ -74,12 +75,12 @@ export const FeaturedCategoriesComponent: React.FC<FeaturedCategoriesProps> = ({
                 {/* Arrow - Right */}
                 <div className="flex-shrink-0">
                   <svg 
-                    className="w-7 h-7 text-gray-400 group-hover:text-blue-600 group-hover:translate-x-1 transition-all" 
+                    className="w-6 h-6 text-gray-400 group-hover:text-blue-600 group-hover:translate-x-0.5 transition-all" 
                     fill="none" 
                     stroke="currentColor" 
                     viewBox="0 0 24 24"
                   >
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
                 </div>
               </CMSLink>
