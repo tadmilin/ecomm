@@ -43,7 +43,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
 
   
   return (
-    <header className="w-full bg-blue-900 text-white" {...(theme ? { 'data-theme': theme } : {})}>
+    <header className="w-full bg-white text-gray-900 border-b shadow-sm" {...(theme ? { 'data-theme': theme } : {})}>
       <div className="container py-3">
         {/* Top Row: Logo + Search + User Actions */}
         <div className="flex items-center justify-between gap-4 mb-3">
@@ -52,7 +52,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
             <DynamicLogo
               loading="eager"
               priority="high"
-              className="dark:invert-0"
+              className=""
               logo={data.logo}
             />
           </Link>
@@ -68,16 +68,16 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
           <div className="flex items-center gap-4">
             <LanguageSwitcher />
             {status === 'loading' ? (
-              <div className="w-8 h-8 animate-pulse bg-white/20 rounded-full"></div>
+              <div className="w-8 h-8 animate-pulse bg-gray-200 rounded-full"></div>
             ) : session?.user ? (
               <div className="hidden md:flex items-center gap-3">
-                <span className="text-sm font-medium">เข้าสู่ระบบแล้ว</span>
+                <span className="text-sm font-medium text-gray-700">เข้าสู่ระบบแล้ว</span>
                 <UserMenu />
               </div>
             ) : (
               <Link
                 href={`/${lang}/login`}
-                className="hidden md:flex items-center gap-2 text-sm hover:text-blue-200"
+                className="hidden md:flex items-center gap-2 text-sm text-gray-700 hover:text-blue-600"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path
