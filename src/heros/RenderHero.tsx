@@ -17,6 +17,7 @@ const heroes = {
 type HeroWithSidebar = Page['hero'] & {
   showCategorySidebar?: boolean
   lang?: string
+  featuredCategories?: any[]
 }
 
 export const RenderHero: React.FC<HeroWithSidebar> = (props) => {
