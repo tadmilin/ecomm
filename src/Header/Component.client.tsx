@@ -13,6 +13,7 @@ import UserMenu from '@/components/UserMenu'
 import { CartButton } from '@/components/CartButton'
 import { LanguageSwitcher } from '@/components/LanguageSwitcher'
 import { SearchBar } from '@/components/SearchBar'
+import { CategoryDropdown } from './CategoryDropdown'
 
 interface HeaderClientProps {
   data: Header
@@ -100,7 +101,11 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
       {/* แถบเมนูด้านล่าง - สีน้ำเงิน */}
       <div className="w-full bg-blue-900 text-white">
         <div className="container py-3">
-          <div className="hidden lg:flex items-center justify-end">
+          <div className="hidden lg:flex items-center justify-between">
+            {/* หมวดหมู่สินค้า - ซ้าย */}
+            <CategoryDropdown lang={lang} />
+            
+            {/* เมนูอื่นๆ - ขวา */}
             <HeaderNav data={data} lang={lang} />
           </div>
         </div>
