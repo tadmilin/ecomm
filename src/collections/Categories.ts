@@ -130,7 +130,7 @@ export const Categories: CollectionConfig<'categories'> = {
       },
     },
 
-    // Breadcrumbs
+    
     {
       name: 'breadcrumbs',
       type: 'array',
