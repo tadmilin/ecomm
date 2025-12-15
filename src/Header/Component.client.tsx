@@ -46,8 +46,8 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
     <header className="w-full bg-blue-900 text-white" {...(theme ? { 'data-theme': theme } : {})}>
       <div className="container py-3">
         <div className="flex gap-4">
-          {/* ส่วนซ้าย: โลโก้ + หมวดหมู่สินค้า */}
-          <div className="flex flex-col gap-3">
+          {/* ส่วนซ้าย: โลโก้ + ปุ่มหมวดหมู่สินค้า */}
+          <div className="flex flex-col gap-2">
             {/* โลโก้ */}
             <Link href={`/${lang}`} className="flex-shrink-0">
               <DynamicLogo
@@ -58,8 +58,23 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
               />
             </Link>
             
-            {/* หมวดหมู่สินค้า */}
-            <CategorySidebarComponent lang={lang} title="หมวดหมู่สินค้า" showOnDesktopOnly={true} />
+            {/* ปุ่มหมวดหมู่สินค้า + Dropdown */}
+            <div className="relative">
+              <div className="bg-gradient-to-r from-blue-800 to-blue-700 px-4 py-2 flex items-center gap-2 cursor-pointer hover:from-blue-700 hover:to-blue-600 transition-colors w-64">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M4 6h16M4 12h16M4 18h16"
+                  />
+                </svg>
+                <span className="font-semibold">หมวดหมู่สินค้า</span>
+              </div>
+              
+              {/* Dropdown รายการหมวดหมู่ - แสดงอยู่ตลอด */}
+              <CategorySidebarComponent lang={lang} title="" showOnDesktopOnly={true} />
+            </div>
           </div>
 
           {/* ส่วนขวา: Search + User Actions + Menu */}
