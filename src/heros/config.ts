@@ -124,6 +124,44 @@ export const hero: Field = {
         description: 'แสดงเมนูหมวดหมู่ด้านซ้าย (เฉพาะ Desktop)',
       },
     },
+    {
+      name: 'featuredCategories',
+      type: 'array',
+      label: 'Featured Categories (Below Hero)',
+      fields: [
+        {
+          name: 'image',
+          type: 'upload',
+          relationTo: 'media',
+          required: true,
+          label: 'Category Image',
+        },
+        {
+          name: 'title',
+          type: 'text',
+          required: true,
+          localized: true,
+          label: 'Title',
+        },
+        {
+          name: 'description',
+          type: 'text',
+          localized: true,
+          label: 'Description',
+        },
+        link({
+          overrides: {
+            label: 'Link',
+            required: true,
+          },
+        }),
+      ],
+      admin: {
+        description: 'แสดง featured categories ด้านล่าง hero slider',
+      },
+      minRows: 2,
+      maxRows: 8,
+    },
   ],
   label: false,
 }

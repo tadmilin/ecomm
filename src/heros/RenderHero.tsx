@@ -6,6 +6,7 @@ import { HighImpactHero } from '@/heros/HighImpact'
 import { LowImpactHero } from '@/heros/LowImpact'
 import { MediumImpactHero } from '@/heros/MediumImpact'
 import { HomeCategorySidebar } from '@/components/HomeCategorySidebar/Component'
+import { FeaturedCategoriesComponent } from '@/blocks/FeaturedCategories/Component'
 
 const heroes = {
   highImpact: HighImpactHero,
@@ -19,7 +20,7 @@ type HeroWithSidebar = Page['hero'] & {
 }
 
 export const RenderHero: React.FC<HeroWithSidebar> = (props) => {
-  const { type, showCategorySidebar, lang } = props || {}
+  const { type, showCategorySidebar, lang, featuredCategories } = props || {}
 
   if (!type || type === 'none') return null
 
@@ -34,26 +35,36 @@ export const RenderHero: React.FC<HeroWithSidebar> = (props) => {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { media, showCategorySidebar: _, ...restProps } = props
       return (
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex gap-4 items-start">
-            <HomeCategorySidebar lang={lang} />
-            <div className="flex-1 min-w-0">
-              <HeroToRender {...restProps} />
+        <>
+          <div className="container mx-auto px-4 py-4">
+            <div className="flex gap-4 items-start">
+              <HomeCategorySidebar lang={lang} />
+              <div className="flex-1 min-w-0">
+                <HeroToRender {...restProps} />
+              </div>
             </div>
           </div>
-        </div>
+          {featuredCategories && featuredCategories.length > 0 && (
+            <FeaturedCategoriesComponent categories={featuredCategories} lang={lang} />
+          )}
+        </>
       )
     }
 
     return (
-      <div className="container mx-auto px-4 py-4">
-        <div className="flex gap-4 items-start">
-          <HomeCategorySidebar lang={lang} />
-          <div className="flex-1 min-w-0">
-            <HeroToRender {...props} />
+      <>
+        <div className="container mx-auto px-4 py-4">
+          <div className="flex gap-4 items-start">
+            <HomeCategorySidebar lang={lang} />
+            <div className="flex-1 min-w-0">
+              <HeroToRender {...props} />
+            </div>
           </div>
         </div>
-      </div>
+        {featuredCategories && featuredCategories.length > 0 && (
+          <FeaturedCategoriesComponent categories={featuredCategories} lang={lang} />
+        )}
+      </>
     )
   }
 
@@ -61,8 +72,22 @@ export const RenderHero: React.FC<HeroWithSidebar> = (props) => {
   if (type === 'highImpact') {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { media, ...restProps } = props
-    return <HeroToRender {...restProps} />
+    return (
+      <>
+        <HeroToRender {...restProps} />
+        {featuredCategories && featuredCategories.length > 0 && (
+          <FeaturedCategoriesComponent categories={featuredCategories} lang={lang} />
+        )}
+      </>
+    )
   }
 
-  return <HeroToRender {...props} />
+  return (
+    <>
+      <HeroToRender {...props} />
+      {featuredCategories && featuredCategories.length > 0 && (
+        <FeaturedCategoriesComponent categories={featuredCategories} lang={lang} />
+      )}
+    </>
+  )
 }
