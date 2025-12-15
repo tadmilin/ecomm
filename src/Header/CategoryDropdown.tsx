@@ -58,42 +58,28 @@ export const CategoryDropdown: React.FC<CategoryDropdownProps> = ({ lang }) => {
     })
   }
 
-  // ถ้าเป็นหน้า home → คลิกไปหน้า /categories
+  // ถ้าเป็นหน้า home → แสดงรายการหมวดหมู่เลย
   // ถ้าเป็นหน้าอื่น → hover แสดง dropdown
   const shouldShowDropdown = !isHomePage && isOpen
 
   if (loading) {
-    return (
-      <div className="relative">
-        <button className="px-4 py-2 text-white hover:bg-blue-800 rounded">
-          หมวดหมู่สินค้า
-        </button>
-      </div>
-    )
+    return null
   }
 
-  // ถ้าเป็นหน้า home → ใช้ Link
+  // ถ้าเป็นหน้า home → แสดงรายการหมวดหมู่ทั้งหมดเลย (ไม่มีปุ่ม)
   if (isHomePage) {
     return (
-      <Link
-        href={`/${lang}/categories`}
-        className="px-4 py-2 text-white hover:bg-blue-800 rounded flex items-center gap-2"
-      >
-        <svg
-          className="w-5 h-5"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M4 6h16M4 12h16M4 18h16"
-          />
-        </svg>
-        หมวดหมู่สินค้า
-      </Link>
+      <div className="flex items-center gap-4">
+        {rootCategories.map((category) => (
+          <Link
+            key={category.id}
+            href={`/${lang}/categories/${category.slug}`}
+            className="px-3 py-2 text-white hover:bg-blue-800 rounded font-medium"
+          >
+            {getTranslatedTitle(category)}
+          </Link>
+        ))}
+      </div>
     )
   }
 
