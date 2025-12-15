@@ -52,17 +52,19 @@ export const FeaturedCategoriesComponent: React.FC<FeaturedCategoriesProps> = ({
                 <style jsx>{`
                   .featured-category-card {
                     flex-shrink: 0;
-                    min-width: 300px;
+                    width: 360px;
+                    height: 140px;
                     display: flex;
-                    align-items: center;
-                    gap: 16px;
+                    align-items: stretch;
+                    gap: 0;
                     background-color: #ffffff;
                     border-radius: 12px;
                     border: 1px solid #e0e0e0;
                     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-                    padding: 20px;
+                    padding: 0;
                     text-decoration: none;
                     transition: all 0.3s ease;
+                    overflow: hidden;
                   }
                   .featured-category-card:hover {
                     background-color: #e3f2fd;
@@ -74,9 +76,8 @@ export const FeaturedCategoriesComponent: React.FC<FeaturedCategoriesProps> = ({
                 {/* Image */}
                 <div style={{
                   flexShrink: 0,
-                  width: '80px',
-                  height: '80px',
-                  borderRadius: '12px',
+                  width: '140px',
+                  height: '140px',
                   overflow: 'hidden',
                   backgroundColor: '#f9f9f9'
                 }}>
@@ -97,7 +98,7 @@ export const FeaturedCategoriesComponent: React.FC<FeaturedCategoriesProps> = ({
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      fontSize: '32px'
+                      fontSize: '48px'
                     }}>
                       📦
                     </div>
@@ -107,6 +108,10 @@ export const FeaturedCategoriesComponent: React.FC<FeaturedCategoriesProps> = ({
                 {/* Content */}
                 <div style={{
                   flex: 1,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  padding: '20px 24px',
                   minWidth: 0
                 }}>
                   <h3 style={{
