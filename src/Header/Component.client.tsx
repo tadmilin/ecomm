@@ -100,7 +100,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
 
       {/* แถบเมนูด้านล่าง - สีน้ำเงิน */}
       <div className="w-full bg-blue-900 text-white">
-        <div className="container py-3">
+        <div className="container py-2">
           <div className="hidden lg:flex items-center justify-between">
             {/* หมวดหมู่สินค้า - ซ้าย */}
             <CategoryDropdown lang={lang} />

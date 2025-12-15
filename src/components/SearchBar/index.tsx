@@ -26,7 +26,7 @@ export function SearchBar({ lang, className = '' }: SearchBarProps) {
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         placeholder="ค้นหาสินค้าที่ต้องการทั้งหมด"
-        className="w-full px-4 py-2 pr-10 bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="w-full px-4 py-2 pr-10 bg-white text-gray-900 placeholder-gray-500 border-2 border-black rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
       <button
         type="submit"

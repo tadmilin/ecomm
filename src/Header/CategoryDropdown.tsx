@@ -57,13 +57,12 @@ export const CategoryDropdown: React.FC<CategoryDropdownProps> = ({ lang }) => {
     return null
   }
 
-  // Check if we're on the home page
   const isHomePage = pathname === `/${lang}` || pathname === `/${lang}/`
 
-  // If on home page, render as a link to categories page
+  // หน้า home ให้คลิกไป /categories
   if (isHomePage) {
     return (
-      <Link 
+      <Link
         href={`/${lang}/categories`}
         className="px-4 py-2 text-white hover:bg-blue-800 rounded flex items-center gap-2"
       >
@@ -85,7 +84,7 @@ export const CategoryDropdown: React.FC<CategoryDropdownProps> = ({ lang }) => {
     )
   }
 
-  // On other pages, render with dropdown on hover
+  // หน้าอื่นๆ ให้ hover dropdown ปกติ
   return (
     <div
       className="relative"
