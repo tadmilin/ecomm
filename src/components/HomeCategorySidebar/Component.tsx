@@ -66,7 +66,7 @@ export const HomeCategorySidebar: React.FC<HomeCategorySidebarProps> = ({ lang }
   return (
     <div className="w-64 bg-white shadow-md overflow-hidden">
       {/* Categories List */}
-      <div className="divide-y h-full overflow-y-auto">
+      <div className="divide-y h-full">
         {rootCategories.map((category) => {
           const subcategories = getSubcategories(category.id)
           const hasSubcategories = subcategories.length > 0
@@ -117,7 +117,7 @@ export const HomeCategorySidebar: React.FC<HomeCategorySidebarProps> = ({ lang }
                   <h4 className="font-semibold text-gray-900 mb-3 pb-2 border-b">
                     {getTranslatedTitle(category)}
                   </h4>
-                  <div className="grid grid-cols-2 gap-2 max-h-96 overflow-y-auto">
+                  <div className="grid grid-cols-2 gap-2 max-h-96">
                     {subcategories.map((subcat) => (
                       <Link
                         key={subcat.id}
