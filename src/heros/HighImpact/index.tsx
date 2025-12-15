@@ -70,7 +70,7 @@ export const HighImpactHero: React.FC<Page['hero']> = ({ links, mediaSlides, ric
           )}
         </div>
       </div>
-      <div className="min-h-[80vh] select-none w-full">
+      <div className="select-none w-full" style={{ height: 'calc(7 * 3.5rem)' }}>
         {Array.isArray(mediaSlides) && mediaSlides.length > 0 ? (
           <div className="absolute inset-0 flex items-center justify-center">
             <ImageSlider
