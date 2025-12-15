@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
 import type { Category } from '@/payload-types'
 
 interface CategoryDropdownProps {
@@ -13,10 +12,6 @@ export const CategoryDropdown: React.FC<CategoryDropdownProps> = ({ lang }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [categories, setCategories] = useState<Category[]>([])
   const [loading, setLoading] = useState(true)
-  const pathname = usePathname()
-
-  // เช็คว่าเป็นหน้า home หรือไม่
-  const isHomePage = pathname === `/${lang}` || pathname === `/${lang}/`
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -42,10 +37,8 @@ export const CategoryDropdown: React.FC<CategoryDropdownProps> = ({ lang }) => {
     return category.title || 'Category'
   }
 
-  // Get root categories (no parent)
   const rootCategories = categories.filter((cat) => !cat.parent)
 
-  // Get subcategories for a parent
   const getSubcategories = (parentId: string) => {
     return categories.filter((cat) => {
       if (typeof cat.parent === 'string') {
@@ -58,39 +51,16 @@ export const CategoryDropdown: React.FC<CategoryDropdownProps> = ({ lang }) => {
     })
   }
 
-  // ถ้าเป็นหน้า home → แสดงรายการหมวดหมู่เลย
-  // ถ้าเป็นหน้าอื่น → hover แสดง dropdown
-  const shouldShowDropdown = !isHomePage && isOpen
-
   if (loading) {
     return null
   }
 
-  // ถ้าเป็นหน้า home → แสดงรายการหมวดหมู่ทั้งหมดเลย (ไม่มีปุ่ม)
-  if (isHomePage) {
-    return (
-      <div className="flex items-center gap-4">
-        {rootCategories.map((category) => (
-          <Link
-            key={category.id}
-            href={`/${lang}/categories/${category.slug}`}
-            className="px-3 py-2 text-white hover:bg-blue-800 rounded font-medium"
-          >
-            {getTranslatedTitle(category)}
-          </Link>
-        ))}
-      </div>
-    )
-  }
-
-  // ถ้าเป็นหน้าอื่น → แสดง dropdown เมื่อ hover
   return (
     <div
       className="relative"
       onMouseEnter={() => setIsOpen(true)}
       onMouseLeave={() => setIsOpen(false)}
     >
-      {/* ปุ่มหมวดหมู่ */}
       <button className="px-4 py-2 text-white hover:bg-blue-800 rounded flex items-center gap-2">
         <svg
           className="w-5 h-5"
@@ -108,8 +78,7 @@ export const CategoryDropdown: React.FC<CategoryDropdownProps> = ({ lang }) => {
         หมวดหมู่สินค้า
       </button>
 
-      {/* Dropdown รายการหมวดหมู่ */}
-      {shouldShowDropdown && (
+      {isOpen && (
         <div className="absolute top-full left-0 mt-1 bg-white shadow-lg rounded-lg overflow-hidden z-50 min-w-[250px]">
           {rootCategories.map((category) => {
             const subcategories = getSubcategories(category.id)
@@ -139,7 +108,6 @@ export const CategoryDropdown: React.FC<CategoryDropdownProps> = ({ lang }) => {
                   )}
                 </Link>
 
-                {/* Subcategories - แสดงเมื่อ hover ที่หมวดหมู่หลัก */}
                 {hasSubcategories && (
                   <div className="hidden group-hover:block absolute left-full top-0 ml-1 bg-white shadow-lg rounded-lg overflow-hidden min-w-[200px]">
                     {subcategories.map((sub) => (
