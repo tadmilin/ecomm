@@ -64,9 +64,9 @@ export const HomeCategorySidebar: React.FC<HomeCategorySidebarProps> = ({ lang }
   }
 
   return (
-    <div className="w-64 bg-white shadow-md overflow-hidden">
+    <div className="w-64 bg-white shadow-md overflow-hidden flex flex-col" style={{ height: 'calc(7 * 3.5rem)' }}>
       {/* Categories List */}
-      <div className="divide-y h-full">
+      <div className="divide-y overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 hover:scrollbar-thumb-gray-500">
         {rootCategories.map((category) => {
           const subcategories = getSubcategories(category.id)
           const hasSubcategories = subcategories.length > 0
