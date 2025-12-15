@@ -2,9 +2,22 @@
 
 import React from 'react'
 import { CMSLink } from '@/components/Link'
-import type { Media, Page } from '@/payload-types'
+import type { Media } from '@/payload-types'
 
-type FeaturedCategory = NonNullable<Page['hero']['featuredCategories']>[0]
+interface FeaturedCategory {
+  id?: string
+  image: string | Media
+  title: string
+  description?: string
+  link: {
+    type?: ('reference' | 'custom') | null
+    newTab?: boolean | null
+    reference?: any
+    url?: string | null
+    label: string
+    appearance?: ('default' | 'outline') | null
+  }
+}
 
 interface FeaturedCategoriesProps {
   categories?: FeaturedCategory[]
@@ -23,7 +36,7 @@ export const FeaturedCategoriesComponent: React.FC<FeaturedCategoriesProps> = ({
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {categories.map((category, index) => {
             const image = category.image as Media
-            const imageUrl = image?.url || ''
+            const imageUrl = typeof image === 'object' && image?.url ? image.url : ''
 
             return (
               <CMSLink
