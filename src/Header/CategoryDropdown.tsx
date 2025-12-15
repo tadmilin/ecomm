@@ -57,9 +57,10 @@ export const CategoryDropdown: React.FC<CategoryDropdownProps> = ({ lang }) => {
     return null
   }
 
-  const isHomePage = pathname === `/${lang}` || pathname === `/${lang}/`
+  // ตรวจสอบว่าอยู่หน้า home หรือไม่
+  const isHomePage = pathname === `/${lang}` || pathname === `/${lang}/` || pathname === `/${lang}/home`
 
-  // หน้า home ให้คลิกไป /categories
+  // หน้า home ให้คลิกไป /categories แทน hover
   if (isHomePage) {
     return (
       <Link
