@@ -43,62 +43,68 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
 
   
   return (
-    <header className="w-full bg-white text-gray-900 border-b shadow-sm" {...(theme ? { 'data-theme': theme } : {})}>
-      <div className="container py-3">
-        {/* Top Row: Logo + Search + User Actions */}
-        <div className="flex items-center justify-between gap-4 mb-3">
-          {/* โลโก้ - ซ้าย */}
-          <Link href={`/${lang}`} className="flex-shrink-0">
-            <DynamicLogo
-              loading="eager"
-              priority="high"
-              className=""
-              logo={data.logo}
-            />
-          </Link>
+    <>
+      {/* แถบบนสุด - สีขาว */}
+      <div className="w-full bg-white text-gray-900 border-b shadow-sm" {...(theme ? { 'data-theme': theme } : {})}>
+        <div className="container py-3">
+          <div className="flex items-center justify-between gap-4">
+            {/* โลโก้ - ซ้าย */}
+            <Link href={`/${lang}`} className="flex-shrink-0">
+              <DynamicLogo
+                loading="eager"
+                priority="high"
+                className=""
+                logo={data.logo}
+              />
+            </Link>
 
-          {/* ช่องค้นหา - กลาง */}
-          <div className="hidden md:flex justify-center flex-1">
-            <div className="w-full max-w-xl">
-              <SearchBar lang={lang} className="w-full" />
+            {/* ช่องค้นหา - กลาง */}
+            <div className="hidden md:flex justify-center flex-1">
+              <div className="w-full max-w-xl">
+                <SearchBar lang={lang} className="w-full" />
+              </div>
+            </div>
+
+            {/* ส่วนผู้ใช้ - ขวา */}
+            <div className="flex items-center gap-4">
+              <LanguageSwitcher />
+              {status === 'loading' ? (
+                <div className="w-8 h-8 animate-pulse bg-gray-200 rounded-full"></div>
+              ) : session?.user ? (
+                <div className="hidden md:flex items-center gap-3">
+                  <span className="text-sm font-medium text-gray-700">เข้าสู่ระบบแล้ว</span>
+                  <UserMenu />
+                </div>
+              ) : (
+                <Link
+                  href={`/${lang}/login`}
+                  className="hidden md:flex items-center gap-2 text-sm text-gray-700 hover:text-blue-600"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                    />
+                  </svg>
+                  เข้าสู่ระบบ
+                </Link>
+              )}
+              <CartButton />
             </div>
           </div>
-
-          {/* ส่วนผู้ใช้ - ขวา */}
-          <div className="flex items-center gap-4">
-            <LanguageSwitcher />
-            {status === 'loading' ? (
-              <div className="w-8 h-8 animate-pulse bg-gray-200 rounded-full"></div>
-            ) : session?.user ? (
-              <div className="hidden md:flex items-center gap-3">
-                <span className="text-sm font-medium text-gray-700">เข้าสู่ระบบแล้ว</span>
-                <UserMenu />
-              </div>
-            ) : (
-              <Link
-                href={`/${lang}/login`}
-                className="hidden md:flex items-center gap-2 text-sm text-gray-700 hover:text-blue-600"
-              >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                  />
-                </svg>
-                เข้าสู่ระบบ
-              </Link>
-            )}
-            <CartButton />
-          </div>
-        </div>
-
-        {/* แถวล่าง: เมนูนำทาง */}
-        <div className="hidden lg:flex items-center justify-end">
-          <HeaderNav data={data} lang={lang} />
         </div>
       </div>
-    </header>
+
+      {/* แถบเมนูด้านล่าง - สีน้ำเงิน */}
+      <div className="w-full bg-blue-900 text-white">
+        <div className="container py-3">
+          <div className="hidden lg:flex items-center justify-end">
+            <HeaderNav data={data} lang={lang} />
+          </div>
+        </div>
+      </div>
+    </>
   )
 }
