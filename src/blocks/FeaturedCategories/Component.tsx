@@ -30,12 +30,10 @@ export const FeaturedCategoriesComponent: React.FC<FeaturedCategoriesProps> = ({
 }) => {
   if (!categories || categories.length === 0) return null
 
-  console.log('FeaturedCategories data:', categories)
-
   return (
-    <div className="w-full bg-white py-6">
+    <div className="w-full bg-white py-6 border-t border-gray-100">
       <div className="container">
-        <div className="flex gap-4 overflow-x-auto pb-2">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {categories.map((category, index) => {
             const image = category.image as Media
             const imageUrl = typeof image === 'object' && image?.url ? image.url : ''
@@ -44,43 +42,33 @@ export const FeaturedCategoriesComponent: React.FC<FeaturedCategoriesProps> = ({
               <CMSLink
                 key={category.id || index}
                 {...category.link}
-                className="flex-shrink-0 w-72 flex items-center gap-3 bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-all duration-300 p-3 group"
+                className="flex items-start gap-3 bg-white rounded-lg border border-gray-200 hover:border-blue-300 hover:shadow-md transition-all duration-300 p-4 group"
               >
                 {/* Image - Left */}
-                <div className="flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden bg-gray-50">
+                <div className="flex-shrink-0 w-16 h-16 rounded-md overflow-hidden bg-white border border-gray-100">
                   {imageUrl ? (
                     <img
                       src={imageUrl}
                       alt={category.title || 'Category'}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center">
-                      <span className="text-3xl text-gray-300">📦</span>
+                    <div className="w-full h-full flex items-center justify-center bg-gray-50">
+                      <span className="text-2xl">📦</span>
                     </div>
                   )}
                 </div>
 
-                {/* Content - Middle */}
+                {/* Content - Right */}
                 <div className="flex-1 min-w-0">
-                  <h3 className="font-bold text-gray-900 text-base mb-0.5 group-hover:text-blue-600 transition-colors line-clamp-1">
+                  <h3 className="font-bold text-gray-900 text-base leading-tight mb-1 group-hover:text-blue-600 transition-colors">
                     {category.title}
                   </h3>
                   {category.description && (
-                    <p className="text-sm text-gray-600 line-clamp-1">{category.description}</p>
+                    <p className="text-sm text-gray-500 leading-snug line-clamp-2">
+                      {category.description}
+                    </p>
                   )}
-                </div>
-
-                {/* Arrow - Right */}
-                <div className="flex-shrink-0">
-                  <svg 
-                    className="w-6 h-6 text-gray-400 group-hover:text-blue-600 group-hover:translate-x-1 transition-all" 
-                    fill="none" 
-                    stroke="currentColor" 
-                    viewBox="0 0 24 24"
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
                 </div>
               </CMSLink>
             )
