@@ -54,12 +54,6 @@ export const HomeCategorySidebar: React.FC<HomeCategorySidebarProps> = ({ lang }
   if (loading) {
     return (
       <div className="w-64 bg-white shadow-md">
-        <div className="bg-gradient-to-r from-blue-900 to-blue-800 text-white px-4 py-3 flex items-center gap-2">
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-          </svg>
-          <span className="font-semibold">หมวดหมู่สินค้า</span>
-        </div>
         <div className="p-4 space-y-3">
           <div className="h-10 bg-gray-200 rounded animate-pulse"></div>
           <div className="h-10 bg-gray-200 rounded animate-pulse"></div>
@@ -71,16 +65,8 @@ export const HomeCategorySidebar: React.FC<HomeCategorySidebarProps> = ({ lang }
 
   return (
     <div className="w-64 bg-white shadow-md overflow-hidden">
-      {/* Header */}
-      <div className="bg-gradient-to-r from-blue-900 to-blue-800 text-white px-4 py-3 flex items-center gap-2">
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-        </svg>
-        <span className="font-semibold">หมวดหมู่สินค้า</span>
-      </div>
-
       {/* Categories List */}
-      <div className="divide-y max-h-[500px] overflow-y-auto">
+      <div className="divide-y h-full overflow-y-auto">
         {rootCategories.map((category) => {
           const subcategories = getSubcategories(category.id)
           const hasSubcategories = subcategories.length > 0
