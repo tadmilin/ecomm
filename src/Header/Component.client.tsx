@@ -72,8 +72,10 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
                 <span className="font-semibold">หมวดหมู่สินค้า</span>
               </div>
               
-              {/* Dropdown รายการหมวดหมู่ - แสดงอยู่ตลอด */}
-              <CategorySidebarComponent lang={lang} title="" showOnDesktopOnly={true} />
+              {/* Dropdown รายการหมวดหมู่ - ลอยทับเนื้อหาด้านล่าง */}
+              <div className="absolute top-full left-0 z-50 mt-0">
+                <CategorySidebarComponent lang={lang} title="" showOnDesktopOnly={true} />
+              </div>
             </div>
           </div>
 
