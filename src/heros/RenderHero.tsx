@@ -5,7 +5,7 @@ import type { Page } from '@/payload-types'
 import { HighImpactHero } from '@/heros/HighImpact'
 import { LowImpactHero } from '@/heros/LowImpact'
 import { MediumImpactHero } from '@/heros/MediumImpact'
-import { CategorySidebarComponent } from '@/blocks/CategorySidebar/Component'
+import { HomeCategorySidebar } from '@/components/HomeCategorySidebar/Component'
 
 const heroes = {
   highImpact: HighImpactHero,
@@ -19,13 +19,43 @@ type HeroWithSidebar = Page['hero'] & {
 }
 
 export const RenderHero: React.FC<HeroWithSidebar> = (props) => {
-  const { type } = props || {}
+  const { type, showCategorySidebar, lang } = props || {}
 
   if (!type || type === 'none') return null
 
   const HeroToRender = heroes[type]
 
   if (!HeroToRender) return null
+
+  // If showCategorySidebar is true, render with sidebar layout
+  if (showCategorySidebar && lang) {
+    // ลบ media prop ออกเมื่อใช้ highImpact hero เพื่อป้องกันการส่ง buffer object
+    if (type === 'highImpact') {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { media, showCategorySidebar: _, ...restProps } = props
+      return (
+        <div className="container mx-auto px-4 py-4">
+          <div className="flex gap-4 items-start">
+            <HomeCategorySidebar lang={lang} />
+            <div className="flex-1 min-w-0">
+              <HeroToRender {...restProps} />
+            </div>
+          </div>
+        </div>
+      )
+    }
+
+    return (
+      <div className="container mx-auto px-4 py-4">
+        <div className="flex gap-4 items-start">
+          <HomeCategorySidebar lang={lang} />
+          <div className="flex-1 min-w-0">
+            <HeroToRender {...props} />
+          </div>
+        </div>
+      </div>
+    )
+  }
 
   // ลบ media prop ออกเมื่อใช้ highImpact hero เพื่อป้องกันการส่ง buffer object
   if (type === 'highImpact') {

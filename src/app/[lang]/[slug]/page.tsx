@@ -72,6 +72,9 @@ export default async function Page({ params: paramsPromise }: Args) {
 
   const { hero, layout } = page
 
+  // Check if this is the home page
+  const isHomePage = slug === 'home'
+
   return (
     <article className="pb-24">
       <PageClient />
@@ -80,7 +83,11 @@ export default async function Page({ params: paramsPromise }: Args) {
 
       {draft && <LivePreviewListener />}
 
-      <RenderHero {...hero} lang={lang} />
+      {isHomePage ? (
+        <RenderHero {...hero} lang={lang} showCategorySidebar={true} />
+      ) : (
+        <RenderHero {...hero} lang={lang} />
+      )}
       <RenderBlocks blocks={layout} lang={lang} />
     </article>
   )
