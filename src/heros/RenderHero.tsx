@@ -19,34 +19,13 @@ type HeroWithSidebar = Page['hero'] & {
 }
 
 export const RenderHero: React.FC<HeroWithSidebar> = (props) => {
-  const { type, showCategorySidebar, lang = 'th' } = props || {}
+  const { type } = props || {}
 
   if (!type || type === 'none') return null
 
   const HeroToRender = heroes[type]
 
   if (!HeroToRender) return null
-
-  // Render with Category Sidebar if enabled
-  if (showCategorySidebar) {
-    return (
-      <div className="container mx-auto px-4">
-        <div className="flex">
-          {/* Category Sidebar - Left */}
-          <CategorySidebarComponent
-            title={lang === 'th' ? 'หมวดหมู่สินค้า' : lang === 'en' ? 'Categories' : '分类'}
-            showOnDesktopOnly={true}
-            lang={lang}
-          />
-
-          {/* Hero Content - Right */}
-          <div className="flex-1 overflow-hidden">
-            {type === 'highImpact' ? <HeroToRender {...props} /> : <HeroToRender {...props} />}
-          </div>
-        </div>
-      </div>
-    )
-  }
 
   // ลบ media prop ออกเมื่อใช้ highImpact hero เพื่อป้องกันการส่ง buffer object
   if (type === 'highImpact') {
