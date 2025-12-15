@@ -13,7 +13,6 @@ import UserMenu from '@/components/UserMenu'
 import { CartButton } from '@/components/CartButton'
 import { LanguageSwitcher } from '@/components/LanguageSwitcher'
 import { SearchBar } from '@/components/SearchBar'
-import { CategorySidebarComponent } from '@/blocks/CategorySidebar/Component'
 
 interface HeaderClientProps {
   data: Header
