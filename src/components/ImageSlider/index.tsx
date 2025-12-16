@@ -53,7 +53,7 @@ interface ImageSliderProps {
 export const ImageSlider: React.FC<ImageSliderProps> = ({
   slides,
   className = '',
-  fill = false,
+  fill = true,
   imgClassName = '',
   priority = 'low',
 }) => {
