@@ -32,7 +32,6 @@ export const FeaturedCategoriesComponent: React.FC<FeaturedCategoriesProps> = ({
 
   return (
     <div className="section-wrapper">
-      {/* เอา container ออก หรือใช้ wrapper ที่กว้าง 100% */}
       <div className="scroll-container">
         {categories.map((category, index) => {
           const image = category.image as Media
@@ -75,26 +74,22 @@ export const FeaturedCategoriesComponent: React.FC<FeaturedCategoriesProps> = ({
         })}
       </div>
 
-      {/* ย้าย Style มาไว้รวมกันตรงนี้ เพื่อให้อ่านง่ายและทำงานถูกต้อง */}
       <style jsx>{`
         .section-wrapper {
           width: 100%;
           background-color: #f0f0f0;
           padding: 20px 0;
-          /* ถ้าอยากให้มี padding ซ้ายขวาของหน้าจอ ให้ใส่ padding ที่นี่แทน container */
-          /* padding: 20px 16px; */ 
         }
 
         .scroll-container {
           display: flex;
           overflow-x: auto;
-          gap: 12px;
-          padding-bottom: 10px; /* กันเงาแหว่ง */
+          gap: 16px;
+          padding-bottom: 5px;
           
-          /* ให้ scroll เริ่มชิดขอบซ้ายสุดของหน้า */
-          width: 100%; 
-          padding-left: 16px; /* ระยะห่างจากขอบซ้าย */
-          padding-right: 16px; /* ระยะห่างจากขอบขวา */
+          /* Mobile: ให้มีระยะห่างขอบซ้ายขวาเวลาเลื่อน */
+          padding-left: 16px;
+          padding-right: 16px;
           
           /* ซ่อน Scrollbar */
           -ms-overflow-style: none;
@@ -105,7 +100,7 @@ export const FeaturedCategoriesComponent: React.FC<FeaturedCategoriesProps> = ({
           display: none;
         }
 
-        /* --- CARD STYLES --- */
+        /* --- STYLES สำหรับหน้าจอมือถือ (Default) --- */
         :global(.menu-card) {
           display: flex;
           align-items: center;
@@ -113,16 +108,44 @@ export const FeaturedCategoriesComponent: React.FC<FeaturedCategoriesProps> = ({
           border-radius: 8px;
           padding: 10px;
           
-          /* จุดสำคัญ: กำหนดขนาดและห้ามหด */
+          /* Mobile: บังคับความกว้าง เพื่อให้เลื่อนได้ */
           min-width: 280px; 
           max-width: 300px;
-          flex-shrink: 0; /* สำคัญมาก! ห้าม Flex บีบการ์ดให้เล็กลง */
+          flex-shrink: 0;
           
           text-decoration: none;
           color: #333;
           box-shadow: 0 2px 5px rgba(0,0,0,0.05);
           transition: transform 0.2s ease, box-shadow 0.2s ease;
           border: 1px solid transparent;
+        }
+
+        /* --- STYLES สำหรับหน้าจอ PC (Desktop) --- */
+        /* เมื่อหน้าจอกว้างกว่า 1024px ให้เปลี่ยนจากเลื่อน เป็นตารางเต็มจอ */
+        @media (min-width: 1024px) {
+          .section-wrapper {
+             /* ปรับ Padding ให้ตรงกับ Container หลักของเว็บคุณ */
+             padding-left: 24px;
+             padding-right: 24px;
+          }
+
+          .scroll-container {
+            /* เปลี่ยนเป็น Grid เพื่อแบ่งช่องเท่ากัน */
+            display: grid;
+            /* สั่งให้แบ่งเป็น 4 คอลัมน์เท่ากันเป๊ะ (1fr = 1 fraction) */
+            grid-template-columns: repeat(4, 1fr); 
+            overflow-x: visible; /* ปิดการเลื่อน */
+            padding-left: 0;
+            padding-right: 0;
+            width: 100%; /* กว้างเต็มพื้นที่ */
+          }
+
+          :global(.menu-card) {
+            /* ยกเลิกการจำกัดขนาดของมือถือ */
+            min-width: 0; 
+            max-width: none;
+            width: 100%; /* ให้ยืดเต็มช่อง Grid ของตัวเอง */
+          }
         }
 
         :global(.menu-card:hover) {
@@ -158,6 +181,8 @@ export const FeaturedCategoriesComponent: React.FC<FeaturedCategoriesProps> = ({
         .card-content {
           flex-grow: 1;
           overflow: hidden;
+          /* เพิ่ม min-width: 0 เพื่อแก้ปัญหา Flexbox ดันทะลุเมื่อข้อความยาว */
+          min-width: 0; 
         }
 
         .card-content h3 {
@@ -167,16 +192,23 @@ export const FeaturedCategoriesComponent: React.FC<FeaturedCategoriesProps> = ({
           color: #000;
           margin-bottom: 2px;
           font-family: 'Kanit', sans-serif;
+          
+          /* ตัดคำถ้ายาวเกิน */
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
 
         .card-content p {
           margin: 0;
           font-size: 13px;
           color: #666;
+          font-family: 'Kanit', sans-serif;
+          
+          /* ตัดคำถ้ายาวเกิน */
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
-          font-family: 'Kanit', sans-serif;
         }
 
         .card-arrow {
@@ -186,6 +218,7 @@ export const FeaturedCategoriesComponent: React.FC<FeaturedCategoriesProps> = ({
           width: 24px;
           height: 24px;
           flex-shrink: 0;
+          margin-left: 8px; /* เว้นระยะจากข้อความนิดหน่อย */
         }
       `}</style>
     </div>
