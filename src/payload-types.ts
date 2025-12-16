@@ -238,6 +238,40 @@ export interface Page {
           id?: string | null;
         }[]
       | null;
+    /**
+     * แสดงเมนูหมวดหมู่ด้านซ้าย (เฉพาะ Desktop)
+     */
+    showCategorySidebar?: boolean | null;
+    /**
+     * แสดง featured categories ด้านล่าง hero slider
+     */
+    featuredCategories?:
+      | {
+          image: string | Media;
+          title: string;
+          description?: string | null;
+          link: {
+            type?: ('reference' | 'custom') | null;
+            newTab?: boolean | null;
+            reference?:
+              | ({
+                  relationTo: 'pages';
+                  value: string | Page;
+                } | null)
+              | ({
+                  relationTo: 'posts';
+                  value: string | Post;
+                } | null);
+            url?: string | null;
+            label: string;
+            /**
+             * Choose how the link should be rendered.
+             */
+            appearance?: ('default' | 'outline') | null;
+          };
+          id?: string | null;
+        }[]
+      | null;
   };
   layout: (
     | CallToActionBlock
@@ -257,6 +291,7 @@ export interface Page {
         blockName?: string | null;
         blockType: 'login';
       }
+    | FeaturedProductsBlock
   )[];
   meta?: {
     title?: string | null;
@@ -418,6 +453,10 @@ export interface Media {
  */
 export interface Category {
   id: string;
+  /**
+   * เลือกหมวดหมู่แม่ ถ้าต้องการให้เป็นหมวดหมู่ย่อย (เช่น "ปูนก่อ" อยู่ภายใต้ "ปูนซีเมนต์")
+   */
+  parent?: (string | null) | Category;
   title: string;
   slug?: string | null;
   slugLock?: boolean | null;
@@ -434,6 +473,10 @@ export interface Category {
    */
   order?: number | null;
   /**
+   * 0 = หมวดหมู่หลัก, 1 = หมวดหมู่ย่อย ระดับ 1, 2 = หมวดหมู่ย่อย ระดับ 2
+   */
+  level?: number | null;
+  /**
    * จำนวนคอลัมน์ที่จะแสดงสินค้าในหมวดหมู่นี้ (1-12)
    */
   columns?: number | null;
@@ -442,7 +485,7 @@ export interface Category {
    */
   featured?: boolean | null;
   /**
-   * ลิงก์สำหรับ breadcrumb navigation
+   * ลิงก์สำหรับ breadcrumb navigation (จะถูกสร้างอัตโนมัติจาก parent)
    */
   breadcrumbs?:
     | {
@@ -451,7 +494,6 @@ export interface Category {
         id?: string | null;
       }[]
     | null;
-  parent?: (string | null) | Category;
   updatedAt: string;
   createdAt: string;
 }
@@ -844,6 +886,32 @@ export interface Form {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FeaturedProductsBlock".
+ */
+export interface FeaturedProductsBlock {
+  title?: string | null;
+  /**
+   * เลือกว่าจะดึงสินค้าอัตโนมัติหรือเลือกเอง
+   */
+  displayMode: 'auto-featured' | 'auto-new' | 'auto-discount' | 'manual';
+  /**
+   * จำนวนสินค้าสูงสุดที่จะแสดง (สำหรับโหมด Auto)
+   */
+  maxProducts?: number | null;
+  /**
+   * เลือกสินค้าที่ต้องการแสดง
+   */
+  selectedProducts?: (string | Product)[] | null;
+  /**
+   * เรียงลำดับสินค้า (สำหรับโหมด Auto)
+   */
+  sortBy?: ('createdAt' | 'price-asc' | 'price-desc' | 'name-asc') | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'featuredProducts';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "products".
  */
 export interface Product {
@@ -898,7 +966,35 @@ export interface Product {
     height?: number | null;
   };
   status: 'draft' | 'active' | 'out_of_stock' | 'discontinued';
+  /**
+   * แสดงในหน้าแรกหรือหน้า featured products
+   */
   featured?: boolean | null;
+  /**
+   * สินค้าใหม่ จะแสดงป้าย NEW
+   */
+  isNew?: boolean | null;
+  /**
+   * ยี่ห้อสินค้า เช่น MAZUMA, TCL, SAMSUNG
+   */
+  brand?: string | null;
+  /**
+   * เปอร์เซ็นต์ส่วนลด (0-100) สำหรับแสดงป้าย -XX%
+   */
+  discount?: number | null;
+  /**
+   * ป้ายพิเศษ เช่น Wi-Fi, ELCB, รับประกัน 5 ปี
+   */
+  badges?:
+    | {
+        badge: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * รหัสสินค้าสำหรับแสดงลูกค้า (ต่างจาก SKU)
+   */
+  productCode?: string | null;
   /**
    * เปิดใช้งานถ้าสินค้ามีหลายตัวเลือก เช่น ขนาด สี
    */
@@ -1274,6 +1370,25 @@ export interface PagesSelect<T extends boolean = true> {
                   };
               id?: T;
             };
+        showCategorySidebar?: T;
+        featuredCategories?:
+          | T
+          | {
+              image?: T;
+              title?: T;
+              description?: T;
+              link?:
+                | T
+                | {
+                    type?: T;
+                    newTab?: T;
+                    reference?: T;
+                    url?: T;
+                    label?: T;
+                    appearance?: T;
+                  };
+              id?: T;
+            };
       };
   layout?:
     | T
@@ -1296,6 +1411,7 @@ export interface PagesSelect<T extends boolean = true> {
               id?: T;
               blockName?: T;
             };
+        featuredProducts?: T | FeaturedProductsBlockSelect<T>;
       };
   meta?:
     | T
@@ -1392,6 +1508,19 @@ export interface FormBlockSelect<T extends boolean = true> {
   form?: T;
   enableIntro?: T;
   introContent?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FeaturedProductsBlock_select".
+ */
+export interface FeaturedProductsBlockSelect<T extends boolean = true> {
+  title?: T;
+  displayMode?: T;
+  maxProducts?: T;
+  selectedProducts?: T;
+  sortBy?: T;
   id?: T;
   blockName?: T;
 }
@@ -1524,12 +1653,14 @@ export interface MediaSelect<T extends boolean = true> {
  * via the `definition` "categories_select".
  */
 export interface CategoriesSelect<T extends boolean = true> {
+  parent?: T;
   title?: T;
   slug?: T;
   slugLock?: T;
   image?: T;
   description?: T;
   order?: T;
+  level?: T;
   columns?: T;
   featured?: T;
   breadcrumbs?:
@@ -1539,7 +1670,6 @@ export interface CategoriesSelect<T extends boolean = true> {
         label?: T;
         id?: T;
       };
-  parent?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1593,6 +1723,16 @@ export interface ProductsSelect<T extends boolean = true> {
       };
   status?: T;
   featured?: T;
+  isNew?: T;
+  brand?: T;
+  discount?: T;
+  badges?:
+    | T
+    | {
+        badge?: T;
+        id?: T;
+      };
+  productCode?: T;
   hasVariants?: T;
   variants?:
     | T
