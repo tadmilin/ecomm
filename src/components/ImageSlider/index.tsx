@@ -51,7 +51,7 @@ interface ImageSliderProps {
 }
 
 /* --- ส่วนประกอบปุ่มลูกศร (Custom Arrows) --- */
-const CustomPrevArrow = (props: any) => {
+const CustomPrevArrow = (props: { onClick?: () => void }) => {
   const { onClick } = props
   return (
     <button
@@ -67,7 +67,7 @@ const CustomPrevArrow = (props: any) => {
   )
 }
 
-const CustomNextArrow = (props: any) => {
+const CustomNextArrow = (props: { onClick?: () => void }) => {
   const { onClick } = props
   return (
     <button
@@ -86,7 +86,7 @@ const CustomNextArrow = (props: any) => {
 export const ImageSlider: React.FC<ImageSliderProps> = ({
   slides,
   className = '',
-  fill = false,
+  fill: _fill = false,
   imgClassName = '',
   priority = 'low',
 }) => {
