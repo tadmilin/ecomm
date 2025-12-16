@@ -31,14 +31,22 @@ export const FeaturedCategoriesComponent: React.FC<FeaturedCategoriesProps> = ({
   if (!categories || categories.length === 0) return null
 
   return (
-    <div style={{ width: '100%', backgroundColor: '#ffffff', padding: '40px 0 48px' }}>
+    <div style={{ width: '100%', backgroundColor: '#f0f0f0', padding: '20px 0' }}>
       <div className="container">
-        <div style={{ 
-          display: 'flex', 
-          gap: '16px', 
-          overflowX: 'auto',
-          paddingBottom: '8px'
-        }}>
+        <div className="scroll-container">
+          <style jsx>{`
+            .scroll-container {
+              display: flex;
+              overflow-x: auto;
+              gap: 12px;
+              padding-bottom: 10px;
+              -ms-overflow-style: none;
+              scrollbar-width: none;
+            }
+            .scroll-container::-webkit-scrollbar {
+              display: none;
+            }
+          `}</style>
           {categories.map((category, index) => {
             const image = category.image as Media
             const imageUrl = typeof image === 'object' && image?.url ? image.url : ''
@@ -47,50 +55,50 @@ export const FeaturedCategoriesComponent: React.FC<FeaturedCategoriesProps> = ({
               <CMSLink
                 key={category.id || index}
                 {...category.link}
-                className="featured-category-card"
+                className="menu-card"
               >
                 <style jsx>{`
-                  .featured-category-card {
-                    flex-shrink: 0;
-                    width: 340px;
-                    height: 100px;
+                  .menu-card {
                     display: flex;
                     align-items: center;
-                    gap: 0;
                     background-color: #ffffff;
                     border-radius: 8px;
-                    border: 1px solid #e0e0e0;
-                    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-                    padding: 0;
+                    padding: 10px;
+                    min-width: 280px;
+                    max-width: 300px;
                     text-decoration: none;
-                    transition: all 0.3s ease;
-                    overflow: hidden;
+                    color: #333;
+                    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+                    transition: transform 0.2s ease, box-shadow 0.2s ease;
+                    border: 1px solid transparent;
                   }
-                  .featured-category-card:hover {
-                    background-color: #f8f9fa;
-                    border-color: #2196f3;
-                    box-shadow: 0 4px 12px rgba(33,150,243,0.2);
+                  .menu-card:hover {
                     transform: translateY(-2px);
+                    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
                   }
                 `}</style>
 
-                {/* Image */}
-                <div style={{
-                  flexShrink: 0,
-                  width: '100px',
-                  height: '100px',
-                  overflow: 'hidden',
-                  backgroundColor: '#f5f5f5'
-                }}>
+                {/* card-image */}
+                <div className="card-image">
+                  <style jsx>{`
+                    .card-image {
+                      width: 60px;
+                      height: 60px;
+                      flex-shrink: 0;
+                      border-radius: 6px;
+                      overflow: hidden;
+                      margin-right: 12px;
+                    }
+                    .card-image img {
+                      width: 100%;
+                      height: 100%;
+                      object-fit: cover;
+                    }
+                  `}</style>
                   {imageUrl ? (
                     <img
                       src={imageUrl}
                       alt={category.title || 'Category'}
-                      style={{
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'cover'
-                      }}
                     />
                   ) : (
                     <div style={{
@@ -99,50 +107,59 @@ export const FeaturedCategoriesComponent: React.FC<FeaturedCategoriesProps> = ({
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      fontSize: '36px'
+                      fontSize: '32px',
+                      backgroundColor: '#f5f5f5'
                     }}>
                       📦
                     </div>
                   )}
                 </div>
 
-                {/* Content */}
-                <div style={{
-                  flex: 1,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'center',
-                  padding: '16px 20px',
-                  minWidth: 0
-                }}>
-                  <h3 style={{
-                    fontFamily: 'Kanit, sans-serif',
-                    fontWeight: '600',
-                    fontSize: '16px',
-                    color: '#1a1a1a',
-                    lineHeight: '1.3',
-                    marginBottom: '4px',
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                    whiteSpace: 'nowrap'
-                  }}>
-                    {category.title}
-                  </h3>
+                {/* card-content */}
+                <div className="card-content">
+                  <style jsx>{`
+                    .card-content {
+                      flex-grow: 1;
+                      overflow: hidden;
+                    }
+                    .card-content h3 {
+                      margin: 0;
+                      font-size: 16px;
+                      font-weight: 600;
+                      color: #000;
+                      margin-bottom: 2px;
+                      font-family: 'Kanit', sans-serif;
+                    }
+                    .card-content p {
+                      margin: 0;
+                      font-size: 13px;
+                      color: #666;
+                      white-space: nowrap;
+                      overflow: hidden;
+                      text-overflow: ellipsis;
+                      font-family: 'Kanit', sans-serif;
+                    }
+                  `}</style>
+                  <h3>{category.title}</h3>
                   {category.description && (
-                    <p style={{
-                      fontFamily: 'Kanit, sans-serif',
-                      fontSize: '13px',
-                      color: '#666666',
-                      lineHeight: '1.4',
-                      margin: 0,
-                      overflow: 'hidden',
-                      display: '-webkit-box',
-                      WebkitLineClamp: 2,
-                      WebkitBoxOrient: 'vertical'
-                    } as React.CSSProperties}>
-                      {category.description}
-                    </p>
+                    <p>{category.description}</p>
                   )}
+                </div>
+
+                {/* card-arrow */}
+                <div className="card-arrow">
+                  <style jsx>{`
+                    .card-arrow {
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                      width: 24px;
+                      height: 24px;
+                    }
+                  `}</style>
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9 18L15 12L9 6" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
                 </div>
               </CMSLink>
             )
