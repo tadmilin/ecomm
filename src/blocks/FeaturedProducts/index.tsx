@@ -1,5 +1,6 @@
 import React from 'react'
 import { getPayload } from 'payload'
+import type { Where } from 'payload'
 import config from '@payload-config'
 import { FeaturedProductsComponent } from './Component'
 import type { FeaturedProductsBlock as FeaturedProductsBlockType } from '@/payload-types'
@@ -26,16 +27,11 @@ export const FeaturedProductsBlock: React.FC<
       const payload = await getPayload({ config })
       
       // กำหนด where condition ตามโหมด
-      let whereCondition: any = {
-        status: { equals: 'active' }
-      }
-
-      if (displayMode === 'auto-featured') {
-        whereCondition.featured = { equals: true }
-      } else if (displayMode === 'auto-new') {
-        whereCondition.isNew = { equals: true }
-      } else if (displayMode === 'auto-discount') {
-        whereCondition.discount = { greater_than: 0 }
+      const whereCondition: Where = {
+        status: { equals: 'active' },
+        ...(displayMode === 'auto-featured' && { featured: { equals: true } }),
+        ...(displayMode === 'auto-new' && { isNew: { equals: true } }),
+        ...(displayMode === 'auto-discount' && { discount: { greater_than: 0 } }),
       }
 
       // กำหนด sort
