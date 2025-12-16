@@ -84,7 +84,7 @@ export default async function Page({ params: paramsPromise }: Args) {
       {draft && <LivePreviewListener />}
 
       {isHomePage ? (
-        <RenderHero {...hero} lang={lang} showCategorySidebar={true} />
+        <RenderHero {...hero} lang={lang} showCategorySidebar={true} featuredCategories={hero?.featuredCategories || undefined} />
       ) : (
         <RenderHero {...hero} lang={lang} />
       )}
