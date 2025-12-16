@@ -50,14 +50,46 @@ interface ImageSliderProps {
   priority?: 'high' | 'low' | 'auto'
 }
 
+/* --- ส่วนประกอบปุ่มลูกศร (Custom Arrows) --- */
+const CustomPrevArrow = (props: any) => {
+  const { onClick } = props
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className="absolute left-4 top-1/2 -translate-y-1/2 z-20 flex h-12 w-12 items-center justify-center rounded-full bg-black/30 text-white backdrop-blur-sm transition-all duration-300 hover:bg-black/60 hover:scale-110 focus:outline-none group"
+      aria-label="Previous Slide"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="h-6 w-6">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+      </svg>
+    </button>
+  )
+}
+
+const CustomNextArrow = (props: any) => {
+  const { onClick } = props
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className="absolute right-4 top-1/2 -translate-y-1/2 z-20 flex h-12 w-12 items-center justify-center rounded-full bg-black/30 text-white backdrop-blur-sm transition-all duration-300 hover:bg-black/60 hover:scale-110 focus:outline-none group"
+      aria-label="Next Slide"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="h-6 w-6">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+      </svg>
+    </button>
+  )
+}
+
 export const ImageSlider: React.FC<ImageSliderProps> = ({
   slides,
   className = '',
-  fill = true,
+  fill = false,
   imgClassName = '',
   priority = 'low',
 }) => {
-  // ตั้งค่า slick slider
   const settings = {
     dots: true,
     infinite: true,
@@ -68,36 +100,44 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
     autoplaySpeed: 5000,
     pauseOnHover: true,
     arrows: true,
-    centerMode: false, // แนะนำ: ปิด centerMode เพื่อลดปัญหาขอบขาวด้านข้าง
+    prevArrow: <CustomPrevArrow />,
+    nextArrow: <CustomNextArrow />,
+    centerMode: false,
     variableWidth: false,
+    adaptiveHeight: false, // สำคัญ: ปิด adaptiveHeight เพื่อให้เราคุมความสูงเอง
   }
 
-  if (!slides || slides.length === 0) {
-    return null
-  }
+  if (!slides || slides.length === 0) return null
 
   return (
     <div className={`image-slider-container ${className}`}>
       <Slider {...settings} className="custom-slick-slider">
         {slides.map((slide, index) => (
           <div key={`slide-${index}`} className="slide-item-wrapper">
-            <div className="slide-item relative">
-              <Media
-                resource={slide.image}
-                fill={fill}
-                // ใส่ class "fix-slide-image" เพื่อไปบังคับ CSS ข้างล่าง
-                imgClassName={`slide-image fix-slide-image ${imgClassName}`}
-                priority={index === 0 && priority === 'high'}
-              />
+            <div className="slide-item">
+              
+              {/* รูปภาพพื้นหลัง */}
+              <div className="slide-image-wrapper">
+                <Media
+                  resource={slide.image}
+                  fill={true} 
+                  imgClassName={`slide-bg-image ${imgClassName}`}
+                  priority={index === 0 && priority === 'high'}
+                />
+              </div>
+
+              {/* ข้อความและปุ่ม Overlay */}
               {(slide.title || slide.description || slide.link) && (
-                <div className="absolute inset-0 pointer-events-none">
-                  <div className="container h-full flex items-center">
+                <div className="absolute inset-0 z-10 pointer-events-none flex items-center">
+                  <div className="container">
                     <div className="max-w-[36.5rem] bg-black/40 backdrop-blur-sm rounded-md p-6 text-white pointer-events-auto">
                       {slide.title && (
                         <h2 className="text-4xl font-extrabold tracking-tight mb-3">{slide.title}</h2>
                       )}
                       {slide.description && (
-                        <div className="prose prose-invert max-w-none mb-4"></div>
+                        <div className="prose prose-invert max-w-none mb-4">
+                           {/* Content goes here */}
+                        </div>
                       )}
                       {slide.link && (
                         <CMSLink
@@ -120,56 +160,86 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
         ))}
       </Slider>
 
-      {/* ใส่ CSS ไว้ตรงนี้เลยครับ จะได้ทำงานแน่นอน */}
       <style jsx global>{`
-        /* 1. ลบช่องว่างบรรทัดของ Container */
+        /* 1. Container หลัก - บังคับพื้นหลังดำ */
         .image-slider-container {
+          position: relative;
+          background-color: #000;
+          overflow: hidden;
           line-height: 0;
           font-size: 0;
-          overflow: hidden;
-          background-color: #000; /* ใส่พื้นหลังดำไว้กันเหนียว */
         }
 
-        /* 2. จัดการตัว Slick Track */
+        /* 2. บังคับโครงสร้าง Slick Slider ให้สูงเต็มพื้นที่ */
+        .custom-slick-slider,
         .custom-slick-slider .slick-list,
-        .custom-slick-slider .slick-track {
-          display: flex !important;
-          align-items: flex-start; /* ดึงให้ชิดบนสุด */
-          height: 100%;
+        .custom-slick-slider .slick-track,
+        .custom-slick-slider .slick-slide,
+        .custom-slick-slider .slide-item-wrapper {
+          height: 100% !important;
+          min-height: 100% !important;
         }
 
-        .slide-item-wrapper {
-          height: 100%;
-          display: flex !important;
-          justify-content: center;
+        .slick-slide > div {
+          height: 100%; /* แก้บั๊ก slick สร้าง div ซ้อน */
         }
 
-        /* 3. กำหนดความสูงของพื้นที่แสดงผล */
+        /* 3. กำหนดความสูงของพื้นที่แสดงผล (แก้เลขตรงนี้ได้) */
         .slide-item {
           width: 100%;
-          /* ปรับความสูงตรงนี้: เช่น 50vh, 60vh หรือ 500px */
-          height: 60vh; 
-          max-height: 700px;
+          height: 60vh; /* ความสูงที่คุณต้องการ */
+          min-height: 400px; /* กันไม่ให้เตี้ยเกินไปในจอกว้าง */
+          max-height: 800px;
           position: relative;
+          display: flex; /* ใช้ Flex เพื่อยืด child ให้เต็ม */
+          align-items: center;
+          justify-content: center;
           overflow: hidden;
         }
 
-        /* 4. แก้รูปภาพให้ขยายเต็มและลบขอบดำล่าง (หัวใจสำคัญ) */
-        .fix-slide-image {
-          display: block !important; /* เปลี่ยนเป็น Block เพื่อลบช่องว่าง Text ด้านล่าง */
-          width: 100% !important;
-          height: 100% !important;
-          object-fit: cover !important; /* ขยายรูปให้เต็มกรอบโดยไม่บี้ */
-          object-position: center top; /* จัดให้โฟกัสเริ่มจากข้างบน */
-          border: none !important;
-          margin: 0 !important;
-          padding: 0 !important;
+        /* 4. wrapper ของรูปภาพ - ยืดให้เต็มพื้นที่แม่ */
+        .slide-image-wrapper {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          z-index: 0;
         }
 
-        /* Responsive: ปรับความสูงสำหรับมือถือ */
+        /* 5. ท่าไม้ตาย: เจาะจงไปที่ <img> ทุกตัวใน slider */
+        .slide-image-wrapper img, 
+        .slide-bg-image {
+          display: block !important;
+          width: 100% !important;
+          height: 100% !important;
+          object-fit: cover !important; /* กุญแจสำคัญ: ขยายให้เต็มโดยตัดส่วนเกินออก */
+          object-position: center center !important;
+          position: absolute !important;
+          top: 0 !important;
+          left: 0 !important;
+          border: none !important;
+        }
+
+        /* ปุ่ม Dots */
+        .slick-dots {
+          bottom: 25px !important;
+          z-index: 20;
+        }
+        .slick-dots li button:before {
+          color: white !important;
+          opacity: 0.5;
+          font-size: 10px;
+        }
+        .slick-dots li.slick-active button:before {
+          opacity: 1;
+        }
+
+        /* Responsive */
         @media (max-width: 768px) {
           .slide-item {
-            height: 40vh; /* มือถือให้เตี้ยลงหน่อย */
+            height: 40vh;
+            min-height: 250px;
           }
         }
       `}</style>
