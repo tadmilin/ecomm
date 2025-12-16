@@ -14,7 +14,7 @@ const heroes = {
   mediumImpact: MediumImpactHero,
 }
 
-type HeroWithSidebar = Page['hero'] & {
+type HeroWithSidebar = Omit<Page['hero'], 'featuredCategories'> & {
   showCategorySidebar?: boolean
   lang?: string
   featuredCategories?: unknown[]
