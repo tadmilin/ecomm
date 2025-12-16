@@ -8,7 +8,6 @@ import { CMSLink } from '@/components/Link'
 // นำเข้า CSS ของ slick-carousel
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
-import './index.css'
 
 import type { Media as MediaType, Page, Post } from '@/payload-types'
 
@@ -69,8 +68,8 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
     autoplaySpeed: 5000,
     pauseOnHover: true,
     arrows: true,
-    centerMode: true,
-    centerPadding: '0',
+    centerMode: false, // แนะนำ: ปิด centerMode เพื่อลดปัญหาขอบขาวด้านข้าง
+    variableWidth: false,
   }
 
   if (!slides || slides.length === 0) {
@@ -79,48 +78,101 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
 
   return (
     <div className={`image-slider-container ${className}`}>
-      <Slider {...settings}>
+      <Slider {...settings} className="custom-slick-slider">
         {slides.map((slide, index) => (
-          <div key={`slide-${index}`} className="slide-item relative">
-            <Media
-              // ส่ง slide.image ทั้งหมดไปให้ Media component
-              resource={slide.image}
-              fill={fill}
-              imgClassName={`slide-image ${imgClassName}`}
-              // priority ต้องเป็น boolean หรือ undefined
-              priority={index === 0 && priority === 'high'}
-            />
-            {(slide.title || slide.description || slide.link) && (
-              <div className="absolute inset-0 pointer-events-none">
-                <div className="container h-full flex items-center">
-                  <div className="max-w-[36.5rem] bg-black/40 backdrop-blur-sm rounded-md p-6 text-white pointer-events-auto">
-                    {slide.title && (
-                      <h2 className="text-4xl font-extrabold tracking-tight mb-3">{slide.title}</h2>
-                    )}
-                    {slide.description && (
-                      <div className="prose prose-invert max-w-none mb-4">
-                        {/* description เป็น richText (lexical JSON) จะเรนเดอร์ผ่าน RichText ของหน้าแม่ จึงให้เป็น children แบบ plain ไม่แปลงที่นี่ */}
-                      </div>
-                    )}
-                    {slide.link && (
-                      <CMSLink
-                        appearance="default"
-                        type={slide.link.type}
-                        url={slide.link.url}
-                        newTab={slide.link.newTab}
-                        reference={slide.link.reference}
-                        label={slide.link.label}
-                      >
-                        {slide.link.label || 'Learn more'}
-                      </CMSLink>
-                    )}
+          <div key={`slide-${index}`} className="slide-item-wrapper">
+            <div className="slide-item relative">
+              <Media
+                resource={slide.image}
+                fill={fill}
+                // ใส่ class "fix-slide-image" เพื่อไปบังคับ CSS ข้างล่าง
+                imgClassName={`slide-image fix-slide-image ${imgClassName}`}
+                priority={index === 0 && priority === 'high'}
+              />
+              {(slide.title || slide.description || slide.link) && (
+                <div className="absolute inset-0 pointer-events-none">
+                  <div className="container h-full flex items-center">
+                    <div className="max-w-[36.5rem] bg-black/40 backdrop-blur-sm rounded-md p-6 text-white pointer-events-auto">
+                      {slide.title && (
+                        <h2 className="text-4xl font-extrabold tracking-tight mb-3">{slide.title}</h2>
+                      )}
+                      {slide.description && (
+                        <div className="prose prose-invert max-w-none mb-4"></div>
+                      )}
+                      {slide.link && (
+                        <CMSLink
+                          appearance="default"
+                          type={slide.link.type}
+                          url={slide.link.url}
+                          newTab={slide.link.newTab}
+                          reference={slide.link.reference}
+                          label={slide.link.label}
+                        >
+                          {slide.link.label || 'Learn more'}
+                        </CMSLink>
+                      )}
+                    </div>
                   </div>
                 </div>
-              </div>
-            )}
+              )}
+            </div>
           </div>
         ))}
       </Slider>
+
+      {/* ใส่ CSS ไว้ตรงนี้เลยครับ จะได้ทำงานแน่นอน */}
+      <style jsx global>{`
+        /* 1. ลบช่องว่างบรรทัดของ Container */
+        .image-slider-container {
+          line-height: 0;
+          font-size: 0;
+          overflow: hidden;
+          background-color: #000; /* ใส่พื้นหลังดำไว้กันเหนียว */
+        }
+
+        /* 2. จัดการตัว Slick Track */
+        .custom-slick-slider .slick-list,
+        .custom-slick-slider .slick-track {
+          display: flex !important;
+          align-items: flex-start; /* ดึงให้ชิดบนสุด */
+          height: 100%;
+        }
+
+        .slide-item-wrapper {
+          height: 100%;
+          display: flex !important;
+          justify-content: center;
+        }
+
+        /* 3. กำหนดความสูงของพื้นที่แสดงผล */
+        .slide-item {
+          width: 100%;
+          /* ปรับความสูงตรงนี้: เช่น 50vh, 60vh หรือ 500px */
+          height: 60vh; 
+          max-height: 700px;
+          position: relative;
+          overflow: hidden;
+        }
+
+        /* 4. แก้รูปภาพให้ขยายเต็มและลบขอบดำล่าง (หัวใจสำคัญ) */
+        .fix-slide-image {
+          display: block !important; /* เปลี่ยนเป็น Block เพื่อลบช่องว่าง Text ด้านล่าง */
+          width: 100% !important;
+          height: 100% !important;
+          object-fit: cover !important; /* ขยายรูปให้เต็มกรอบโดยไม่บี้ */
+          object-position: center top; /* จัดให้โฟกัสเริ่มจากข้างบน */
+          border: none !important;
+          margin: 0 !important;
+          padding: 0 !important;
+        }
+
+        /* Responsive: ปรับความสูงสำหรับมือถือ */
+        @media (max-width: 768px) {
+          .slide-item {
+            height: 40vh; /* มือถือให้เตี้ยลงหน่อย */
+          }
+        }
+      `}</style>
     </div>
   )
 }
