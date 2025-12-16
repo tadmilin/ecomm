@@ -31,132 +31,138 @@ export const FeaturedCategoriesComponent: React.FC<FeaturedCategoriesProps> = ({
   if (!categories || categories.length === 0) return null
 
   return (
-    <div className="section-wrapper">
-      <div className="grid-container">
-        {categories.map((category, index) => {
-          const image = category.image as Media
-          const imageUrl = typeof image === 'object' && image?.url ? image.url : ''
+    <div className="section-bg">
+      <div className="main-container">
+        <div className="grid-wrapper">
+          {categories.map((category, index) => {
+            const image = category.image as Media
+            const imageUrl = typeof image === 'object' && image?.url ? image.url : ''
 
-          return (
-            <CMSLink
-              key={category.id || index}
-              {...category.link}
-              className="menu-card"
-            >
-              {/* รูปภาพ */}
-              <div className="card-image">
-                {imageUrl ? (
-                  <img
-                    src={imageUrl}
-                    alt={category.title || 'Category'}
-                  />
-                ) : (
-                  <div className="placeholder-icon">📦</div>
-                )}
-              </div>
+            return (
+              <CMSLink
+                key={category.id || index}
+                {...category.link}
+                className="menu-card"
+              >
+                {/* รูปภาพ */}
+                <div className="card-image">
+                  {imageUrl ? (
+                    <img
+                      src={imageUrl}
+                      alt={category.title || 'Category'}
+                    />
+                  ) : (
+                    <div className="placeholder-icon">📦</div>
+                  )}
+                </div>
 
-              {/* ข้อความ */}
-              <div className="card-content">
-                <h3>{category.title}</h3>
-                {category.description && (
-                  <p>{category.description}</p>
-                )}
-              </div>
+                {/* ข้อความ */}
+                <div className="card-content">
+                  <h3>{category.title}</h3>
+                  {category.description && (
+                    <p>{category.description}</p>
+                  )}
+                </div>
 
-              {/* ลูกศร */}
-              <div className="card-arrow">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M9 18L15 12L9 6" stroke="#999" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </div>
-            </CMSLink>
-          )
-        })}
+                {/* ลูกศร */}
+                <div className="card-arrow">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9 18L15 12L9 6" stroke="#999" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </div>
+              </CMSLink>
+            )
+          })}
+        </div>
       </div>
 
       <style jsx>{`
-        /* Wrapper หลัก: กำหนดให้กว้างเต็มพื้นที่ของกรอบสีแดง (ตาม Parent) */
-        .section-wrapper {
-          width: 100%; 
-          padding-top: 20px;
-          padding-bottom: 20px;
-          /* พื้นหลังสีเดียวกับเว็บเพื่อให้กลมกลืน */
-          background-color: transparent; 
+        /* พื้นหลังของ Section */
+        .section-bg {
+          width: 100%;
+          background-color: transparent; /* หรือสีพื้นหลังที่ต้องการ */
+          padding: 20px 0;
+        }
+
+        /* Container หลัก: ตัวคุมความกว้างให้เท่ากับแบนเนอร์ข้างบน */
+        .main-container {
+          width: 100%;
+          /* ปรับตัวเลขนี้เพื่อให้ตรงกับแบนเนอร์ (มาตรฐานมักจะ 1200px - 1400px) */
+          max-width: 1280px; 
+          margin: 0 auto; /* จัดกึ่งกลางหน้าจอ */
+          padding-left: 16px;
+          padding-right: 16px; /* กันชนขอบซ้ายขวานิดหน่อย */
         }
 
         /* Container การ์ด */
-        .grid-container {
+        .grid-wrapper {
           display: flex;
-          gap: 16px; /* ระยะห่างระหว่างการ์ด */
-          width: 100%;
+          gap: 16px; /* ระยะห่างระหว่างการ์ดแต่ละใบ */
         }
 
-        /* --- STYLES (Mobile First) --- */
-        /* บนมือถือ: ให้เลื่อนแนวนอน (Scroll) */
+        /* --- Mobile View (มือถือ) --- */
         @media (max-width: 1023px) {
-          .grid-container {
+          .grid-wrapper {
             overflow-x: auto;
-            padding-left: 16px;
-            padding-right: 16px;
+            padding-bottom: 10px;
+            /* ซ่อน Scrollbar */
             -ms-overflow-style: none;
             scrollbar-width: none;
           }
-          .grid-container::-webkit-scrollbar {
+          .grid-wrapper::-webkit-scrollbar {
             display: none;
           }
+          /* ให้การ์ดเรียงต่อกันยาวๆ */
           :global(.menu-card) {
             min-width: 280px;
             flex-shrink: 0;
           }
         }
 
-        /* --- STYLES (Desktop / PC) --- */
-        /* บนจอคอม: เปลี่ยนเป็น Grid 4 ช่องเท่ากันเป๊ะ */
+        /* --- Desktop View (คอมพิวเตอร์) --- */
         @media (min-width: 1024px) {
-          .grid-container {
+          .grid-wrapper {
             display: grid;
-            /* แบ่ง 4 ช่อง เท่ากัน 100% โดยใช้ minmax(0, 1fr) เพื่อแก้ปัญหาการ์ดยืดเกิน */
-            grid-template-columns: repeat(4, minmax(0, 1fr)); 
-            overflow: visible;
-            padding: 0; /* ไม่ต้องดันขอบซ้ายขวา เพราะจะให้ตรงกับแบนเนอร์ด้านบน */
+            /* แบ่ง 4 ช่อง เท่ากันเป๊ะ */
+            grid-template-columns: repeat(4, 1fr); 
+            width: 100%;
           }
 
           :global(.menu-card) {
-            width: 100%;
-            min-width: 0; /* สำคัญมาก: เพื่อให้ Grid ควบคุมขนาด ไม่ใช่ Content */
+            width: 100%; /* ยืดเต็มช่องของตัวเอง */
+            /* ไม่กำหนด min-width หรือ max-width เพื่อให้ขนาดปรับตาม Grid */
           }
         }
 
-        /* --- CARD DESIGN --- */
+        /* --- Design ตัวการ์ด --- */
         :global(.menu-card) {
           display: flex;
           align-items: center;
           background-color: #ffffff;
-          border-radius: 12px; /* มุมโค้งมนสวยงาม */
-          padding: 16px; /* เพิ่ม Padding ให้กรอบดูใหญ่กว่ารูป ไม่อึดอัด */
+          border-radius: 12px;
+          padding: 12px 16px; /* ปรับ padding ให้พอดี ไม่ใหญ่เกินไป */
           text-decoration: none;
           color: #333;
-          box-shadow: 0 2px 8px rgba(0,0,0,0.04); /* เงานุ่มๆ */
-          border: 1px solid #f0f0f0; /* เส้นขอบบางๆ */
+          box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+          border: 1px solid #f0f0f0;
           transition: all 0.2s ease;
-          height: 100%; /* บังคับให้การ์ดสูงเท่ากันหมดในแถว */
+          height: 80px; /* กำหนดความสูงมาตรฐานให้เท่ากันทุกอัน */
           box-sizing: border-box;
+          overflow: hidden; /* กันเนื้อหาล้น */
         }
 
         :global(.menu-card:hover) {
-          transform: translateY(-3px);
-          box-shadow: 0 8px 16px rgba(0,0,0,0.08);
-          border-color: transparent;
+          transform: translateY(-2px);
+          box-shadow: 0 6px 12px rgba(0,0,0,0.08);
         }
 
-        /* รูปภาพซ้ายมือ */
         .card-image {
-          width: 64px; /* ขนาดรูป */
-          height: 64px;
+          width: 50px; /* ลดขนาดรูปนิดนึงเพื่อให้การ์ดดูสมส่วนขึ้น */
+          height: 50px;
           flex-shrink: 0;
-          border-radius: 8px; /* รูปโค้งมน */
+          border-radius: 8px;
           overflow: hidden;
-          margin-right: 16px; /* ระยะห่างระหว่างรูปกับข้อความ */
+          margin-right: 14px;
           background-color: #f9f9f9;
         }
 
@@ -166,19 +172,21 @@ export const FeaturedCategoriesComponent: React.FC<FeaturedCategoriesProps> = ({
           object-fit: cover;
         }
 
-        /* กล่องข้อความ */
         .card-content {
           flex-grow: 1;
           overflow: hidden;
-          min-width: 0; /* แก้ปัญหา Flexbox ดันทะลุ */
+          min-width: 0;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
         }
 
         .card-content h3 {
           margin: 0;
-          font-size: 16px;
+          font-size: 15px; /* ปรับขนาดฟอนต์ให้พอดี */
           font-weight: 600;
           color: #1a1a1a;
-          margin-bottom: 4px;
+          margin-bottom: 2px;
           font-family: 'Prompt', 'Kanit', sans-serif;
           white-space: nowrap;
           overflow: hidden;
@@ -187,29 +195,23 @@ export const FeaturedCategoriesComponent: React.FC<FeaturedCategoriesProps> = ({
 
         .card-content p {
           margin: 0;
-          font-size: 13px;
+          font-size: 12px;
           color: #888;
           font-family: 'Prompt', 'Kanit', sans-serif;
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
-          line-height: 1.4;
         }
 
-        /* ไอคอนลูกศร */
         .card-arrow {
+          width: 20px;
+          height: 20px;
+          flex-shrink: 0;
+          margin-left: 8px;
           display: flex;
           align-items: center;
           justify-content: center;
-          width: 24px;
-          height: 24px;
-          flex-shrink: 0;
-          margin-left: 8px;
-          opacity: 0.5;
-        }
-        
-        :global(.menu-card:hover) .card-arrow {
-           opacity: 1;
+          opacity: 0.6;
         }
       `}</style>
     </div>
