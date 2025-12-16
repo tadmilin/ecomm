@@ -73,7 +73,7 @@ export const HighImpactHero: React.FC<Page['hero']> = ({ links, mediaSlides, ric
                 : []
             }
             fill={true}
-            imgClassName="object-contain"
+            imgClassName=""
             priority="high"
             className="w-full h-full"
           />
