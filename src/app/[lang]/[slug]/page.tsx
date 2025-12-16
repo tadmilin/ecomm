@@ -13,6 +13,10 @@ import { generateMeta } from '@/utilities/generateMeta'
 import PageClient from '@/app/[lang]/[slug]/page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
 
+// Supported languages
+const SUPPORTED_LANGS = ['en', 'th', 'cn'] as const
+type SupportedLang = typeof SUPPORTED_LANGS[number]
+
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
   const pages = await payload.find({
@@ -27,16 +31,10 @@ export async function generateStaticParams() {
   })
 
   const params = pages.docs
-    ?.filter((doc) => {
-      return doc.slug !== 'home'
-    })
-    .flatMap(({ slug }) => {
-      return [
-        { lang: 'en', slug },
-        { lang: 'th', slug },
-        { lang: 'cn', slug },
-      ]
-    })
+    ?.filter((doc) => doc.slug !== 'home')
+    .flatMap(({ slug }) => 
+      SUPPORTED_LANGS.map(lang => ({ lang, slug }))
+    )
 
   return params
 }
@@ -54,14 +52,12 @@ export default async function Page({ params: paramsPromise }: Args) {
 
   const url = `/${lang}/${slug}`
 
-  let page: RequiredDataFromCollectionSlug<'pages'> | null
-
-  page = await queryPageBySlug({
+  let page: RequiredDataFromCollectionSlug<'pages'> | null = await queryPageBySlug({
     slug,
     locale: lang,
   })
 
-  // Remove this code once your website is seeded
+  // Fallback to static home page for initial setup
   if (!page && slug === 'home') {
     page = homeStatic
   }
@@ -71,22 +67,26 @@ export default async function Page({ params: paramsPromise }: Args) {
   }
 
   const { hero, layout } = page
-
-  // Check if this is the home page
   const isHomePage = slug === 'home'
 
   return (
     <article className="pb-24">
       <PageClient />
-      {/* Allows redirects for valid pages too */}
       <PayloadRedirects disableNotFound url={url} />
-
       {draft && <LivePreviewListener />}
-
+      
       {isHomePage ? (
-        <RenderHero {...hero} lang={lang} showCategorySidebar={true} featuredCategories={hero?.featuredCategories || undefined} />
+        <RenderHero 
+          {...hero} 
+          lang={lang} 
+          showCategorySidebar={true} 
+          featuredCategories={hero?.featuredCategories as unknown[]} 
+        />
       ) : (
-        <RenderHero {...hero} lang={lang} />
+        <RenderHero 
+          {...{ ...hero, showCategorySidebar: undefined, featuredCategories: undefined }} 
+          lang={lang} 
+        />
       )}
       <RenderBlocks blocks={layout} lang={lang} />
     </article>
@@ -106,24 +106,26 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
   return {
     ...metadata,
     alternates: {
-      languages: {
-        en: `/en/${slug}`,
-        th: `/th/${slug}`,
-        cn: `/cn/${slug}`,
-      },
+      languages: Object.fromEntries(
+        SUPPORTED_LANGS.map(locale => [locale, `/${locale}/${slug}`])
+      ),
     },
   }
 }
 
-const queryPageBySlug = cache(async ({ slug, locale }: { slug: string; locale?: string }) => {
+const queryPageBySlug = cache(async ({ 
+  slug, 
+  locale = 'th' 
+}: { 
+  slug: string
+  locale?: string 
+}) => {
   const { isEnabled: draft } = await draftMode()
-
   const payload = await getPayload({ config: configPromise })
 
   const result = await payload.find({
     collection: 'pages',
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    locale: (locale || 'th') as any,
+    locale: locale as SupportedLang,
     draft,
     limit: 1,
     pagination: false,
