@@ -44,7 +44,7 @@ export class StorageMigration {
     }
   }
 
-  private async migrateMediaItem(mediaItem: any) {
+  private async migrateMediaItem(_mediaItem: unknown) {
     // This would download from source and upload to target
     // Implementation depends on specific migration needs
     // Example structure:
