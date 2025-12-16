@@ -11,7 +11,7 @@ export function createStorageProvider(type: StorageProviderType): StorageProvide
     case 'cloudinary':
       try {
         return new CloudinaryProvider()
-      } catch (error) {
+      } catch (_error) {
         console.warn('Cloudinary not configured, falling back to Vercel Blob')
         return new VercelBlobProvider()
       }
