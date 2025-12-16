@@ -53,7 +53,7 @@ export const HighImpactHero: React.FC<Page['hero']> = ({ links, mediaSlides, ric
   })
 
   return (
-    <div className="relative w-full overflow-hidden" style={{ height: 'calc(7 * 3.5rem)' }}>
+    <div className="relative w-full overflow-hidden" style={{ aspectRatio: '1920/1180', maxHeight: '70vh' }}>
       {/* Background Image Slider */}
       {Array.isArray(mediaSlides) && mediaSlides.length > 0 ? (
         <div className="absolute inset-0 bg-gray-900">
