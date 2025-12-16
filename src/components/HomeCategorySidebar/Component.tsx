@@ -87,6 +87,7 @@ export const HomeCategorySidebar: React.FC<HomeCategorySidebarProps> = ({ lang }
               >
                 <div className="flex items-center gap-3">
                   {category.image && typeof category.image === 'object' && category.image.url ? (
+                    // eslint-disable-next-line @next/next/no-img-element
                     <img
                       src={category.image.url}
                       alt={getTranslatedTitle(category)}
@@ -125,6 +126,7 @@ export const HomeCategorySidebar: React.FC<HomeCategorySidebarProps> = ({ lang }
                         className="flex items-center gap-2 px-3 py-2 rounded hover:bg-blue-50 transition-colors group"
                       >
                         {subcat.image && typeof subcat.image === 'object' && subcat.image.url ? (
+                          // eslint-disable-next-line @next/next/no-img-element
                           <img
                             src={subcat.image.url}
                             alt={getTranslatedTitle(subcat)}
