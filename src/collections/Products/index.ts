@@ -185,6 +185,60 @@ export const Products: CollectionConfig = {
       type: 'checkbox',
       label: 'Featured Product',
       defaultValue: false,
+      admin: {
+        description: 'แสดงในหน้าแรกหรือหน้า featured products',
+      },
+    },
+    {
+      name: 'isNew',
+      type: 'checkbox',
+      label: 'New Product',
+      defaultValue: false,
+      admin: {
+        description: 'สินค้าใหม่ จะแสดงป้าย NEW',
+      },
+    },
+    {
+      name: 'brand',
+      type: 'text',
+      label: 'Brand',
+      admin: {
+        description: 'ยี่ห้อสินค้า เช่น MAZUMA, TCL, SAMSUNG',
+      },
+    },
+    {
+      name: 'discount',
+      type: 'number',
+      label: 'Discount Percentage',
+      min: 0,
+      max: 100,
+      admin: {
+        description: 'เปอร์เซ็นต์ส่วนลด (0-100) สำหรับแสดงป้าย -XX%',
+      },
+    },
+    {
+      name: 'badges',
+      type: 'array',
+      label: 'Product Badges',
+      maxRows: 5,
+      admin: {
+        description: 'ป้ายพิเศษ เช่น Wi-Fi, ELCB, รับประกัน 5 ปี',
+      },
+      fields: [
+        {
+          name: 'badge',
+          type: 'text',
+          required: true,
+        },
+      ],
+    },
+    {
+      name: 'productCode',
+      type: 'text',
+      label: 'Product Code',
+      admin: {
+        description: 'รหัสสินค้าสำหรับแสดงลูกค้า (ต่างจาก SKU)',
+      },
     },
 
     // Product Variants (ตัวเลือกย่อย)
