@@ -52,7 +52,7 @@ export class CloudinaryProvider implements StorageProvider {
     await cloudinary.uploader.destroy(publicId)
   }
 
-  getUrl(publicId: string, transformations?: any): string {
+  getUrl(publicId: string, transformations?: Record<string, unknown>): string {
     return cloudinary.url(publicId, transformations)
   }
 }

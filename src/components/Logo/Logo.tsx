@@ -28,7 +28,7 @@ export const Logo = (props: Props) => {
     if (typeof logo.image === 'string') {
       imageUrl = logo.image
     } else if (logo.image && typeof logo.image === 'object') {
-      imageUrl = (logo.image as any).url || ''
+      imageUrl = (logo.image as { url?: string }).url || ''
     }
 
     if (!imageUrl) return null
