@@ -32,7 +32,7 @@ export const FeaturedCategoriesComponent: React.FC<FeaturedCategoriesProps> = ({
 
   return (
     <div className="section-wrapper">
-      <div className="scroll-container">
+      <div className="grid-container">
         {categories.map((category, index) => {
           const image = category.image as Media
           const imageUrl = typeof image === 'object' && image?.url ? image.url : ''
@@ -65,8 +65,8 @@ export const FeaturedCategoriesComponent: React.FC<FeaturedCategoriesProps> = ({
 
               {/* ลูกศร */}
               <div className="card-arrow">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M9 18L15 12L9 6" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M9 18L15 12L9 6" stroke="#999" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
               </div>
             </CMSLink>
@@ -75,91 +75,89 @@ export const FeaturedCategoriesComponent: React.FC<FeaturedCategoriesProps> = ({
       </div>
 
       <style jsx>{`
+        /* Wrapper หลัก: กำหนดให้กว้างเต็มพื้นที่ของกรอบสีแดง (ตาม Parent) */
         .section-wrapper {
-          width: 100%;
-          background-color: #f0f0f0;
-          padding: 20px 0;
+          width: 100%; 
+          padding-top: 20px;
+          padding-bottom: 20px;
+          /* พื้นหลังสีเดียวกับเว็บเพื่อให้กลมกลืน */
+          background-color: transparent; 
         }
 
-        .scroll-container {
+        /* Container การ์ด */
+        .grid-container {
           display: flex;
-          overflow-x: auto;
-          gap: 16px;
-          padding-bottom: 5px;
-          
-          /* Mobile: ให้มีระยะห่างขอบซ้ายขวาเวลาเลื่อน */
-          padding-left: 16px;
-          padding-right: 16px;
-          
-          /* ซ่อน Scrollbar */
-          -ms-overflow-style: none;
-          scrollbar-width: none;
-        }
-        
-        .scroll-container::-webkit-scrollbar {
-          display: none;
+          gap: 16px; /* ระยะห่างระหว่างการ์ด */
+          width: 100%;
         }
 
-        /* --- STYLES สำหรับหน้าจอมือถือ (Default) --- */
+        /* --- STYLES (Mobile First) --- */
+        /* บนมือถือ: ให้เลื่อนแนวนอน (Scroll) */
+        @media (max-width: 1023px) {
+          .grid-container {
+            overflow-x: auto;
+            padding-left: 16px;
+            padding-right: 16px;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+          }
+          .grid-container::-webkit-scrollbar {
+            display: none;
+          }
+          :global(.menu-card) {
+            min-width: 280px;
+            flex-shrink: 0;
+          }
+        }
+
+        /* --- STYLES (Desktop / PC) --- */
+        /* บนจอคอม: เปลี่ยนเป็น Grid 4 ช่องเท่ากันเป๊ะ */
+        @media (min-width: 1024px) {
+          .grid-container {
+            display: grid;
+            /* แบ่ง 4 ช่อง เท่ากัน 100% โดยใช้ minmax(0, 1fr) เพื่อแก้ปัญหาการ์ดยืดเกิน */
+            grid-template-columns: repeat(4, minmax(0, 1fr)); 
+            overflow: visible;
+            padding: 0; /* ไม่ต้องดันขอบซ้ายขวา เพราะจะให้ตรงกับแบนเนอร์ด้านบน */
+          }
+
+          :global(.menu-card) {
+            width: 100%;
+            min-width: 0; /* สำคัญมาก: เพื่อให้ Grid ควบคุมขนาด ไม่ใช่ Content */
+          }
+        }
+
+        /* --- CARD DESIGN --- */
         :global(.menu-card) {
           display: flex;
           align-items: center;
           background-color: #ffffff;
-          border-radius: 8px;
-          padding: 10px;
-          
-          /* Mobile: บังคับความกว้าง เพื่อให้เลื่อนได้ */
-          min-width: 280px; 
-          max-width: 300px;
-          flex-shrink: 0;
-          
+          border-radius: 12px; /* มุมโค้งมนสวยงาม */
+          padding: 16px; /* เพิ่ม Padding ให้กรอบดูใหญ่กว่ารูป ไม่อึดอัด */
           text-decoration: none;
           color: #333;
-          box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-          transition: transform 0.2s ease, box-shadow 0.2s ease;
-          border: 1px solid transparent;
-        }
-
-        /* --- STYLES สำหรับหน้าจอ PC (Desktop) --- */
-        /* เมื่อหน้าจอกว้างกว่า 1024px ให้เปลี่ยนจากเลื่อน เป็นตารางเต็มจอ */
-        @media (min-width: 1024px) {
-          .section-wrapper {
-             /* ปรับ Padding ให้ตรงกับ Container หลักของเว็บคุณ */
-             padding-left: 24px;
-             padding-right: 24px;
-          }
-
-          .scroll-container {
-            /* เปลี่ยนเป็น Grid เพื่อแบ่งช่องเท่ากัน */
-            display: grid;
-            /* สั่งให้แบ่งเป็น 4 คอลัมน์เท่ากันเป๊ะ (1fr = 1 fraction) */
-            grid-template-columns: repeat(4, 1fr); 
-            overflow-x: visible; /* ปิดการเลื่อน */
-            padding-left: 0;
-            padding-right: 0;
-            width: 100%; /* กว้างเต็มพื้นที่ */
-          }
-
-          :global(.menu-card) {
-            /* ยกเลิกการจำกัดขนาดของมือถือ */
-            min-width: 0; 
-            max-width: none;
-            width: 100%; /* ให้ยืดเต็มช่อง Grid ของตัวเอง */
-          }
+          box-shadow: 0 2px 8px rgba(0,0,0,0.04); /* เงานุ่มๆ */
+          border: 1px solid #f0f0f0; /* เส้นขอบบางๆ */
+          transition: all 0.2s ease;
+          height: 100%; /* บังคับให้การ์ดสูงเท่ากันหมดในแถว */
+          box-sizing: border-box;
         }
 
         :global(.menu-card:hover) {
-          transform: translateY(-2px);
-          box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+          transform: translateY(-3px);
+          box-shadow: 0 8px 16px rgba(0,0,0,0.08);
+          border-color: transparent;
         }
 
+        /* รูปภาพซ้ายมือ */
         .card-image {
-          width: 60px;
-          height: 60px;
+          width: 64px; /* ขนาดรูป */
+          height: 64px;
           flex-shrink: 0;
-          border-radius: 6px;
+          border-radius: 8px; /* รูปโค้งมน */
           overflow: hidden;
-          margin-right: 12px;
+          margin-right: 16px; /* ระยะห่างระหว่างรูปกับข้อความ */
+          background-color: #f9f9f9;
         }
 
         .card-image img {
@@ -168,32 +166,20 @@ export const FeaturedCategoriesComponent: React.FC<FeaturedCategoriesProps> = ({
           object-fit: cover;
         }
 
-        .placeholder-icon {
-          width: 100%;
-          height: 100%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 32px;
-          background-color: #f5f5f5;
-        }
-
+        /* กล่องข้อความ */
         .card-content {
           flex-grow: 1;
           overflow: hidden;
-          /* เพิ่ม min-width: 0 เพื่อแก้ปัญหา Flexbox ดันทะลุเมื่อข้อความยาว */
-          min-width: 0; 
+          min-width: 0; /* แก้ปัญหา Flexbox ดันทะลุ */
         }
 
         .card-content h3 {
           margin: 0;
           font-size: 16px;
           font-weight: 600;
-          color: #000;
-          margin-bottom: 2px;
-          font-family: 'Kanit', sans-serif;
-          
-          /* ตัดคำถ้ายาวเกิน */
+          color: #1a1a1a;
+          margin-bottom: 4px;
+          font-family: 'Prompt', 'Kanit', sans-serif;
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
@@ -202,15 +188,15 @@ export const FeaturedCategoriesComponent: React.FC<FeaturedCategoriesProps> = ({
         .card-content p {
           margin: 0;
           font-size: 13px;
-          color: #666;
-          font-family: 'Kanit', sans-serif;
-          
-          /* ตัดคำถ้ายาวเกิน */
+          color: #888;
+          font-family: 'Prompt', 'Kanit', sans-serif;
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
+          line-height: 1.4;
         }
 
+        /* ไอคอนลูกศร */
         .card-arrow {
           display: flex;
           align-items: center;
@@ -218,7 +204,12 @@ export const FeaturedCategoriesComponent: React.FC<FeaturedCategoriesProps> = ({
           width: 24px;
           height: 24px;
           flex-shrink: 0;
-          margin-left: 8px; /* เว้นระยะจากข้อความนิดหน่อย */
+          margin-left: 8px;
+          opacity: 0.5;
+        }
+        
+        :global(.menu-card:hover) .card-arrow {
+           opacity: 1;
         }
       `}</style>
     </div>
