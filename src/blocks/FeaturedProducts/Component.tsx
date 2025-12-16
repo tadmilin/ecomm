@@ -2,6 +2,7 @@
 
 import React from 'react'
 import { CMSLink } from '@/components/Link'
+import { Media as MediaComponent } from '@/components/Media'
 import type { Media, Product } from '@/payload-types'
 
 interface FeaturedProductsProps {
@@ -90,10 +91,10 @@ export const FeaturedProductsComponent: React.FC<FeaturedProductsProps> = ({
 
                   {/* Product Image */}
                   <div className="product-image">
-                    {imageUrl ? (
-                      <img
-                        src={imageUrl}
-                        alt={image?.alt || product.name || 'Product'}
+                    {image ? (
+                      <MediaComponent
+                        resource={image}
+                        imgClassName="product-img"
                       />
                     ) : (
                       <div className="placeholder-icon">📦</div>
@@ -248,22 +249,23 @@ export const FeaturedProductsComponent: React.FC<FeaturedProductsProps> = ({
 
         .product-image {
           width: 100%;
-          height: 240px;
+          aspect-ratio: 1 / 1;
           display: flex;
           align-items: center;
           justify-content: center;
           background-color: #f9f9f9;
           overflow: hidden;
+          position: relative;
         }
 
-        .product-image img {
+        .product-image :global(.product-img) {
           width: 100%;
           height: 100%;
           object-fit: contain;
           transition: transform 0.3s ease;
         }
 
-        .product-card:hover .product-image img {
+        .product-card:hover .product-image :global(.product-img) {
           transform: scale(1.05);
         }
 
@@ -387,7 +389,7 @@ export const FeaturedProductsComponent: React.FC<FeaturedProductsProps> = ({
             width: 240px;
           }
 
-          .product-image {
+          .paspect-ratio: 1 / 1{
             height: 200px;
           }
 
