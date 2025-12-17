@@ -292,6 +292,7 @@ export interface Page {
         blockType: 'login';
       }
     | FeaturedProductsBlock
+    | BrandLogosBlock
   )[];
   meta?: {
     title?: string | null;
@@ -1063,6 +1064,35 @@ export interface Product {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "BrandLogosBlock".
+ */
+export interface BrandLogosBlock {
+  /**
+   * Optional title for the brand logos section
+   */
+  title?: string | null;
+  /**
+   * Number of logos to show at once on desktop
+   */
+  slidesToShow?: number | null;
+  logos: {
+    logo: string | Media;
+    /**
+     * Name of the brand (used for alt text if not set in media)
+     */
+    brandName?: string | null;
+    /**
+     * Optional URL to link when clicking the logo
+     */
+    link?: string | null;
+    id?: string | null;
+  }[];
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'brandLogos';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -1412,6 +1442,7 @@ export interface PagesSelect<T extends boolean = true> {
               blockName?: T;
             };
         featuredProducts?: T | FeaturedProductsBlockSelect<T>;
+        brandLogos?: T | BrandLogosBlockSelect<T>;
       };
   meta?:
     | T
@@ -1521,6 +1552,24 @@ export interface FeaturedProductsBlockSelect<T extends boolean = true> {
   maxProducts?: T;
   selectedProducts?: T;
   sortBy?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "BrandLogosBlock_select".
+ */
+export interface BrandLogosBlockSelect<T extends boolean = true> {
+  title?: T;
+  slidesToShow?: T;
+  logos?:
+    | T
+    | {
+        logo?: T;
+        brandName?: T;
+        link?: T;
+        id?: T;
+      };
   id?: T;
   blockName?: T;
 }
