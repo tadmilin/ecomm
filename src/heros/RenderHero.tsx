@@ -1,12 +1,27 @@
 import React from 'react'
 
-import type { Page } from '@/payload-types'
+import type { Page, Media } from '@/payload-types'
 
 import { HighImpactHero } from '@/heros/HighImpact'
 import { LowImpactHero } from '@/heros/LowImpact'
 import { MediumImpactHero } from '@/heros/MediumImpact'
 import { HomeCategorySidebar } from '@/components/HomeCategorySidebar/Component'
 import { FeaturedCategoriesComponent } from '@/blocks/FeaturedCategories/Component'
+
+interface FeaturedCategory {
+  id?: string
+  image: string | Media
+  title: string
+  description?: string | null
+  link: {
+    type?: ('reference' | 'custom') | null
+    newTab?: boolean | null
+    reference?: any
+    url?: string | null
+    label: string
+    appearance?: ('default' | 'outline') | null
+  }
+}
 
 const heroes = {
   highImpact: HighImpactHero,
@@ -17,7 +32,7 @@ const heroes = {
 type HeroWithSidebar = Omit<Page['hero'], 'featuredCategories'> & {
   showCategorySidebar?: boolean
   lang?: string
-  featuredCategories?: unknown[]
+  featuredCategories?: FeaturedCategory[]
 }
 
 export const RenderHero: React.FC<HeroWithSidebar> = (props) => {
@@ -34,7 +49,7 @@ export const RenderHero: React.FC<HeroWithSidebar> = (props) => {
     // ลบ media prop ออกเมื่อใช้ highImpact hero เพื่อป้องกันการส่ง buffer object
     if (type === 'highImpact') {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { media, showCategorySidebar: _, ...restProps } = props
+      const { media, showCategorySidebar: _, featuredCategories: _featuredCats, lang: _lang, ...restProps } = props
       return (
         <>
           <div className="container mx-auto px-4 py-4">
@@ -52,13 +67,15 @@ export const RenderHero: React.FC<HeroWithSidebar> = (props) => {
       )
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { showCategorySidebar: _, featuredCategories: _featuredCats, lang: _lang, ...restProps } = props
     return (
       <>
         <div className="container mx-auto px-4 py-4">
           <div className="flex gap-4 items-start">
             <HomeCategorySidebar lang={lang} />
             <div className="flex-1 min-w-0">
-              <HeroToRender {...props} />
+              <HeroToRender {...restProps} />
             </div>
           </div>
         </div>
@@ -72,7 +89,7 @@ export const RenderHero: React.FC<HeroWithSidebar> = (props) => {
   // ลบ media prop ออกเมื่อใช้ highImpact hero เพื่อป้องกันการส่ง buffer object
   if (type === 'highImpact') {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { media, ...restProps } = props
+    const { media, featuredCategories: _featuredCats, lang: _lang, ...restProps } = props
     return (
       <>
         <HeroToRender {...restProps} />
@@ -83,9 +100,11 @@ export const RenderHero: React.FC<HeroWithSidebar> = (props) => {
     )
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { featuredCategories: _featuredCats, lang: _lang, ...restProps } = props
   return (
     <>
-      <HeroToRender {...props} />
+      <HeroToRender {...restProps} />
       {featuredCategories && featuredCategories.length > 0 && (
         <FeaturedCategoriesComponent categories={featuredCategories} lang={lang} />
       )}

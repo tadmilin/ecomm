@@ -80,7 +80,7 @@ export default async function Page({ params: paramsPromise }: Args) {
           {...hero} 
           lang={lang} 
           showCategorySidebar={true} 
-          featuredCategories={hero?.featuredCategories as unknown[]} 
+          featuredCategories={hero?.featuredCategories as any} 
         />
       ) : (
         <RenderHero 

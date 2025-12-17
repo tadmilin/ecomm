@@ -8,7 +8,7 @@ interface FeaturedCategory {
   id?: string
   image: string | Media
   title: string
-  description?: string
+  description?: string | null
   link: {
     type?: ('reference' | 'custom') | null
     newTab?: boolean | null
