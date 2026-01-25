@@ -11,6 +11,7 @@ import { MediaBlock } from '@/blocks/MediaBlock/Component'
 import { CategorySidebarComponent } from '@/blocks/CategorySidebar/Component'
 import { FeaturedProductsBlock } from '@/blocks/FeaturedProducts'
 import { BrandLogosBlock } from '@/blocks/BrandLogos'
+import { CategoriesGridBlock } from '@/blocks/CategoriesGrid/Component'
 
 const blockComponents = {
   archive: ArchiveBlock,
@@ -22,6 +23,7 @@ const blockComponents = {
   categorySidebar: CategorySidebarComponent,
   featuredProducts: FeaturedProductsBlock,
   brandLogos: BrandLogosBlock,
+  categoriesGrid: CategoriesGridBlock,
 } as const
 
 export const RenderBlocks: React.FC<{

@@ -239,10 +239,6 @@ export interface Page {
         }[]
       | null;
     /**
-     * แสดงเมนูหมวดหมู่ด้านซ้าย (เฉพาะ Desktop)
-     */
-    showCategorySidebar?: boolean | null;
-    /**
      * แสดง featured categories ด้านล่าง hero slider
      */
     featuredCategories?:
@@ -293,6 +289,7 @@ export interface Page {
       }
     | FeaturedProductsBlock
     | BrandLogosBlock
+    | CategoriesGridBlock
   )[];
   meta?: {
     title?: string | null;
@@ -1093,6 +1090,54 @@ export interface BrandLogosBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CategoriesGridBlock".
+ */
+export interface CategoriesGridBlock {
+  /**
+   * ข้อความแนะนำด้านบน (ถ้ามี)
+   */
+  introContent?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * ถ้าติ๊ก จะแสดงเฉพาะหมวดหมู่ที่ไม่มี parent (หมวดหมู่ระดับ 0)
+   */
+  showOnlyRootCategories?: boolean | null;
+  /**
+   * ถ้าติ๊ก จะแสดงเฉพาะหมวดหมู่ที่ถูกทำเครื่องหมาย "แนะนำ"
+   */
+  showOnlyFeatured?: boolean | null;
+  /**
+   * จำนวนหมวดหมู่สูงสุดที่จะแสดง
+   */
+  limit?: number | null;
+  /**
+   * จำนวนคอลัมน์ที่แสดงบน Desktop
+   */
+  columns?: ('2' | '3' | '4' | '5' | '6') | null;
+  /**
+   * แสดงคำอธิบายหมวดหมู่ใต้ชื่อ
+   */
+  showDescription?: boolean | null;
+  imageStyle?: ('square' | 'circle' | 'rectangle') | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'categoriesGrid';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -1400,7 +1445,6 @@ export interface PagesSelect<T extends boolean = true> {
                   };
               id?: T;
             };
-        showCategorySidebar?: T;
         featuredCategories?:
           | T
           | {
@@ -1443,6 +1487,7 @@ export interface PagesSelect<T extends boolean = true> {
             };
         featuredProducts?: T | FeaturedProductsBlockSelect<T>;
         brandLogos?: T | BrandLogosBlockSelect<T>;
+        categoriesGrid?: T | CategoriesGridBlockSelect<T>;
       };
   meta?:
     | T
@@ -1570,6 +1615,21 @@ export interface BrandLogosBlockSelect<T extends boolean = true> {
         link?: T;
         id?: T;
       };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CategoriesGridBlock_select".
+ */
+export interface CategoriesGridBlockSelect<T extends boolean = true> {
+  introContent?: T;
+  showOnlyRootCategories?: T;
+  showOnlyFeatured?: T;
+  limit?: T;
+  columns?: T;
+  showDescription?: T;
+  imageStyle?: T;
   id?: T;
   blockName?: T;
 }

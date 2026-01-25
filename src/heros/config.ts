@@ -116,15 +116,6 @@ export const hero: Field = {
       required: true,
     },
     {
-      name: 'showCategorySidebar',
-      type: 'checkbox',
-      label: 'Show Category Sidebar (Desktop)',
-      defaultValue: false,
-      admin: {
-        description: 'แสดงเมนูหมวดหมู่ด้านซ้าย (เฉพาะ Desktop)',
-      },
-    },
-    {
       name: 'featuredCategories',
       type: 'array',
       label: 'Featured Categories (Below Hero)',
