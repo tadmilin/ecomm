@@ -1120,13 +1120,13 @@ export interface CategoriesGridBlock {
    */
   showOnlyFeatured?: boolean | null;
   /**
-   * จำนวนหมวดหมู่สูงสุดที่จะแสดง
-   */
-  limit?: number | null;
-  /**
    * จำนวนคอลัมน์ที่แสดงบน Desktop
    */
   columns?: ('2' | '3' | '4' | '5' | '6') | null;
+  /**
+   * จำนวนแถวที่แสดง (จำนวนที่แสดง = คอลัมน์ x แถว)
+   */
+  rows?: ('1' | '2' | '3' | '4') | null;
   /**
    * แสดงคำอธิบายหมวดหมู่ใต้ชื่อ
    */
@@ -1626,8 +1626,8 @@ export interface CategoriesGridBlockSelect<T extends boolean = true> {
   introContent?: T;
   showOnlyRootCategories?: T;
   showOnlyFeatured?: T;
-  limit?: T;
   columns?: T;
+  rows?: T;
   showDescription?: T;
   imageStyle?: T;
   id?: T;

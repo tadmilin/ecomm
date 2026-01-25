@@ -36,7 +36,7 @@ export const CategoriesGrid: Block = {
     {
       name: 'showOnlyRootCategories',
       type: 'checkbox',
-      defaultValue: true,
+      defaultValue: false,
       label: 'แสดงเฉพาะหมวดหมู่หลัก',
       admin: {
         description: 'ถ้าติ๊ก จะแสดงเฉพาะหมวดหมู่ที่ไม่มี parent (หมวดหมู่ระดับ 0)',
@@ -52,20 +52,9 @@ export const CategoriesGrid: Block = {
       },
     },
     {
-      name: 'limit',
-      type: 'number',
-      defaultValue: 12,
-      min: 1,
-      max: 50,
-      label: 'จำนวนที่แสดง',
-      admin: {
-        description: 'จำนวนหมวดหมู่สูงสุดที่จะแสดง',
-      },
-    },
-    {
       name: 'columns',
       type: 'select',
-      defaultValue: '4',
+      defaultValue: '6',
       options: [
         { label: '2 คอลัมน์', value: '2' },
         { label: '3 คอลัมน์', value: '3' },
@@ -76,6 +65,21 @@ export const CategoriesGrid: Block = {
       label: 'จำนวนคอลัมน์',
       admin: {
         description: 'จำนวนคอลัมน์ที่แสดงบน Desktop',
+      },
+    },
+    {
+      name: 'rows',
+      type: 'select',
+      defaultValue: '2',
+      options: [
+        { label: '1 แถว', value: '1' },
+        { label: '2 แถว', value: '2' },
+        { label: '3 แถว', value: '3' },
+        { label: '4 แถว', value: '4' },
+      ],
+      label: 'จำนวนแถว',
+      admin: {
+        description: 'จำนวนแถวที่แสดง (จำนวนที่แสดง = คอลัมน์ x แถว)',
       },
     },
     {
