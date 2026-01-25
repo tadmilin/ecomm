@@ -105,7 +105,7 @@ export const CategoriesCarousel: React.FC<CategoriesCarouselProps> = ({
       {/* Categories Grid */}
       <div ref={scrollRef} className="overflow-hidden">
         <div
-          className="grid gap-3 transition-all duration-500"
+          className="grid gap-2 transition-all duration-500"
           style={{
             gridTemplateColumns: `repeat(${columnsNum}, minmax(0, 1fr))`,
             gridTemplateRows: `repeat(${rowsNum}, minmax(0, 1fr))`,
@@ -121,7 +121,7 @@ export const CategoriesCarousel: React.FC<CategoriesCarouselProps> = ({
               <Link
                 key={category.id}
                 href={`/${lang}/categories/${slug}`}
-                className="group block bg-white rounded-lg shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden border border-gray-200 hover:border-primary/30"
+                className="group block bg-white rounded-md shadow-sm hover:shadow-md transition-all duration-200 overflow-hidden border border-gray-200 hover:border-primary/40"
               >
                 {/* Image */}
                 <div className={`relative overflow-hidden bg-gray-50 ${imageStyleClasses[imageStyle || 'square']}`}>
@@ -130,12 +130,12 @@ export const CategoriesCarousel: React.FC<CategoriesCarouselProps> = ({
                       src={imageUrl}
                       alt={title}
                       fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-300"
-                      sizes="200px"
+                      className="object-cover group-hover:scale-110 transition-transform duration-300"
+                      sizes="150px"
                     />
                   ) : (
                     <div className="absolute inset-0 flex items-center justify-center text-gray-300">
-                      <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path
                           strokeLinecap="round"
                           strokeLinejoin="round"
@@ -148,12 +148,12 @@ export const CategoriesCarousel: React.FC<CategoriesCarouselProps> = ({
                 </div>
 
                 {/* Content */}
-                <div className="p-3">
-                  <h3 className="text-sm font-medium text-gray-900 group-hover:text-primary transition-colors text-center line-clamp-1">
+                <div className="p-2">
+                  <h3 className="text-xs font-medium text-gray-800 group-hover:text-primary transition-colors text-center line-clamp-2 leading-tight">
                     {title}
                   </h3>
                   {showDescription && description && (
-                    <p className="mt-1 text-xs text-gray-500 line-clamp-1 text-center">
+                    <p className="mt-0.5 text-[10px] text-gray-500 line-clamp-1 text-center">
                       {description}
                     </p>
                   )}
@@ -166,7 +166,7 @@ export const CategoriesCarousel: React.FC<CategoriesCarouselProps> = ({
 
       {/* Dots Indicator */}
       {totalPages > 1 && (
-        <div className="flex justify-center gap-2 mt-6">
+        <div className="flex justify-center gap-1.5 mt-4">
           {Array.from({ length: totalPages }).map((_, index) => (
             <button
               key={index}

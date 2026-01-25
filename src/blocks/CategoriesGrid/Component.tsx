@@ -27,10 +27,9 @@ export const CategoriesGridBlock: React.FC<
 
   const payload = await getPayload({ config: configPromise })
 
-  // Calculate limit from columns x rows
+  // Calculate items per page for carousel (columns x rows)
   const columnsNum = parseInt(columns || '6', 10)
   const rowsNum = parseInt(rows || '2', 10)
-  const limit = columnsNum * rowsNum
 
   // Build query conditions
   const whereConditions: Where = {}
@@ -52,7 +51,7 @@ export const CategoriesGridBlock: React.FC<
   const fetchedCategories = await payload.find({
     collection: 'categories',
     depth: 1,
-    limit: limit,
+    limit: 100, // Fetch all categories
     locale: lang as 'th' | 'en' | 'cn',
     sort: 'order',
     ...(hasConditions ? { where: whereConditions } : {}),
