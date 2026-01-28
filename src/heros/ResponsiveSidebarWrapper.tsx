@@ -1,7 +1,8 @@
 'use client'
 
-import React, { useState } from 'react'
+import React from 'react'
 import { HomeCategorySidebar } from '@/components/HomeCategorySidebar/Component'
+import { useSidebar } from '@/Header/Component.client'
 
 interface ResponsiveSidebarWrapperProps {
   lang: string
@@ -9,27 +10,10 @@ interface ResponsiveSidebarWrapperProps {
 }
 
 export const ResponsiveSidebarWrapper: React.FC<ResponsiveSidebarWrapperProps> = ({ lang, children }) => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+  const { isSidebarOpen, setIsSidebarOpen } = useSidebar()
 
   return (
     <>
-      {/* Mobile Hamburger Button */}
-      <div className="lg:hidden fixed top-20 left-4 z-40">
-        <button
-          onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-          className="w-12 h-12 bg-primary text-white rounded-lg shadow-lg flex items-center justify-center hover:bg-primary/90 transition-all"
-          aria-label="Toggle menu"
-        >
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            {isSidebarOpen ? (
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            ) : (
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-            )}
-          </svg>
-        </button>
-      </div>
-
       {/* Mobile Overlay */}
       {isSidebarOpen && (
         <div
