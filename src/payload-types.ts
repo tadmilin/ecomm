@@ -291,6 +291,7 @@ export interface Page {
     | BrandLogosBlock
     | CategoriesGridBlock
     | StoreLocationBlock
+    | PromotionBannerBlock
   )[];
   meta?: {
     title?: string | null;
@@ -1210,6 +1211,46 @@ export interface StoreLocationBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PromotionBannerBlock".
+ */
+export interface PromotionBannerBlock {
+  banners: {
+    /**
+     * แนะนำขนาด 1920x600 พิกเซล หรือ 16:5 ratio
+     */
+    image: string | Media;
+    /**
+     * รูปสำหรับมือถือ (optional) แนะนำขนาด 800x800 พิกเซล
+     */
+    mobileImage?: (string | null) | Media;
+    /**
+     * คำอธิบายรูปภาพสำหรับ SEO
+     */
+    alt?: string | null;
+    /**
+     * URL ที่จะไปเมื่อคลิก banner (เช่น /products/sale)
+     */
+    link?: string | null;
+    openInNewTab?: boolean | null;
+    id?: string | null;
+  }[];
+  /**
+   * เปิดให้ banner เลื่อนเองทุก 5 วินาที
+   */
+  autoPlay?: boolean | null;
+  showArrows?: boolean | null;
+  showDots?: boolean | null;
+  /**
+   * ความสูงบน Desktop
+   */
+  height?: ('small' | 'medium' | 'large' | 'xlarge') | null;
+  rounded?: boolean | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'promotionBanner';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -1561,6 +1602,7 @@ export interface PagesSelect<T extends boolean = true> {
         brandLogos?: T | BrandLogosBlockSelect<T>;
         categoriesGrid?: T | CategoriesGridBlockSelect<T>;
         storeLocation?: T | StoreLocationBlockSelect<T>;
+        promotionBanner?: T | PromotionBannerBlockSelect<T>;
       };
   meta?:
     | T
@@ -1735,6 +1777,29 @@ export interface StoreLocationBlockSelect<T extends boolean = true> {
         id?: T;
       };
   showCoordinates?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PromotionBannerBlock_select".
+ */
+export interface PromotionBannerBlockSelect<T extends boolean = true> {
+  banners?:
+    | T
+    | {
+        image?: T;
+        mobileImage?: T;
+        alt?: T;
+        link?: T;
+        openInNewTab?: T;
+        id?: T;
+      };
+  autoPlay?: T;
+  showArrows?: T;
+  showDots?: T;
+  height?: T;
+  rounded?: T;
   id?: T;
   blockName?: T;
 }

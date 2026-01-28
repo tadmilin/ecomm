@@ -13,6 +13,7 @@ import { FeaturedProductsBlock } from '@/blocks/FeaturedProducts'
 import { BrandLogosBlock } from '@/blocks/BrandLogos'
 import { CategoriesGridBlock } from '@/blocks/CategoriesGrid/Component'
 import { StoreLocationBlock } from '@/blocks/StoreLocation/Component'
+import { PromotionBannerBlock } from '@/blocks/PromotionBanner/Component'
 
 const blockComponents = {
   archive: ArchiveBlock,
@@ -26,6 +27,7 @@ const blockComponents = {
   brandLogos: BrandLogosBlock,
   categoriesGrid: CategoriesGridBlock,
   storeLocation: StoreLocationBlock,
+  promotionBanner: PromotionBannerBlock,
 } as const
 
 export const RenderBlocks: React.FC<{
