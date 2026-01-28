@@ -6,9 +6,10 @@ import type { Category } from '@/payload-types'
 
 interface HomeCategorySidebarProps {
   lang: string
+  onCategoryClick?: () => void
 }
 
-export const HomeCategorySidebar: React.FC<HomeCategorySidebarProps> = ({ lang }) => {
+export const HomeCategorySidebar: React.FC<HomeCategorySidebarProps> = ({ lang, onCategoryClick }) => {
   const [categories, setCategories] = useState<Category[]>([])
   const [loading, setLoading] = useState(true)
   const [hoveredCategory, setHoveredCategory] = useState<string | null>(null)
@@ -81,6 +82,7 @@ export const HomeCategorySidebar: React.FC<HomeCategorySidebarProps> = ({ lang }
             >
               <Link
                 href={`/${lang}/categories/${category.slug}`}
+                onClick={onCategoryClick}
                 className={`flex items-center justify-between px-4 py-3 hover:bg-blue-50 transition-colors ${
                   isHovered && hasSubcategories ? 'bg-blue-50' : ''
                 }`}

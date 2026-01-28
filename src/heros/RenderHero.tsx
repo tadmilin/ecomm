@@ -5,7 +5,7 @@ import type { Page, Media } from '@/payload-types'
 import { HighImpactHero } from '@/heros/HighImpact'
 import { LowImpactHero } from '@/heros/LowImpact'
 import { MediumImpactHero } from '@/heros/MediumImpact'
-import { HomeCategorySidebar } from '@/components/HomeCategorySidebar/Component'
+import { ResponsiveSidebarWrapper } from '@/heros/ResponsiveSidebarWrapper'
 import { FeaturedCategoriesComponent } from '@/blocks/FeaturedCategories/Component'
 
 interface FeaturedCategory {
@@ -52,14 +52,9 @@ export const RenderHero: React.FC<HeroWithSidebar> = (props) => {
       const { media, showCategorySidebar: _, featuredCategories: _featuredCats, lang: _lang, ...restProps } = props
       return (
         <>
-          <div className="container mx-auto px-4 py-4">
-            <div className="flex gap-4 items-start">
-              <HomeCategorySidebar lang={lang} />
-              <div className="flex-1 min-w-0">
-                <HeroToRender {...restProps} />
-              </div>
-            </div>
-          </div>
+          <ResponsiveSidebarWrapper lang={lang}>
+            <HeroToRender {...restProps} />
+          </ResponsiveSidebarWrapper>
           {featuredCategories && featuredCategories.length > 0 && (
             <FeaturedCategoriesComponent categories={featuredCategories} lang={lang} />
           )}
@@ -71,14 +66,9 @@ export const RenderHero: React.FC<HeroWithSidebar> = (props) => {
     const { showCategorySidebar: _, featuredCategories: _featuredCats, lang: _lang, ...restProps } = props
     return (
       <>
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex gap-4 items-start">
-            <HomeCategorySidebar lang={lang} />
-            <div className="flex-1 min-w-0">
-              <HeroToRender {...restProps} />
-            </div>
-          </div>
-        </div>
+        <ResponsiveSidebarWrapper lang={lang}>
+          <HeroToRender {...restProps} />
+        </ResponsiveSidebarWrapper>
         {featuredCategories && featuredCategories.length > 0 && (
           <FeaturedCategoriesComponent categories={featuredCategories} lang={lang} />
         )}
