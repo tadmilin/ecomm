@@ -11,6 +11,7 @@ import { MediaBlock } from '../../blocks/MediaBlock/config'
 import { FeaturedProducts } from '../../blocks/FeaturedProducts/config'
 import { BrandLogos } from '../../blocks/BrandLogos/config'
 import { CategoriesGrid } from '../../blocks/CategoriesGrid/config'
+import { StoreLocation } from '../../blocks/StoreLocation/config'
 import { hero } from '@/heros/config'
 import { slugField } from '@/fields/slug'
 import { populatePublishedAt } from '../../hooks/populatePublishedAt'
@@ -84,7 +85,7 @@ export const Pages: CollectionConfig<'pages'> = {
               name: 'layout',
               type: 'blocks',
               localized: true,
-              blocks: [CallToAction, Content, MediaBlock, Archive, FormBlock, Login, FeaturedProducts, BrandLogos, CategoriesGrid],
+              blocks: [CallToAction, Content, MediaBlock, Archive, FormBlock, Login, FeaturedProducts, BrandLogos, CategoriesGrid, StoreLocation],
               required: true,
               admin: {
                 initCollapsed: true,

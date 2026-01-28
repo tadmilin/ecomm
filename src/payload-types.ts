@@ -290,6 +290,7 @@ export interface Page {
     | FeaturedProductsBlock
     | BrandLogosBlock
     | CategoriesGridBlock
+    | StoreLocationBlock
   )[];
   meta?: {
     title?: string | null;
@@ -1138,6 +1139,77 @@ export interface CategoriesGridBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "StoreLocationBlock".
+ */
+export interface StoreLocationBlock {
+  title?: string | null;
+  /**
+   * ที่อยู่ร้านค้าแบบเต็ม
+   */
+  address: string;
+  /**
+   * เช่น 02-xxx-xxxx หรือ 08x-xxx-xxxx
+   */
+  phone?: string | null;
+  email?: string | null;
+  workingHours?:
+    | {
+        /**
+         * เช่น จันทร์-ศุกร์, เสาร์-อาทิตย์
+         */
+        day: string;
+        /**
+         * เช่น 08:00 - 17:00
+         */
+        hours: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * ลิงก์ Google Maps แบบเต็ม (https://maps.google.com/...)
+   */
+  googleMapsUrl: string;
+  /**
+   * โค้ด iframe embed จาก Google Maps (คลิกขวาบนแผนที่ > Share > Embed a map)
+   */
+  googleMapsEmbed: string;
+  /**
+   * สำหรับแสดงพิกัด (ถ้ามี)
+   */
+  latitude?: number | null;
+  /**
+   * สำหรับแสดงพิกัด (ถ้ามี)
+   */
+  longitude?: number | null;
+  directions?:
+    | {
+        method: 'car' | 'train' | 'bus' | 'taxi' | 'other';
+        title: string;
+        description: {
+          root: {
+            type: string;
+            children: {
+              type: string;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        };
+        id?: string | null;
+      }[]
+    | null;
+  showCoordinates?: boolean | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'storeLocation';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -1488,6 +1560,7 @@ export interface PagesSelect<T extends boolean = true> {
         featuredProducts?: T | FeaturedProductsBlockSelect<T>;
         brandLogos?: T | BrandLogosBlockSelect<T>;
         categoriesGrid?: T | CategoriesGridBlockSelect<T>;
+        storeLocation?: T | StoreLocationBlockSelect<T>;
       };
   meta?:
     | T
@@ -1630,6 +1703,38 @@ export interface CategoriesGridBlockSelect<T extends boolean = true> {
   rows?: T;
   showDescription?: T;
   imageStyle?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "StoreLocationBlock_select".
+ */
+export interface StoreLocationBlockSelect<T extends boolean = true> {
+  title?: T;
+  address?: T;
+  phone?: T;
+  email?: T;
+  workingHours?:
+    | T
+    | {
+        day?: T;
+        hours?: T;
+        id?: T;
+      };
+  googleMapsUrl?: T;
+  googleMapsEmbed?: T;
+  latitude?: T;
+  longitude?: T;
+  directions?:
+    | T
+    | {
+        method?: T;
+        title?: T;
+        description?: T;
+        id?: T;
+      };
+  showCoordinates?: T;
   id?: T;
   blockName?: T;
 }
