@@ -23,7 +23,7 @@ export const PromotionBannerBlock: React.FC<
     autoPlay = true,
     showArrows = true,
     showDots = true,
-    height = 'medium',
+    aspectRatio = '16/9',
     rounded = true,
   } = props
 
@@ -39,7 +39,7 @@ export const PromotionBannerBlock: React.FC<
           autoPlay={!!autoPlay}
           showArrows={!!showArrows}
           showDots={!!showDots}
-          height={height || 'medium'}
+          aspectRatio={aspectRatio || '16/9'}
           rounded={!!rounded}
         />
       </div>

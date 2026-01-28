@@ -84,18 +84,18 @@ export const PromotionBanner: Block = {
       label: 'แสดง Dots Indicator',
     },
     {
-      name: 'height',
+      name: 'aspectRatio',
       type: 'select',
-      defaultValue: 'medium',
+      defaultValue: '16/9',
       options: [
-        { label: 'เล็ก (400px)', value: 'small' },
-        { label: 'กลาง (500px)', value: 'medium' },
-        { label: 'ใหญ่ (600px)', value: 'large' },
-        { label: 'ใหญ่มาก (700px)', value: 'xlarge' },
+        { label: '16:9 (Standard - แนะนำ)', value: '16/9' },
+        { label: '21:9 (Ultrawide)', value: '21/9' },
+        { label: '4:3 (แบบเก่า)', value: '4/3' },
+        { label: '2:1 (Wide)', value: '2/1' },
       ],
-      label: 'ความสูง Banner',
+      label: 'สัดส่วนรูปภาพ',
       admin: {
-        description: 'ความสูงบน Desktop',
+        description: 'อัตราส่วนความกว้าง:สูงของ banner',
       },
     },
     {

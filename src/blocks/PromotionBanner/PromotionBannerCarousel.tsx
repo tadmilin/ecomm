@@ -19,7 +19,7 @@ interface PromotionBannerCarouselProps {
   autoPlay: boolean
   showArrows: boolean
   showDots: boolean
-  height: string
+  aspectRatio: string
   rounded: boolean
 }
 
@@ -28,17 +28,17 @@ export const PromotionBannerCarousel: React.FC<PromotionBannerCarouselProps> = (
   autoPlay,
   showArrows,
   showDots,
-  height,
+  aspectRatio,
   rounded,
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isPaused, setIsPaused] = useState(false)
 
-  const heightClasses = {
-    small: 'h-[250px] md:h-[400px]',
-    medium: 'h-[300px] md:h-[500px]',
-    large: 'h-[350px] md:h-[600px]',
-    xlarge: 'h-[400px] md:h-[700px]',
+  const aspectRatioClasses: Record<string, string> = {
+    '16/9': 'aspect-[16/9]',
+    '21/9': 'aspect-[21/9]',
+    '4/3': 'aspect-[4/3]',
+    '2/1': 'aspect-[2/1]',
   }
 
   const getImageUrl = (image: string | Media, isMobile = false): string | null => {
@@ -76,7 +76,7 @@ export const PromotionBannerCarousel: React.FC<PromotionBannerCarouselProps> = (
 
   const BannerContent = () => (
     <div
-      className={`relative w-full ${heightClasses[height as keyof typeof heightClasses] || heightClasses.medium} overflow-hidden bg-gray-100 ${rounded ? 'rounded-2xl' : ''}`}
+      className={`relative w-full ${aspectRatioClasses[aspectRatio] || aspectRatioClasses['16/9']} overflow-hidden bg-gray-100 ${rounded ? 'rounded-2xl' : ''}`}
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >

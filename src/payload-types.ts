@@ -1241,9 +1241,9 @@ export interface PromotionBannerBlock {
   showArrows?: boolean | null;
   showDots?: boolean | null;
   /**
-   * ความสูงบน Desktop
+   * อัตราส่วนความกว้าง:สูงของ banner
    */
-  height?: ('small' | 'medium' | 'large' | 'xlarge') | null;
+  aspectRatio?: ('16/9' | '21/9' | '4/3' | '2/1') | null;
   rounded?: boolean | null;
   id?: string | null;
   blockName?: string | null;
@@ -1798,7 +1798,7 @@ export interface PromotionBannerBlockSelect<T extends boolean = true> {
   autoPlay?: T;
   showArrows?: T;
   showDots?: T;
-  height?: T;
+  aspectRatio?: T;
   rounded?: T;
   id?: T;
   blockName?: T;
