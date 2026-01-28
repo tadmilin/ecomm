@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { HomeCategorySidebar } from '@/components/HomeCategorySidebar/Component'
-import { useSidebar } from '@/Header/Component.client'
+import { useSidebar } from '@/providers/SidebarProvider'
 
 interface ResponsiveSidebarWrapperProps {
   lang: string

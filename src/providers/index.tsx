@@ -4,6 +4,7 @@ import { HeaderThemeProvider } from './HeaderTheme'
 import { ThemeProvider } from './Theme'
 import { SessionProvider } from './SessionProvider'
 import { CartProvider } from './CartProvider'
+import { SidebarProvider } from './SidebarProvider'
 
 export const Providers: React.FC<{
   children: React.ReactNode
@@ -12,7 +13,9 @@ export const Providers: React.FC<{
     <SessionProvider>
       <ThemeProvider>
         <HeaderThemeProvider>
-          <CartProvider>{children}</CartProvider>
+          <SidebarProvider>
+            <CartProvider>{children}</CartProvider>
+          </SidebarProvider>
         </HeaderThemeProvider>
       </ThemeProvider>
     </SessionProvider>

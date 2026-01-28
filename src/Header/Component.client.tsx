@@ -2,22 +2,11 @@
 import { useHeaderTheme } from '@/providers/HeaderTheme'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import React, { createContext, useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSession } from 'next-auth/react'
 
 import type { Header } from '@/payload-types'
-
-// Context for sidebar state
-const SidebarContext = createContext<{
-  isSidebarOpen: boolean
-  setIsSidebarOpen: (open: boolean) => void
-} | null>(null)
-
-export const useSidebar = () => {
-  const context = useContext(SidebarContext)
-  if (!context) throw new Error('useSidebar must be used within SidebarProvider')
-  return context
-}
+import { useSidebar } from '@/providers/SidebarProvider'
 
 import { Logo as DynamicLogo } from '@/components/Logo/Logo'
 import { HeaderNav } from './Nav'
@@ -34,7 +23,7 @@ interface HeaderClientProps {
 export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
   /* Storing the value in a useState to avoid hydration errors */
   const [theme, setTheme] = useState<string | null>(null)
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+  const { isSidebarOpen, setIsSidebarOpen, toggleSidebar } = useSidebar()
   const { headerTheme, setHeaderTheme } = useHeaderTheme()
   const pathname = usePathname()
   const { data: session, status } = useSession()
@@ -60,7 +49,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
 
   
   return (
-    <SidebarContext.Provider value={{ isSidebarOpen, setIsSidebarOpen }}>
+    <>
       {/* แถบบนสุด - สีขาว */}
       <div className="w-full bg-white text-gray-900 border-b shadow-sm" {...(theme ? { 'data-theme': theme } : {})}>
         <div className="container py-3">
@@ -121,7 +110,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
             {/* ปุ่มแฮมเบอเกอร์ - แสดงเฉพาะบนมือถือ/แท็บเล็ต */}
             <div className="lg:hidden">
               <button
-                onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+                onClick={toggleSidebar}
                 className="px-3 py-2 text-white hover:bg-blue-800 rounded flex items-center gap-2"
                 aria-label="เปิดเมนู"
               >
@@ -174,6 +163,6 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
           </div>
         </div>
       </div>
-    </SidebarContext.Provider>
+    </>
   )
 }
