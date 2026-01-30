@@ -1,4 +1,4 @@
-# 🚀 Quick Start: Import 3,000 Products
+
 
 ## วิธีเริ่มต้นใช้งาน (5 นาที)
 
