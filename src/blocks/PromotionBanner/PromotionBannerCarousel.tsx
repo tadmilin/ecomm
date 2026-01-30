@@ -77,7 +77,7 @@ export const PromotionBannerCarousel: React.FC<PromotionBannerCarouselProps> = (
 
   const BannerContent = () => (
     <div
-      className={`relative w-full ${aspectRatioClasses[aspectRatio] || aspectRatioClasses['21/9']} overflow-hidden bg-gray-100 ${rounded ? 'rounded-2xl' : ''} max-h-[300px] md:max-h-[400px]`}
+      className={`relative w-full overflow-hidden bg-gray-100 ${rounded ? 'rounded-lg' : ''} h-[180px] md:h-[220px]`}
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
@@ -88,7 +88,7 @@ export const PromotionBannerCarousel: React.FC<PromotionBannerCarouselProps> = (
             src={desktopImageUrl}
             alt={currentBanner.alt || 'Promotion Banner'}
             fill
-            className="object-cover"
+            className="object-contain"
             priority={currentIndex === 0}
             sizes="100vw"
           />
@@ -102,7 +102,7 @@ export const PromotionBannerCarousel: React.FC<PromotionBannerCarouselProps> = (
             src={mobileImageUrl}
             alt={currentBanner.alt || 'Promotion Banner'}
             fill
-            className="object-cover"
+            className="object-contain"
             priority={currentIndex === 0}
             sizes="100vw"
           />
