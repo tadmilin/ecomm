@@ -39,6 +39,7 @@ export const PromotionBannerCarousel: React.FC<PromotionBannerCarouselProps> = (
     '21/9': 'aspect-[21/9]',
     '4/3': 'aspect-[4/3]',
     '2/1': 'aspect-[2/1]',
+    '3/1': 'aspect-[3/1]',
   }
 
   const getImageUrl = (image: string | Media, isMobile = false): string | null => {
@@ -76,7 +77,7 @@ export const PromotionBannerCarousel: React.FC<PromotionBannerCarouselProps> = (
 
   const BannerContent = () => (
     <div
-      className={`relative w-full ${aspectRatioClasses[aspectRatio] || aspectRatioClasses['16/9']} overflow-hidden bg-gray-100 ${rounded ? 'rounded-2xl' : ''}`}
+      className={`relative w-full ${aspectRatioClasses[aspectRatio] || aspectRatioClasses['21/9']} overflow-hidden bg-gray-100 ${rounded ? 'rounded-2xl' : ''} max-h-[300px] md:max-h-[400px]`}
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
