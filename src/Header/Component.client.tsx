@@ -64,39 +64,25 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
               />
             </Link>
 
-            {/* ช่องค้นหา - กลาง */}
-            <div className="hidden md:flex justify-center flex-1">
+            {/* ช่องค้นหา - กลาง (แสดงเฉพาะ desktop) */}
+            <div className="hidden lg:flex justify-center flex-1">
               <div className="w-full max-w-xl">
                 <SearchBar lang={lang} className="w-full" />
               </div>
             </div>
 
             {/* ส่วนผู้ใช้ - ขวา */}
-            <div className="flex items-center gap-4">
-              <LanguageSwitcher />
+            <div className="flex items-center gap-2 md:gap-4">
+              <div className="hidden md:block">
+                <LanguageSwitcher />
+              </div>
               {status === 'loading' ? (
-                <div className="w-8 h-8 animate-pulse bg-gray-200 rounded-full"></div>
+                <div className="w-8 h-8 animate-pulse bg-gray-200 rounded-full hidden md:block"></div>
               ) : session?.user ? (
                 <div className="hidden md:flex items-center gap-3">
-                  <span className="text-sm font-medium text-gray-700">เข้าสู่ระบบแล้ว</span>
                   <UserMenu />
                 </div>
-              ) : (
-                <Link
-                  href={`/${lang}/login`}
-                  className="hidden md:flex items-center gap-2 text-sm text-gray-700 hover:text-blue-600"
-                >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                    />
-                  </svg>
-                  เข้าสู่ระบบ
-                </Link>
-              )}
+              ) : null}
               <CartButton />
             </div>
           </div>
@@ -104,18 +90,18 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
       </div>
 
       {/* แถบเมนูด้านล่าง - สีน้ำเงิน */}
-      <div className="w-full bg-blue-900 text-white">
+      <div className="w-full bg-blue-900 text-white relative">
         <div className="container py-2">
           <div className="flex items-center justify-between">
-            {/* ปุ่มแฮมเบอเกอร์ - แสดงเฉพาะบนมือถือ/แท็บเล็ต */}
+            {/* ปุ่มแฮมเบอเกอร์ซ้าย - แสดงเฉพาะบนมือถือ/แท็บเล็ต */}
             <div className="lg:hidden">
               <button
                 onClick={toggleSidebar}
-                className="px-3 py-2 text-white hover:bg-blue-800 rounded flex items-center gap-2"
+                className="p-2 text-white hover:bg-blue-800 rounded"
                 aria-label="เปิดเมนู"
               >
                 <svg
-                  className="w-5 h-5"
+                  className="w-6 h-6"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -127,7 +113,6 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
                     d="M4 6h16M4 12h16M4 18h16"
                   />
                 </svg>
-                <span className="text-sm">เมนู</span>
               </button>
             </div>
 
