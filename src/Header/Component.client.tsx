@@ -73,9 +73,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
 
             {/* ส่วนผู้ใช้ - ขวา */}
             <div className="flex items-center gap-2 md:gap-4">
-              <div className="hidden md:block">
-                <LanguageSwitcher />
-              </div>
+              <LanguageSwitcher />
               {status === 'loading' ? (
                 <div className="w-8 h-8 animate-pulse bg-gray-200 rounded-full hidden md:block"></div>
               ) : session?.user ? (

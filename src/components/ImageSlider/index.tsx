@@ -184,14 +184,14 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
           height: 100%; /* แก้บั๊ก slick สร้าง div ซ้อน */
         }
 
-        /* 3. กำหนดความสูงของพื้นที่แสดงผล (แก้เลขตรงนี้ได้) */
+        /* 3. กำหนดความสูงของพื้นที่แสดงผล - ปรับให้เหมาะกับ mobile */
         .slide-item {
           width: 100%;
-          height: 60vh; /* ความสูงที่คุณต้องการ */
-          min-height: 400px; /* กันไม่ให้เตี้ยเกินไปในจอกว้าง */
-          max-height: 800px;
+          height: 56.25vw; /* 16:9 aspect ratio (9/16 = 0.5625) */
+          min-height: 300px; /* ความสูงขั้นต่ำสำหรับมือถือ */
+          max-height: 600px; /* จำกัดความสูงสูงสุดสำหรับจอใหญ่ */
           position: relative;
-          display: flex; /* ใช้ Flex เพื่อยืด child ให้เต็ม */
+          display: flex;
           align-items: center;
           justify-content: center;
           overflow: hidden;
@@ -238,8 +238,17 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
         /* Responsive */
         @media (max-width: 768px) {
           .slide-item {
-            height: 40vh;
+            height: 66.67vw; /* 3:2 aspect ratio สำหรับมือถือ (2/3 = 0.6667) */
+            min-height: 280px;
+            max-height: 400px;
+          }
+        }
+        
+        @media (max-width: 480px) {
+          .slide-item {
+            height: 75vw; /* 4:3 aspect ratio สำหรับมือถือเล็ก */
             min-height: 250px;
+            max-height: 350px;
           }
         }
       `}</style>
