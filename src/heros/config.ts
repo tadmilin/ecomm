@@ -160,9 +160,6 @@ export const hero: Field = {
           },
         }),
       ],
-      admin: {
-        description: 'แสดง featured categories ด้านล่าง hero slider',
-      },
       minRows: 2,
       maxRows: 8,
     },
