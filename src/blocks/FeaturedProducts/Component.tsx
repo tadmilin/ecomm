@@ -242,7 +242,6 @@ export const FeaturedProductsComponent: React.FC<FeaturedProductsProps> = ({
 
         .main-container-custom {
           width: 100%;
-          max-width: 1248px;
           margin: 0 auto;
           background-color: #ffffff;
           border-radius: 8px; /* Slightly rounded corners */
