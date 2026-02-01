@@ -115,7 +115,7 @@ export const FeaturedProductsComponent: React.FC<FeaturedProductsProps> = ({
 
   return (
     <div className="section-bg">
-      <div className="container mx-auto px-4 main-container-custom">
+      <div className="container mx-auto main-container-custom">
         <div className="header-section">
           <div className="title-row">
             {title && <h2 className="section-title">{title}</h2>}
@@ -245,8 +245,13 @@ export const FeaturedProductsComponent: React.FC<FeaturedProductsProps> = ({
           margin: 0 auto;
           background-color: #ffffff;
           border-radius: 8px; /* Slightly rounded corners */
-          padding: 20px 24px 24px; /* Top padding slightly less, side/bottom standard */
-          /* No shadow or very subtle to look flat like prompt if needed, but example has card look */
+          padding: 20px 24px 24px; /* Default desktop padding */
+        }
+        
+        @media (max-width: 768px) {
+          .main-container-custom {
+            padding: 16px; /* Reduced mobile padding */
+          }
         }
 
         .header-section {
