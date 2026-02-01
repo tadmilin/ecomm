@@ -44,7 +44,7 @@ export const FeaturedCategoriesComponent: React.FC<FeaturedCategoriesProps> = ({
                 {...category.link}
                 className="menu-card"
               >
-                {/* รูปภาพ */}
+                {/* รูปภาพ - ปรับให้เต็มพื้นที่ซ้ายเหมือนตัวอย่าง */}
                 <div className="card-image">
                   {imageUrl ? (
                     <img
@@ -56,7 +56,7 @@ export const FeaturedCategoriesComponent: React.FC<FeaturedCategoriesProps> = ({
                   )}
                 </div>
 
-                {/* ข้อความ */}
+                {/* ข้อความ - จัดวางเหมือนเดิมแต่ปรับฟอนต์และระยะห่าง */}
                 <div className="card-content">
                   <h3>{category.link?.label || category.title}</h3>
                   {category.description && (
@@ -64,7 +64,7 @@ export const FeaturedCategoriesComponent: React.FC<FeaturedCategoriesProps> = ({
                   )}
                 </div>
 
-                {/* ลูกศร */}
+                {/* ลูกศร - ปรับให้ดูเรียบง่าย */}
                 <div className="card-arrow">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M9 18L15 12L9 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -80,70 +80,36 @@ export const FeaturedCategoriesComponent: React.FC<FeaturedCategoriesProps> = ({
         /* พื้นหลังของ Section */
         .section-bg {
           width: 100%;
-          background-color: transparent; /* หรือสีพื้นหลังที่ต้องการ */
-          padding: 0 0 20px 0; /* ลด padding ด้านบนเหลือ 0 เพื่อให้ชิดด้านบนมากๆ */
+          background-color: transparent;
+          margin-top: -8px; /* Negative margin to pull it up closer to hero */
+          padding-bottom: 24px;
         }
 
-        /* Container หลัก: ตัวคุมความกว้างให้เท่ากับแบนเนอร์ข้างบน */
+        /* Container หลัก */
         .main-container {
           width: 100%;
-          /* ปรับตัวเลขนี้เพื่อให้ตรงกับแบนเนอร์ (มาตรฐานมักจะ 1200px - 1400px) */
           max-width: 1280px; 
-          margin: 0 auto; /* จัดกึ่งกลางหน้าจอ */
+          margin: 0 auto;
           padding-left: 16px;
-          padding-right: 16px; /* กันชนขอบซ้ายขวานิดหน่อย */
+          padding-right: 16px;
         }
 
         /* Container การ์ด */
         .grid-wrapper {
           display: flex;
-          gap: 16px; /* ระยะห่างระหว่างการ์ดแต่ละใบ */
+          gap: 16px;
         }
 
-        /* --- Mobile & Tablet View --- */
-        @media (max-width: 1023px) {
-          .grid-wrapper {
-            display: grid;
-            width: 100%;
-            gap: 12px;
-          }
-        }
-
-        /* Mobile specific adjustments */
-        @media (max-width: 639px) {
-           .grid-wrapper {
-             grid-template-columns: 1fr;
-           }
-           :global(.menu-card) {
-             height: 84px; /* Slightly compact on mobile */
-           }
-           .card-image {
-             width: 84px;
-             margin-right: 12px;
-           }
-           .card-content h3 {
-             font-size: 16px;
-           }
-        }
-
-        /* Tablet specific adjustments */
-        @media (min-width: 640px) and (max-width: 1023px) {
-           .grid-wrapper {
-             grid-template-columns: repeat(2, 1fr);
-           }
-        }
-        
-        /* --- Desktop View (คอมพิวเตอร์) --- */
+        /* --- Desktop View --- */
         @media (min-width: 1024px) {
           .grid-wrapper {
             display: grid;
-            /* แบ่ง 4 ช่อง เท่ากันเป๊ะ */
             grid-template-columns: repeat(4, 1fr); 
             width: 100%;
           }
 
           :global(.menu-card) {
-            width: 100%; /* ยืดเต็มช่องของตัวเอง */
+            width: 100%;
           }
         }
 
@@ -152,44 +118,42 @@ export const FeaturedCategoriesComponent: React.FC<FeaturedCategoriesProps> = ({
           display: flex;
           align-items: center;
           background-color: #ffffff;
-          border-radius: 8px;
-          padding: 0;
+          border-radius: 8px; /* Slightly smaller radius */
+          padding: 0; 
           text-decoration: none;
           color: #333;
-          box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-          border: 1px solid #f0f0f0;
+          box-shadow: 0 1px 3px rgba(0,0,0,0.1); /* Subtle shadow like example */
+          border: 1px solid #e5e7eb; /* Light border */
           transition: all 0.2s ease;
-          height: 90px; /* ลดความสูงลงเล็กน้อยให้กระชับขึ้น */
+          height: 96px; /* Similar height to example */
           box-sizing: border-box;
           overflow: hidden;
+          position: relative;
         }
 
         :global(.menu-card:hover) {
           transform: translateY(-2px);
-          box-shadow: 0 8px 16px rgba(0,0,0,0.1);
-          border-color: #e0e0e0;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+          border-color: #d1d5db;
         }
 
         .card-image {
-          width: 90px; /* สี่เหลี่ยมจัตุรัส */
-          height: 90px;
+          width: 96px; /* Square */
+          height: 100%;
           flex-shrink: 0;
-          background-color: #fff; /* เปลี่ยนเป็นขาวเพื่อให้กลมกลืนถ้าเป็นโลโก้ */
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          padding: 4px; /* เพิ่ม padding เล็กน้อยกันรูปชนขอบ */
+          background-color: #f3f4f6; /* Light gray bg for image placeholder */
+          overflow: hidden;
         }
 
         .card-image img {
           width: 100%;
           height: 100%;
-          object-fit: contain; /* สำคัญ! ใช้ contain เพื่อไม่ให้รูปถูกตัด */
-          transition: transform 0.3s ease;
+          object-fit: cover; /* Full bleed image like example */
+          transition: transform 0.5s ease;
         }
         
         :global(.menu-card:hover) .card-image img {
-          transform: scale(1.05);
+          transform: scale(1.1);
         }
 
         .card-content {
@@ -199,49 +163,86 @@ export const FeaturedCategoriesComponent: React.FC<FeaturedCategoriesProps> = ({
           display: flex;
           flex-direction: column;
           justify-content: center;
-          padding: 0 12px; /* เพิ่ม padding ด้านข้าง */
+          padding: 0 16px;
         }
 
         .card-content h3 {
           margin: 0;
-          font-size: 16px; 
-          font-weight: 600;
-          color: #222;
+          font-size: 18px; 
+          font-weight: 600; /* Bold title */
+          color: #111827; /* Dark text */
           margin-bottom: 4px;
           font-family: 'Kanit', sans-serif;
-          line-height: 1.3;
-          display: -webkit-box;
-          -webkit-line-clamp: 2;
-          -webkit-box-orient: vertical;
-          overflow: hidden;
-        }
-
-        .card-content p {
-          margin: 0;
-          font-size: 13px;
-          color: #888;
-          font-family: 'Kanit', sans-serif;
+          line-height: 1.2;
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
         }
 
+        .card-content p {
+          margin: 0;
+          font-size: 14px;
+          color: #6b7280; /* Gray description */
+          font-family: 'Kanit', sans-serif;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          line-height: 1.4;
+        }
+
         .card-arrow {
-          width: 24px;
-          height: 24px;
+          width: 32px;
+          height: 32px;
           flex-shrink: 0;
-          margin-right: 16px;
+          margin-right: 12px;
           display: flex;
           align-items: center;
           justify-content: center;
-          color: #222;
+          color: #111827;
         }
         
         .card-arrow svg {
-            width: 20px;
-            height: 20px;
-            stroke: currentColor;
-            stroke-width: 2;
+            width: 24px;
+            height: 24px;
+            stroke-width: 1.5;
+        }
+        
+        /* Tablet */
+        @media (min-width: 640px) and (max-width: 1023px) {
+           .grid-wrapper {
+             display: grid;
+             grid-template-columns: repeat(2, 1fr);
+             gap: 12px;
+           }
+        }
+
+        /* Mobile */
+        @media (max-width: 639px) {
+           .section-bg {
+             margin-top: -4px;
+           }
+           
+           .grid-wrapper {
+             display: grid;
+             grid-template-columns: 1fr;
+             gap: 12px;
+           }
+           
+           :global(.menu-card) {
+             height: 80px; 
+           }
+           
+           .card-image {
+             width: 80px;
+           }
+           
+           .card-content h3 {
+             font-size: 16px;
+           }
+           
+           .card-content p {
+             font-size: 13px;
+           }
         }
       `}</style>
     </div>

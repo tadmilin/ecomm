@@ -235,8 +235,9 @@ export const FeaturedProductsComponent: React.FC<FeaturedProductsProps> = ({
       <style jsx>{`
         .section-bg {
           width: 100%;
-          background-color: #f5f5f5;
-          padding: 40px 0;
+          background-color: #ffffff;
+          padding: 20px 0;
+          margin-bottom: 0;
         }
 
         .main-container {
