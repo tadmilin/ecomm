@@ -152,37 +152,44 @@ export const FeaturedCategoriesComponent: React.FC<FeaturedCategoriesProps> = ({
           display: flex;
           align-items: center;
           background-color: #ffffff;
-          border-radius: 8px; /* Slightly smaller radius for cleaner look */
-          padding: 0; /* Remove internal padding, handled by inner elements or flex */
+          border-radius: 8px;
+          padding: 0;
           text-decoration: none;
           color: #333;
-          box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-          border: none;
+          box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+          border: 1px solid #f0f0f0;
           transition: all 0.2s ease;
-          height: 100px; /* Taller card */
+          height: 90px; /* ลดความสูงลงเล็กน้อยให้กระชับขึ้น */
           box-sizing: border-box;
-          overflow: hidden; /* กันเนื้อหาล้น */
+          overflow: hidden;
         }
 
         :global(.menu-card:hover) {
           transform: translateY(-2px);
-          box-shadow: 0 4px 6px rgba(0,0,0,0.12);
+          box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+          border-color: #e0e0e0;
         }
 
         .card-image {
-          width: 100px; /* Square image on the left */
-          height: 100%; /* Full height */
+          width: 90px; /* สี่เหลี่ยมจัตุรัส */
+          height: 90px;
           flex-shrink: 0;
-          border-radius: 0; /* No radius on image container itself, as it touches edge */
-          overflow: hidden;
-          margin-right: 16px;
-          background-color: #f0f0f0;
+          background-color: #fff; /* เปลี่ยนเป็นขาวเพื่อให้กลมกลืนถ้าเป็นโลโก้ */
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 4px; /* เพิ่ม padding เล็กน้อยกันรูปชนขอบ */
         }
 
         .card-image img {
           width: 100%;
           height: 100%;
-          object-fit: cover;
+          object-fit: contain; /* สำคัญ! ใช้ contain เพื่อไม่ให้รูปถูกตัด */
+          transition: transform 0.3s ease;
+        }
+        
+        :global(.menu-card:hover) .card-image img {
+          transform: scale(1.05);
         }
 
         .card-content {
@@ -192,28 +199,27 @@ export const FeaturedCategoriesComponent: React.FC<FeaturedCategoriesProps> = ({
           display: flex;
           flex-direction: column;
           justify-content: center;
-          padding-right: 10px; /* Space before arrow */
+          padding: 0 12px; /* เพิ่ม padding ด้านข้าง */
         }
 
         .card-content h3 {
           margin: 0;
-          font-size: 18px; /* Larger title */
+          font-size: 16px; 
           font-weight: 600;
-          color: #000;
+          color: #222;
           margin-bottom: 4px;
           font-family: 'Kanit', sans-serif;
-          line-height: 1.2;
+          line-height: 1.3;
           display: -webkit-box;
-          -webkit-line-clamp: 2; /* Allow 2 lines */
+          -webkit-line-clamp: 2;
           -webkit-box-orient: vertical;
           overflow: hidden;
-          white-space: normal; /* Allow wrap */
         }
 
         .card-content p {
           margin: 0;
-          font-size: 14px;
-          color: #666;
+          font-size: 13px;
+          color: #888;
           font-family: 'Kanit', sans-serif;
           white-space: nowrap;
           overflow: hidden;
@@ -224,16 +230,18 @@ export const FeaturedCategoriesComponent: React.FC<FeaturedCategoriesProps> = ({
           width: 24px;
           height: 24px;
           flex-shrink: 0;
-          margin-right: 16px; /* Right padding */
+          margin-right: 16px;
           display: flex;
           align-items: center;
           justify-content: center;
+          color: #222;
         }
         
         .card-arrow svg {
-            width: 24px;
-            height: 24px;
-            stroke: #000; /* Black arrow */
+            width: 20px;
+            height: 20px;
+            stroke: currentColor;
+            stroke-width: 2;
         }
       `}</style>
     </div>
