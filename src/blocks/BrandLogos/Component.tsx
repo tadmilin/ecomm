@@ -71,10 +71,11 @@ export const BrandLogosComponent: React.FC<BrandLogosComponentProps> = ({
 
   return (
     <div className="brand-logos-section py-6">
-      <div className="container mx-auto bg-white rounded-lg p-4 md:p-6">
-        {title && (
-          <h2 className="text-3xl font-bold text-center mb-6 text-gray-800">{title}</h2>
-        )}
+      <div className="container mx-auto">
+        <div className="bg-white rounded-lg p-4 md:p-6">
+          {title && (
+            <h2 className="text-3xl font-bold text-center mb-6 text-gray-800">{title}</h2>
+          )}
         
         <div className="brand-logos-slider">
           <Slider ref={sliderRef} {...settings}>
@@ -118,6 +119,7 @@ export const BrandLogosComponent: React.FC<BrandLogosComponentProps> = ({
             })}
           </Slider>
         </div>
+      </div>
       </div>
 
       <style jsx>{`

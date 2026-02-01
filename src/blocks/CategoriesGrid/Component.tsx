@@ -71,15 +71,17 @@ export const CategoriesGridBlock: React.FC<
         </div>
       )}
       
-      <div className="container mx-auto bg-white rounded-lg p-4 md:p-6">
-        <CategoriesCarousel
-          categories={categories}
-          columns={columns || '6'}
-          rows={rows || '2'}
-          showDescription={showDescription || false}
-          imageStyle={imageStyle || 'square'}
-          lang={lang}
-        />
+      <div className="container mx-auto">
+        <div className="bg-white rounded-lg p-4 md:p-6">
+          <CategoriesCarousel
+            categories={categories}
+            columns={columns || '6'}
+            rows={rows || '2'}
+            showDescription={showDescription || false}
+            imageStyle={imageStyle || 'square'}
+            lang={lang}
+          />
+        </div>
       </div>
     </div>
   )

@@ -115,9 +115,10 @@ export const FeaturedProductsComponent: React.FC<FeaturedProductsProps> = ({
 
   return (
     <div className="section-bg">
-      <div className="container mx-auto main-container-custom">
-        <div className="header-section">
-          <div className="title-row">
+      <div className="container mx-auto">
+        <div className="main-container-custom">
+          <div className="header-section">
+            <div className="title-row">
             {title && <h2 className="section-title">{title}</h2>}
             {showCountdown && (
               <div className="countdown-timer">
@@ -230,6 +231,7 @@ export const FeaturedProductsComponent: React.FC<FeaturedProductsProps> = ({
           </button>
         )}
       </div>
+    </div>
     </div>
 
       <style jsx>{`

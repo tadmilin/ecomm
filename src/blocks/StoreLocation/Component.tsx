@@ -70,9 +70,10 @@ export const StoreLocationBlock: React.FC<
 
   return (
     <div className="my-8" id={`block-${id}`}>
-      <div className="container mx-auto bg-white rounded-lg p-4 md:p-8">
-        {/* Header Section */}
-        {title && (
+      <div className="container mx-auto">
+        <div className="bg-white rounded-lg p-4 md:p-8">
+          {/* Header Section */}
+          {title && (
           <div className="text-center mb-8">
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4 tracking-tight">
               {typeof title === 'string' ? title : 'เดินทางมาที่ร้าน'}
@@ -268,6 +269,7 @@ export const StoreLocationBlock: React.FC<
             </div>
           </div>
         )}
+      </div>
       </div>
     </div>
   )
