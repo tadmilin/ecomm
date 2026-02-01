@@ -75,7 +75,7 @@ export const HighImpactHero: React.FC<Page['hero']> = ({ links, mediaSlides, ric
             fill={true}
             imgClassName=""
             priority="high"
-            className="w-full h-full"
+            className="w-full h-full hero-slider-custom"
           />
         </div>
       ) : null}
@@ -99,6 +99,16 @@ export const HighImpactHero: React.FC<Page['hero']> = ({ links, mediaSlides, ric
           </div>
         </div>
       </div>
+
+      <style jsx global>{`
+        @media (min-width: 1024px) {
+          .hero-slider-custom .slide-item {
+            height: calc(7 * 3.5rem) !important;
+            min-height: auto !important;
+            max-height: none !important;
+          }
+        }
+      `}</style>
     </div>
   )
 }
