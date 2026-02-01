@@ -33,10 +33,11 @@ type HeroWithSidebar = Omit<Page['hero'], 'featuredCategories'> & {
   showCategorySidebar?: boolean
   lang?: string
   featuredCategories?: FeaturedCategory[]
+  enableFeaturedCategories?: boolean | null
 }
 
 export const RenderHero: React.FC<HeroWithSidebar> = (props) => {
-  const { type, showCategorySidebar, lang, featuredCategories } = props || {}
+  const { type, showCategorySidebar, lang, featuredCategories, enableFeaturedCategories } = props || {}
 
   if (!type || type === 'none') return null
 
@@ -55,7 +56,7 @@ export const RenderHero: React.FC<HeroWithSidebar> = (props) => {
           <ResponsiveSidebarWrapper lang={lang}>
             <HeroToRender {...restProps} />
           </ResponsiveSidebarWrapper>
-          {featuredCategories && featuredCategories.length > 0 && (
+          {enableFeaturedCategories && featuredCategories && featuredCategories.length > 0 && (
             <FeaturedCategoriesComponent categories={featuredCategories} lang={lang} />
           )}
         </>
@@ -69,7 +70,7 @@ export const RenderHero: React.FC<HeroWithSidebar> = (props) => {
         <ResponsiveSidebarWrapper lang={lang}>
           <HeroToRender {...restProps} />
         </ResponsiveSidebarWrapper>
-        {featuredCategories && featuredCategories.length > 0 && (
+        {enableFeaturedCategories && featuredCategories && featuredCategories.length > 0 && (
           <FeaturedCategoriesComponent categories={featuredCategories} lang={lang} />
         )}
       </>
@@ -83,7 +84,7 @@ export const RenderHero: React.FC<HeroWithSidebar> = (props) => {
     return (
       <>
         <HeroToRender {...restProps} />
-        {featuredCategories && featuredCategories.length > 0 && (
+        {enableFeaturedCategories && featuredCategories && featuredCategories.length > 0 && (
           <FeaturedCategoriesComponent categories={featuredCategories} lang={lang} />
         )}
       </>
@@ -95,7 +96,7 @@ export const RenderHero: React.FC<HeroWithSidebar> = (props) => {
   return (
     <>
       <HeroToRender {...restProps} />
-      {featuredCategories && featuredCategories.length > 0 && (
+      {enableFeaturedCategories && featuredCategories && featuredCategories.length > 0 && (
         <FeaturedCategoriesComponent categories={featuredCategories} lang={lang} />
       )}
     </>

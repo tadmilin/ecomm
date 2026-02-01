@@ -235,7 +235,7 @@ export const FeaturedProductsComponent: React.FC<FeaturedProductsProps> = ({
       <style jsx>{`
         .section-bg {
           width: 100%;
-          background-color: #ffffff;
+          background-color: transparent;
           padding: 20px 0;
           margin-bottom: 0;
         }
@@ -244,8 +244,10 @@ export const FeaturedProductsComponent: React.FC<FeaturedProductsProps> = ({
           width: 100%;
           max-width: 1280px;
           margin: 0 auto;
-          padding-left: 16px;
-          padding-right: 16px;
+          background-color: #ffffff;
+          border-radius: 8px; /* Slightly rounded corners */
+          padding: 20px 24px 24px; /* Top padding slightly less, side/bottom standard */
+          /* No shadow or very subtle to look flat like prompt if needed, but example has card look */
         }
 
         .header-section {
@@ -508,12 +510,13 @@ export const FeaturedProductsComponent: React.FC<FeaturedProductsProps> = ({
 
         @media (max-width: 768px) {
           .section-bg {
-            padding: 32px 0;
+            padding: 10px 0; /* Reduced outer padding on mobile */
           }
 
           .main-container {
-            padding-left: 12px;
-            padding-right: 12px;
+            padding: 16px 12px; /* Adjusted padding for mobile */
+            border-radius: 0; /* Full width on mobile often looks better without radius, or small radius */
+            border-radius: 8px; /* Keep consistent with desktop but maybe smaller padding */
           }
 
           .section-title {

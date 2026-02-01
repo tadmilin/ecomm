@@ -116,9 +116,22 @@ export const hero: Field = {
       required: true,
     },
     {
+      name: 'enableFeaturedCategories',
+      type: 'checkbox',
+      label: 'Enable Featured Categories',
+      defaultValue: true,
+      admin: {
+        description: 'เปิด/ปิด การแสดงผล Featured Categories ด้านล่าง Hero',
+      },
+    },
+    {
       name: 'featuredCategories',
       type: 'array',
       label: 'Featured Categories (Below Hero)',
+      admin: {
+        condition: (_, siblingData) => siblingData?.enableFeaturedCategories,
+        description: 'แสดง featured categories ด้านล่าง hero slider',
+      },
       fields: [
         {
           name: 'image',
