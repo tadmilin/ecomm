@@ -70,7 +70,7 @@ export const StoreLocationBlock: React.FC<
 
   return (
     <div className="my-20" id={`block-${id}`}>
-      <div className="container max-w-7xl mx-auto px-4">
+      <div className="container max-w-[1248px] mx-auto px-4 bg-white rounded-lg p-8">
         {/* Header Section */}
         {title && (
           <div className="text-center mb-16">

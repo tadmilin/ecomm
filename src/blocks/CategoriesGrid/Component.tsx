@@ -71,7 +71,7 @@ export const CategoriesGridBlock: React.FC<
         </div>
       )}
       
-      <div className="container">
+      <div className="container max-w-[1248px] mx-auto bg-white rounded-lg p-6">
         <CategoriesCarousel
           categories={categories}
           columns={columns || '6'}

@@ -71,7 +71,7 @@ export const BrandLogosComponent: React.FC<BrandLogosComponentProps> = ({
 
   return (
     <div className="brand-logos-section py-12 bg-white">
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-4 max-w-[1248px]">
         {title && (
           <h2 className="text-3xl font-bold text-center mb-8 text-gray-800">{title}</h2>
         )}
