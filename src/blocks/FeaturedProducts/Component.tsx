@@ -115,7 +115,7 @@ export const FeaturedProductsComponent: React.FC<FeaturedProductsProps> = ({
 
   return (
     <div className="section-bg">
-      <div className="main-container">
+      <div className="container mx-auto px-4 main-container-custom">
         <div className="header-section">
           <div className="title-row">
             {title && <h2 className="section-title">{title}</h2>}
@@ -240,10 +240,7 @@ export const FeaturedProductsComponent: React.FC<FeaturedProductsProps> = ({
           margin-bottom: 0;
         }
 
-        .main-container {
-          width: 100%;
-          max-width: 1280px;
-          margin: 0 auto;
+        .main-container-custom {
           background-color: #ffffff;
           border-radius: 8px; /* Slightly rounded corners */
           padding: 20px 24px 24px; /* Top padding slightly less, side/bottom standard */
@@ -513,7 +510,7 @@ export const FeaturedProductsComponent: React.FC<FeaturedProductsProps> = ({
             padding: 10px 0; /* Reduced outer padding on mobile */
           }
 
-          .main-container {
+          .main-container-custom {
             padding: 16px 12px; /* Adjusted padding for mobile */
             border-radius: 0; /* Full width on mobile often looks better without radius, or small radius */
             border-radius: 8px; /* Keep consistent with desktop but maybe smaller padding */
@@ -706,9 +703,8 @@ export const FeaturedProductsComponent: React.FC<FeaturedProductsProps> = ({
             padding: 20px 0;
           }
 
-          .main-container {
-            padding-left: 8px;
-            padding-right: 8px;
+          .main-container-custom {
+             /* Use inherited padding or small padding from above rule */
           }
 
           .title-row {
