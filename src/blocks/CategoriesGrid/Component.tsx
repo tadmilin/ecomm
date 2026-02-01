@@ -64,9 +64,9 @@ export const CategoriesGridBlock: React.FC<
   }
 
   return (
-    <div className="my-16" id={`block-${id}`}>
+    <div className="my-6" id={`block-${id}`}>
       {introContent && (
-        <div className="container mb-8">
+        <div className="container mb-4">
           <RichText className="ms-0 max-w-[48rem]" data={introContent} enableGutter={false} />
         </div>
       )}

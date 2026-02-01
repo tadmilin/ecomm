@@ -70,10 +70,10 @@ export const BrandLogosComponent: React.FC<BrandLogosComponentProps> = ({
   }
 
   return (
-    <div className="brand-logos-section py-12 bg-white">
-      <div className="container mx-auto px-4">
+    <div className="brand-logos-section py-6">
+      <div className="container mx-auto px-4 bg-white rounded-lg p-6">
         {title && (
-          <h2 className="text-3xl font-bold text-center mb-8 text-gray-800">{title}</h2>
+          <h2 className="text-3xl font-bold text-center mb-6 text-gray-800">{title}</h2>
         )}
         
         <div className="brand-logos-slider">
@@ -84,8 +84,8 @@ export const BrandLogosComponent: React.FC<BrandLogosComponentProps> = ({
               const brandName = item.brandName || logoMedia?.alt || 'Brand Logo'
               
               const LogoContent = (
-                <div className="brand-logo-item px-4">
-                  <div className="brand-logo-wrapper flex items-center justify-center p-8 bg-white rounded-lg transition-all duration-300 hover:shadow-xl">
+                <div className="brand-logo-item px-2">
+                  <div className="brand-logo-wrapper flex items-center justify-center p-4 bg-white rounded-lg transition-all duration-300 hover:shadow-xl">
                     <img
                       src={logoUrl}
                       alt={brandName}

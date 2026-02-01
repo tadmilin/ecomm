@@ -32,7 +32,7 @@ export const PromotionBannerBlock: React.FC<
   }
 
   return (
-    <div className="my-8 md:my-12" id={`block-${id}`}>
+    <div className="my-4 md:my-6" id={`block-${id}`}>
       <div className="container">
         <PromotionBannerCarousel
           banners={banners as BannerItem[]}

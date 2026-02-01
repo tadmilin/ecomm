@@ -236,7 +236,7 @@ export const FeaturedProductsComponent: React.FC<FeaturedProductsProps> = ({
         .section-bg {
           width: 100%;
           background-color: transparent;
-          padding: 20px 0;
+          padding: 10px 0;
           margin-bottom: 0;
         }
 

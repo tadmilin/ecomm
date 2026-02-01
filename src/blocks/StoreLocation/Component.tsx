@@ -69,11 +69,11 @@ export const StoreLocationBlock: React.FC<
   const embedSrc = googleMapsEmbed ? getEmbedSrc(googleMapsEmbed) : ''
 
   return (
-    <div className="my-20" id={`block-${id}`}>
+    <div className="my-8" id={`block-${id}`}>
       <div className="container mx-auto px-4 bg-white rounded-lg p-8">
         {/* Header Section */}
         {title && (
-          <div className="text-center mb-16">
+          <div className="text-center mb-8">
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4 tracking-tight">
               {typeof title === 'string' ? title : 'เดินทางมาที่ร้าน'}
             </h2>
