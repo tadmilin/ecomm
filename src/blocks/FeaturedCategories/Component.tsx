@@ -58,7 +58,7 @@ export const FeaturedCategoriesComponent: React.FC<FeaturedCategoriesProps> = ({
 
                 {/* ข้อความ */}
                 <div className="card-content">
-                  <h3>{category.title}</h3>
+                  <h3>{category.link?.label || category.title}</h3>
                   {category.description && (
                     <p>{category.description}</p>
                   )}
@@ -81,7 +81,7 @@ export const FeaturedCategoriesComponent: React.FC<FeaturedCategoriesProps> = ({
         .section-bg {
           width: 100%;
           background-color: transparent; /* หรือสีพื้นหลังที่ต้องการ */
-          padding: 20px 0;
+          padding: 0 0 20px 0; /* ลด padding ด้านบนเหลือ 0 เพื่อให้ชิดด้านบนมากๆ */
         }
 
         /* Container หลัก: ตัวคุมความกว้างให้เท่ากับแบนเนอร์ข้างบน */
