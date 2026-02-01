@@ -66,8 +66,8 @@ export const FeaturedCategoriesComponent: React.FC<FeaturedCategoriesProps> = ({
 
                 {/* ลูกศร */}
                 <div className="card-arrow">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M9 18L15 12L9 6" stroke="#999" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9 18L15 12L9 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
                 </div>
               </CMSLink>
@@ -100,25 +100,39 @@ export const FeaturedCategoriesComponent: React.FC<FeaturedCategoriesProps> = ({
           gap: 16px; /* ระยะห่างระหว่างการ์ดแต่ละใบ */
         }
 
-        /* --- Mobile View (มือถือ) --- */
+        /* --- Mobile & Tablet View --- */
         @media (max-width: 1023px) {
           .grid-wrapper {
-            overflow-x: auto;
-            padding-bottom: 10px;
-            /* ซ่อน Scrollbar */
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-          }
-          .grid-wrapper::-webkit-scrollbar {
-            display: none;
-          }
-          /* ให้การ์ดเรียงต่อกันยาวๆ */
-          :global(.menu-card) {
-            min-width: 280px;
-            flex-shrink: 0;
+            display: grid;
+            width: 100%;
+            gap: 12px;
           }
         }
 
+        /* Mobile specific adjustments */
+        @media (max-width: 639px) {
+           .grid-wrapper {
+             grid-template-columns: 1fr;
+           }
+           :global(.menu-card) {
+             height: 84px; /* Slightly compact on mobile */
+           }
+           .card-image {
+             width: 84px;
+             margin-right: 12px;
+           }
+           .card-content h3 {
+             font-size: 16px;
+           }
+        }
+
+        /* Tablet specific adjustments */
+        @media (min-width: 640px) and (max-width: 1023px) {
+           .grid-wrapper {
+             grid-template-columns: repeat(2, 1fr);
+           }
+        }
+        
         /* --- Desktop View (คอมพิวเตอร์) --- */
         @media (min-width: 1024px) {
           .grid-wrapper {
@@ -130,7 +144,6 @@ export const FeaturedCategoriesComponent: React.FC<FeaturedCategoriesProps> = ({
 
           :global(.menu-card) {
             width: 100%; /* ยืดเต็มช่องของตัวเอง */
-            /* ไม่กำหนด min-width หรือ max-width เพื่อให้ขนาดปรับตาม Grid */
           }
         }
 
@@ -139,31 +152,31 @@ export const FeaturedCategoriesComponent: React.FC<FeaturedCategoriesProps> = ({
           display: flex;
           align-items: center;
           background-color: #ffffff;
-          border-radius: 12px;
-          padding: 12px 16px; /* ปรับ padding ให้พอดี ไม่ใหญ่เกินไป */
+          border-radius: 8px; /* Slightly smaller radius for cleaner look */
+          padding: 0; /* Remove internal padding, handled by inner elements or flex */
           text-decoration: none;
           color: #333;
-          box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-          border: 1px solid #f0f0f0;
+          box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+          border: none;
           transition: all 0.2s ease;
-          height: 80px; /* กำหนดความสูงมาตรฐานให้เท่ากันทุกอัน */
+          height: 100px; /* Taller card */
           box-sizing: border-box;
           overflow: hidden; /* กันเนื้อหาล้น */
         }
 
         :global(.menu-card:hover) {
           transform: translateY(-2px);
-          box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+          box-shadow: 0 4px 6px rgba(0,0,0,0.12);
         }
 
         .card-image {
-          width: 50px; /* ลดขนาดรูปนิดนึงเพื่อให้การ์ดดูสมส่วนขึ้น */
-          height: 50px;
+          width: 100px; /* Square image on the left */
+          height: 100%; /* Full height */
           flex-shrink: 0;
-          border-radius: 8px;
+          border-radius: 0; /* No radius on image container itself, as it touches edge */
           overflow: hidden;
-          margin-right: 14px;
-          background-color: #f9f9f9;
+          margin-right: 16px;
+          background-color: #f0f0f0;
         }
 
         .card-image img {
@@ -179,39 +192,48 @@ export const FeaturedCategoriesComponent: React.FC<FeaturedCategoriesProps> = ({
           display: flex;
           flex-direction: column;
           justify-content: center;
+          padding-right: 10px; /* Space before arrow */
         }
 
         .card-content h3 {
           margin: 0;
-          font-size: 15px; /* ปรับขนาดฟอนต์ให้พอดี */
+          font-size: 18px; /* Larger title */
           font-weight: 600;
-          color: #1a1a1a;
-          margin-bottom: 2px;
-          font-family: 'Prompt', 'Kanit', sans-serif;
-          white-space: nowrap;
+          color: #000;
+          margin-bottom: 4px;
+          font-family: 'Kanit', sans-serif;
+          line-height: 1.2;
+          display: -webkit-box;
+          -webkit-line-clamp: 2; /* Allow 2 lines */
+          -webkit-box-orient: vertical;
           overflow: hidden;
-          text-overflow: ellipsis;
+          white-space: normal; /* Allow wrap */
         }
 
         .card-content p {
           margin: 0;
-          font-size: 12px;
-          color: #888;
-          font-family: 'Prompt', 'Kanit', sans-serif;
+          font-size: 14px;
+          color: #666;
+          font-family: 'Kanit', sans-serif;
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
         }
 
         .card-arrow {
-          width: 20px;
-          height: 20px;
+          width: 24px;
+          height: 24px;
           flex-shrink: 0;
-          margin-left: 8px;
+          margin-right: 16px; /* Right padding */
           display: flex;
           align-items: center;
           justify-content: center;
-          opacity: 0.6;
+        }
+        
+        .card-arrow svg {
+            width: 24px;
+            height: 24px;
+            stroke: #000; /* Black arrow */
         }
       `}</style>
     </div>
