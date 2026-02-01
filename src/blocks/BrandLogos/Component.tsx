@@ -85,11 +85,11 @@ export const BrandLogosComponent: React.FC<BrandLogosComponentProps> = ({
               
               const LogoContent = (
                 <div className="brand-logo-item px-4">
-                  <div className="brand-logo-wrapper flex items-center justify-center p-6 bg-white rounded-lg transition-all duration-300 hover:shadow-lg">
+                  <div className="brand-logo-wrapper flex items-center justify-center p-8 bg-white rounded-lg transition-all duration-300 hover:shadow-xl">
                     <img
                       src={logoUrl}
                       alt={brandName}
-                      className="max-w-full max-h-20 w-auto h-auto object-contain grayscale hover:grayscale-0 transition-all duration-300"
+                      className="max-w-full max-h-32 w-auto h-auto object-contain transition-transform duration-300 hover:scale-105"
                       loading="lazy"
                     />
                   </div>
@@ -169,7 +169,22 @@ export const BrandLogosComponent: React.FC<BrandLogosComponentProps> = ({
         @media (max-width: 768px) {
           .brand-logos-slider :global(.slick-prev),
           .brand-logos-slider :global(.slick-next) {
-            display: none !important;
+            width: 32px;
+            height: 32px;
+          }
+
+          .brand-logos-slider :global(.slick-prev) {
+            left: 10px;
+          }
+          
+          .brand-logos-slider :global(.slick-next) {
+            right: 10px;
+          }
+
+          .brand-logos-slider :global(.slick-prev:before),
+          .brand-logos-slider :global(.slick-next:before) {
+            font-size: 32px;
+            opacity: 0.8;
           }
         }
       `}</style>
