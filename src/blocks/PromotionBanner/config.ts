@@ -9,6 +9,14 @@ export const PromotionBanner: Block = {
   },
   fields: [
     {
+      name: 'title',
+      type: 'text',
+      label: 'Section Title',
+      admin: {
+        description: 'หัวข้อของส่วน Promotion Banner (ถ้าต้องการ)',
+      },
+    },
+    {
       name: 'banners',
       type: 'array',
       required: true,

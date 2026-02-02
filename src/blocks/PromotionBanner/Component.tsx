@@ -19,6 +19,7 @@ export const PromotionBannerBlock: React.FC<
 > = (props) => {
   const {
     id,
+    title,
     banners,
     autoPlay = true,
     showArrows = true,
@@ -34,6 +35,9 @@ export const PromotionBannerBlock: React.FC<
   return (
     <div className="my-4 md:my-6" id={`block-${id}`}>
       <div className="container">
+        {title && (
+          <h2 className="text-3xl font-bold text-center mb-6 text-gray-800">{title}</h2>
+        )}
         <PromotionBannerCarousel
           banners={banners as BannerItem[]}
           autoPlay={!!autoPlay}

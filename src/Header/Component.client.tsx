@@ -53,7 +53,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
       {/* แถบบนสุด - สีขาว */}
       <div className="w-full bg-white text-gray-900 border-b shadow-sm" {...(theme ? { 'data-theme': theme } : {})}>
         <div className="container py-3">
-          <div className="flex items-center justify-between gap-4">
+          <div className="flex items-center justify-between gap-2 md:gap-4">
             {/* โลโก้ - ซ้าย */}
             <Link href={`/${lang}`} className="flex-shrink-0">
               <DynamicLogo
@@ -64,8 +64,8 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
               />
             </Link>
 
-            {/* ช่องค้นหา - กลาง (แสดงเฉพาะ desktop) */}
-            <div className="hidden lg:flex justify-center flex-1">
+            {/* ช่องค้นหา - กลาง (แสดงทั้ง mobile และ desktop) */}
+            <div className="flex justify-center flex-1">
               <div className="w-full max-w-xl">
                 <SearchBar lang={lang} className="w-full" />
               </div>
