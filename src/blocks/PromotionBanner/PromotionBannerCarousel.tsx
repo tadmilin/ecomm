@@ -85,6 +85,25 @@ export const PromotionBannerCarousel: React.FC<PromotionBannerCarouselProps> = (
     setTouchEnd(0)
   }
 
+  // Scroll functions for mobile
+  const scrollLeft = () => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollBy({
+        left: -scrollContainerRef.current.offsetWidth / 2,
+        behavior: 'smooth'
+      })
+    }
+  }
+
+  const scrollRight = () => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollBy({
+        left: scrollContainerRef.current.offsetWidth / 2,
+        behavior: 'smooth'
+      })
+    }
+  }
+
   useEffect(() => {
     if (!autoPlay || isPaused || totalPages <= 1) return
 
@@ -168,7 +187,7 @@ export const PromotionBannerCarousel: React.FC<PromotionBannerCarouselProps> = (
       onMouseLeave={() => setIsPaused(false)}
     >
       {/* Desktop Grid - 3 columns */}
-      <div className="hidden md:grid md:grid-cols-3 gap-4">
+      <div className="hidden md:grid md:grid-cols-3 gap-2">
         {currentBanners.map((banner, index) => (
           <BannerItem key={`${startIndex + index}`} banner={banner} index={index} />
         ))}
@@ -176,14 +195,14 @@ export const PromotionBannerCarousel: React.FC<PromotionBannerCarouselProps> = (
 
       {/* Mobile Horizontal Scroll - Show 2 items with smooth scrolling */}
       <div 
-        className="md:hidden relative -mx-4 px-4"
+        className="md:hidden relative"
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
       >
         <div 
           ref={scrollContainerRef}
-          className="flex gap-3 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-2"
+          className="flex gap-2 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-2 -mx-4 px-4"
           style={{
             scrollbarWidth: 'none',
             msOverflowStyle: 'none',
@@ -193,7 +212,7 @@ export const PromotionBannerCarousel: React.FC<PromotionBannerCarouselProps> = (
             <div 
               key={index} 
               className="flex-shrink-0 snap-start"
-              style={{ width: 'calc(50% - 6px)' }}
+              style={{ width: 'calc(50% - 4px)' }}
             >
               <BannerItem banner={banner} index={index} />
             </div>
@@ -201,8 +220,32 @@ export const PromotionBannerCarousel: React.FC<PromotionBannerCarouselProps> = (
         </div>
         
         {/* Gradient fade edges for mobile */}
-        <div className="absolute left-0 top-0 bottom-2 w-4 bg-gradient-to-r from-white to-transparent pointer-events-none" />
-        <div className="absolute right-0 top-0 bottom-2 w-4 bg-gradient-to-l from-white to-transparent pointer-events-none" />
+        <div className="absolute left-0 top-0 bottom-2 w-8 bg-gradient-to-r from-white via-white/50 to-transparent pointer-events-none z-10" />
+        <div className="absolute right-0 top-0 bottom-2 w-8 bg-gradient-to-l from-white via-white/50 to-transparent pointer-events-none z-10" />
+
+        {/* Mobile Navigation Arrows */}
+        {banners.length > 2 && (
+          <>
+            <button
+              onClick={scrollLeft}
+              className="absolute left-1 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-white/90 shadow-lg flex items-center justify-center hover:bg-white transition-all"
+              aria-label="Scroll left"
+            >
+              <svg className="w-4 h-4 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
+            <button
+              onClick={scrollRight}
+              className="absolute right-1 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-white/90 shadow-lg flex items-center justify-center hover:bg-white transition-all"
+              aria-label="Scroll right"
+            >
+              <svg className="w-4 h-4 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+          </>
+        )}
       </div>
 
       {/* Navigation Arrows - Desktop only */}
