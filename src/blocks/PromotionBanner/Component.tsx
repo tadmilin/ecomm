@@ -15,6 +15,7 @@ export const PromotionBannerBlock: React.FC<
   PromotionBannerBlockProps & {
     id?: string
     lang?: string
+    title?: string | null
   }
 > = (props) => {
   const {

@@ -239,6 +239,10 @@ export interface Page {
         }[]
       | null;
     /**
+     * เปิด/ปิด การแสดงผล Featured Categories ด้านล่าง Hero
+     */
+    enableFeaturedCategories?: boolean | null;
+    /**
      * แสดง featured categories ด้านล่าง hero slider
      */
     featuredCategories?:
@@ -1214,6 +1218,10 @@ export interface StoreLocationBlock {
  * via the `definition` "PromotionBannerBlock".
  */
 export interface PromotionBannerBlock {
+  /**
+   * หัวข้อของส่วน Promotion Banner (ถ้าต้องการ)
+   */
+  title?: string | null;
   banners: {
     /**
      * แนะนำขนาด 1920x600 พิกเซล หรือ 16:5 ratio
@@ -1558,6 +1566,7 @@ export interface PagesSelect<T extends boolean = true> {
                   };
               id?: T;
             };
+        enableFeaturedCategories?: T;
         featuredCategories?:
           | T
           | {
@@ -1785,6 +1794,7 @@ export interface StoreLocationBlockSelect<T extends boolean = true> {
  * via the `definition` "PromotionBannerBlock_select".
  */
 export interface PromotionBannerBlockSelect<T extends boolean = true> {
+  title?: T;
   banners?:
     | T
     | {
