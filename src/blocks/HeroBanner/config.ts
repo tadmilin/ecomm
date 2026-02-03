@@ -15,16 +15,7 @@ export const HeroBanner: Block = {
       required: true,
       label: 'รูปภาพ Banner',
       admin: {
-        description: 'แนะนำขนาด 1920x400 พิกเซล หรือ 16:3.3 ratio (สำหรับ desktop) - รูปจะแสดงเต็มความกว้างหน้าจอ',
-      },
-    },
-    {
-      name: 'mobileImage',
-      type: 'upload',
-      relationTo: 'media',
-      label: 'รูปภาพ Banner (Mobile)',
-      admin: {
-        description: 'แนะนำขนาด 800x300 พิกเซล หรือ 8:3 ratio - สำหรับมือถือ (ถ้าไม่ใส่จะใช้รูป desktop)',
+        description: 'แนะนำขนาด 2520x1080 พิกเซล (อัตราส่วน 21:9) - ใช้รูปเดียวสำหรับทุกขนาดหน้าจอ รูปจะแสดงเต็มโดยไม่ crop',
       },
     },
     {

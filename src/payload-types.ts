@@ -553,13 +553,9 @@ export interface User {
  */
 export interface HeroBannerBlock {
   /**
-   * แนะนำขนาด 1920x400 พิกเซล หรือ 16:3.3 ratio (สำหรับ desktop) - รูปจะแสดงเต็มความกว้างหน้าจอ
+   * แนะนำขนาด 1920x600 พิกเซล (อัตราส่วน 16:5 หรือ 3.2:1) - ใช้รูปเดียวสำหรับทุกขนาดหน้าจอ รูปจะแสดงเต็มโดยไม่ crop
    */
   image: string | Media;
-  /**
-   * แนะนำขนาด 800x300 พิกเซล หรือ 8:3 ratio - สำหรับมือถือ (ถ้าไม่ใส่จะใช้รูป desktop)
-   */
-  mobileImage?: (string | null) | Media;
   /**
    * คำอธิบายรูปภาพสำหรับ SEO
    */
@@ -1665,7 +1661,6 @@ export interface PagesSelect<T extends boolean = true> {
  */
 export interface HeroBannerBlockSelect<T extends boolean = true> {
   image?: T;
-  mobileImage?: T;
   alt?: T;
   link?: T;
   openInNewTab?: T;

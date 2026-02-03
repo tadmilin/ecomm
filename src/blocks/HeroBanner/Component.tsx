@@ -12,7 +12,6 @@ export const HeroBannerBlock: React.FC<
   const {
     id,
     image,
-    mobileImage,
     alt,
     link,
     openInNewTab,
@@ -25,10 +24,9 @@ export const HeroBannerBlock: React.FC<
     return null
   }
 
-  const desktopImageUrl = image ? getImageUrl(image) : null
-  const mobileImageUrl = mobileImage ? getImageUrl(mobileImage) : desktopImageUrl
+  const imageUrl = image ? getImageUrl(image) : null
 
-  if (!desktopImageUrl) return null
+  if (!imageUrl) return null
 
   // Map height to pixel values
   const heightMap = {
@@ -51,39 +49,39 @@ export const HeroBannerBlock: React.FC<
   const content = (
     <div className="w-full">
       <div className="container">
-        <div className="relative w-full overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">
-          {/* Desktop Image */}
-          {desktopImageUrl && (
-            <div 
-              className="hidden md:block relative w-full bg-gray-100"
-              style={{ height: desktopHeight }}
-            >
-              <Image
-                src={desktopImageUrl}
-                alt={alt || 'Hero Banner'}
-                fill
-                className="object-cover"
-                priority
-                sizes="100vw"
-              />
-            </div>
-          )}
-
-          {/* Mobile Image */}
-          {mobileImageUrl && (
-            <div 
-              className="block md:hidden relative w-full bg-gray-100"
-              style={{ height: mobileHeight }}
-            >
-              <Image
-                src={mobileImageUrl}
-                alt={alt || 'Hero Banner'}
-                fill
-                className="object-cover"
-                priority
-                sizes="100vw"
-              />
-            </div>
+        <div className="relative w-full overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 bg-white">
+          {/* Hero Banner - Single Image for All Devices */}
+          {imageUrl && (
+            <>
+              {/* Desktop */}
+              <div 
+                className="hidden md:block relative w-full"
+                style={{ height: desktopHeight }}
+              >
+                <Image
+                  src={imageUrl}
+                  alt={alt || 'Hero Banner'}
+                  fill
+                  className="object-contain"
+                  priority
+                  sizes="100vw"
+                />
+              </div>
+              {/* Mobile */}
+              <div 
+                className="block md:hidden relative w-full"
+                style={{ height: mobileHeight }}
+              >
+                <Image
+                  src={imageUrl}
+                  alt={alt || 'Hero Banner'}
+                  fill
+                  className="object-contain"
+                  priority
+                  sizes="100vw"
+                />
+              </div>
+            </>
           )}
         </div>
       </div>
