@@ -150,6 +150,22 @@ export interface UserAuthOperations {
 export interface Page {
   id: string;
   title: string;
+  /**
+   * แบนเนอร์ที่แสดงด้านบนสุดของหน้า อยู่เหนือ Header
+   */
+  topBanner?: {
+    enabled?: boolean | null;
+    /**
+     * แนะนำขนาด 1920x80-150 พิกเซล (แบนเนอร์บางๆ แนวนอน)
+     */
+    image?: (string | null) | Media;
+    alt?: string | null;
+    /**
+     * URL ที่จะไปเมื่อคลิก banner
+     */
+    link?: string | null;
+    openInNewTab?: boolean | null;
+  };
   hero: {
     type: 'none' | 'highImpact' | 'mediumImpact' | 'lowImpact';
     richText?: {
@@ -315,53 +331,6 @@ export interface Page {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "posts".
- */
-export interface Post {
-  id: string;
-  title: string;
-  heroImage?: (string | null) | Media;
-  content: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  };
-  relatedPosts?: (string | Post)[] | null;
-  categories?: (string | Category)[] | null;
-  meta?: {
-    title?: string | null;
-    /**
-     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
-     */
-    image?: (string | null) | Media;
-    description?: string | null;
-  };
-  publishedAt?: string | null;
-  authors?: (string | User)[] | null;
-  populatedAuthors?:
-    | {
-        id?: string | null;
-        name?: string | null;
-      }[]
-    | null;
-  slug?: string | null;
-  slugLock?: boolean | null;
-  updatedAt: string;
-  createdAt: string;
-  _status?: ('draft' | 'published') | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "media".
  */
 export interface Media {
@@ -451,6 +420,53 @@ export interface Media {
       filename?: string | null;
     };
   };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "posts".
+ */
+export interface Post {
+  id: string;
+  title: string;
+  heroImage?: (string | null) | Media;
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  relatedPosts?: (string | Post)[] | null;
+  categories?: (string | Category)[] | null;
+  meta?: {
+    title?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (string | null) | Media;
+    description?: string | null;
+  };
+  publishedAt?: string | null;
+  authors?: (string | User)[] | null;
+  populatedAuthors?:
+    | {
+        id?: string | null;
+        name?: string | null;
+      }[]
+    | null;
+  slug?: string | null;
+  slugLock?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -553,7 +569,7 @@ export interface User {
  */
 export interface HeroBannerBlock {
   /**
-   * แนะนำขนาด 1920x600 พิกเซล (อัตราส่วน 16:5 หรือ 3.2:1) - ใช้รูปเดียวสำหรับทุกขนาดหน้าจอ รูปจะแสดงเต็มโดยไม่ crop
+   * แนะนำขนาด 2520x1080 พิกเซล (อัตราส่วน 21:9) - ใช้รูปเดียวสำหรับทุกขนาดหน้าจอ รูปจะแสดงเต็มโดยไม่ crop
    */
   image: string | Media;
   /**
@@ -1549,6 +1565,15 @@ export interface PayloadMigration {
  */
 export interface PagesSelect<T extends boolean = true> {
   title?: T;
+  topBanner?:
+    | T
+    | {
+        enabled?: T;
+        image?: T;
+        alt?: T;
+        link?: T;
+        openInNewTab?: T;
+      };
   hero?:
     | T
     | {

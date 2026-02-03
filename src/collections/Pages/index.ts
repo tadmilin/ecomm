@@ -73,6 +73,60 @@ export const Pages: CollectionConfig<'pages'> = {
       localized: true,
     },
 
+    // Top Banner - แสดงด้านบนสุดของหน้า เหนือ Header
+    {
+      name: 'topBanner',
+      type: 'group',
+      label: 'Top Banner (ด้านบนสุด)',
+      admin: {
+        description: 'แบนเนอร์ที่แสดงด้านบนสุดของหน้า อยู่เหนือ Header',
+      },
+      fields: [
+        {
+          name: 'enabled',
+          type: 'checkbox',
+          label: 'เปิดใช้งาน Top Banner',
+          defaultValue: false,
+        },
+        {
+          name: 'image',
+          type: 'upload',
+          relationTo: 'media',
+          label: 'รูปภาพ Banner',
+          admin: {
+            description: 'แนะนำขนาด 1920x80-150 พิกเซล (แบนเนอร์บางๆ แนวนอน)',
+            condition: (data, siblingData) => siblingData?.enabled === true,
+          },
+        },
+        {
+          name: 'alt',
+          type: 'text',
+          label: 'Alt Text',
+          admin: {
+            condition: (data, siblingData) => siblingData?.enabled === true,
+          },
+        },
+        {
+          name: 'link',
+          type: 'text',
+          label: 'Link URL',
+          admin: {
+            description: 'URL ที่จะไปเมื่อคลิก banner',
+            condition: (data, siblingData) => siblingData?.enabled === true,
+          },
+        },
+        {
+          name: 'openInNewTab',
+          type: 'checkbox',
+          label: 'เปิดในแท็บใหม่',
+          defaultValue: false,
+          admin: {
+            condition: (data, siblingData) => siblingData?.enabled === true,
+          },
+        },
+      ],
+    },
+
     // Original tabs
     {
       type: 'tabs',

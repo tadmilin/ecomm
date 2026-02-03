@@ -12,6 +12,7 @@ import { RenderHero } from '@/heros/RenderHero'
 import { generateMeta } from '@/utilities/generateMeta'
 import PageClient from '@/app/[lang]/[slug]/page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
+import { TopBanner } from '@/components/TopBanner'
 
 // Supported languages
 const SUPPORTED_LANGS = ['en', 'th', 'cn'] as const
@@ -66,14 +67,18 @@ export default async function Page({ params: paramsPromise }: Args) {
     return <PayloadRedirects url={url} />
   }
 
-  const { hero, layout } = page
+  const { hero, layout, topBanner } = page
   const isHomePage = slug === 'home'
 
   return (
-    <article className="pb-24">
-      <PageClient />
-      <PayloadRedirects disableNotFound url={url} />
-      {draft && <LivePreviewListener />}
+    <>
+      {/* Top Banner - แสดงเหนือทุกอย่าง */}
+      {topBanner && <TopBanner {...topBanner} />}
+      
+      <article className="pb-24">
+        <PageClient />
+        <PayloadRedirects disableNotFound url={url} />
+        {draft && <LivePreviewListener />}
       
       {isHomePage ? (
         <RenderHero 
@@ -90,6 +95,7 @@ export default async function Page({ params: paramsPromise }: Args) {
       )}
       <RenderBlocks blocks={layout} lang={lang} />
     </article>
+    </>
   )
 }
 
