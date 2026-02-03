@@ -64,8 +64,8 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
               />
             </Link>
 
-            {/* ช่องค้นหา - กลาง (แสดงทั้ง mobile และ desktop) */}
-            <div className="flex justify-center flex-1">
+            {/* ช่องค้นหา - กลาง (แสดงเฉพาะ desktop) */}
+            <div className="hidden lg:flex justify-center flex-1">
               <div className="w-full max-w-xl">
                 <SearchBar lang={lang} className="w-full" />
               </div>
@@ -90,9 +90,9 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
       {/* แถบเมนูด้านล่าง - สีน้ำเงิน */}
       <div className="w-full bg-blue-900 text-white relative">
         <div className="container py-2">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between gap-3">
             {/* ปุ่มแฮมเบอเกอร์ซ้าย - แสดงเฉพาะบนมือถือ/แท็บเล็ต */}
-            <div className="lg:hidden">
+            <div className="lg:hidden flex-shrink-0">
               <button
                 onClick={toggleSidebar}
                 className="p-2 text-white hover:bg-blue-800 rounded"
@@ -112,6 +112,11 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
                   />
                 </svg>
               </button>
+            </div>
+
+            {/* ช่องค้นหา - แสดงเฉพาะ mobile */}
+            <div className="lg:hidden flex-1">
+              <SearchBar lang={lang} className="w-full" />
             </div>
 
             {/* หมวดหมู่สินค้า - แสดงเฉพาะบน desktop */}
