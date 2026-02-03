@@ -18,13 +18,13 @@ export const TopBanner: React.FC<TopBannerProps> = ({ enabled, image, alt, link,
   if (!imageUrl) return null
 
   const content = (
-    <div className="w-full bg-white border-b">
-      <div className="relative w-full h-[80px] md:h-[100px] overflow-hidden">
+    <div className="w-full bg-white">
+      <div className="relative w-full h-[100px] md:h-[120px] overflow-hidden">
         <Image
           src={imageUrl}
           alt={alt || 'Top Banner'}
           fill
-          className="object-contain"
+          className="object-cover"
           priority
           sizes="100vw"
         />

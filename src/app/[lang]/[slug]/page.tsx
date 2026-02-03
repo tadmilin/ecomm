@@ -71,14 +71,21 @@ export default async function Page({ params: paramsPromise }: Args) {
   const isHomePage = slug === 'home'
 
   return (
-    <>
-      {/* Top Banner - แสดงเหนือทุกอย่าง */}
-      {topBanner && <TopBanner {...topBanner} />}
+    <article className="pb-24">
+      <PageClient />
+      <PayloadRedirects disableNotFound url={url} />
+      {draft && <LivePreviewListener />}
       
-      <article className="pb-24">
-        <PageClient />
-        <PayloadRedirects disableNotFound url={url} />
-        {draft && <LivePreviewListener />}
+      {/* Top Banner - แสดงเฉพาะหน้าที่เปิดใช้งานใน Admin Panel */}
+      {topBanner?.enabled && topBanner.image && (
+        <TopBanner
+          enabled={topBanner.enabled}
+          image={topBanner.image}
+          alt={topBanner.alt}
+          link={topBanner.link}
+          openInNewTab={topBanner.openInNewTab}
+        />
+      )}
       
       {isHomePage ? (
         <RenderHero 
@@ -95,7 +102,6 @@ export default async function Page({ params: paramsPromise }: Args) {
       )}
       <RenderBlocks blocks={layout} lang={lang} />
     </article>
-    </>
   )
 }
 
