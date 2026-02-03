@@ -274,6 +274,7 @@ export interface Page {
       | null;
   };
   layout: (
+    | HeroBannerBlock
     | CallToActionBlock
     | ContentBlock
     | MediaBlock
@@ -545,6 +546,36 @@ export interface User {
       }[]
     | null;
   password?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "HeroBannerBlock".
+ */
+export interface HeroBannerBlock {
+  /**
+   * แนะนำขนาด 1920x400 พิกเซล หรือ 16:3.3 ratio (สำหรับ desktop) - รูปจะแสดงเต็มความกว้างหน้าจอ
+   */
+  image: string | Media;
+  /**
+   * แนะนำขนาด 800x300 พิกเซล หรือ 8:3 ratio - สำหรับมือถือ (ถ้าไม่ใส่จะใช้รูป desktop)
+   */
+  mobileImage?: (string | null) | Media;
+  /**
+   * คำอธิบายรูปภาพสำหรับ SEO
+   */
+  alt?: string | null;
+  /**
+   * URL ที่จะไปเมื่อคลิก banner (ถ้าต้องการ)
+   */
+  link?: string | null;
+  openInNewTab?: boolean | null;
+  /**
+   * ความสูงของ banner บน desktop
+   */
+  height?: ('small' | 'medium' | 'large' | 'xlarge') | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'heroBanner';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1589,6 +1620,7 @@ export interface PagesSelect<T extends boolean = true> {
   layout?:
     | T
     | {
+        heroBanner?: T | HeroBannerBlockSelect<T>;
         cta?: T | CallToActionBlockSelect<T>;
         content?: T | ContentBlockSelect<T>;
         mediaBlock?: T | MediaBlockSelect<T>;
@@ -1626,6 +1658,20 @@ export interface PagesSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "HeroBannerBlock_select".
+ */
+export interface HeroBannerBlockSelect<T extends boolean = true> {
+  image?: T;
+  mobileImage?: T;
+  alt?: T;
+  link?: T;
+  openInNewTab?: T;
+  height?: T;
+  id?: T;
+  blockName?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

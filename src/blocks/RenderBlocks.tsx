@@ -14,6 +14,7 @@ import { BrandLogosBlock } from '@/blocks/BrandLogos'
 import { CategoriesGridBlock } from '@/blocks/CategoriesGrid/Component'
 import { StoreLocationBlock } from '@/blocks/StoreLocation/Component'
 import { PromotionBannerBlock } from '@/blocks/PromotionBanner/Component'
+import { HeroBannerBlock } from '@/blocks/HeroBanner/Component'
 
 const blockComponents = {
   archive: ArchiveBlock,
@@ -28,6 +29,7 @@ const blockComponents = {
   categoriesGrid: CategoriesGridBlock,
   storeLocation: StoreLocationBlock,
   promotionBanner: PromotionBannerBlock,
+  heroBanner: HeroBannerBlock,
 } as const
 
 export const RenderBlocks: React.FC<{
