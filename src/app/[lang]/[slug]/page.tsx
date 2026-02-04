@@ -12,7 +12,6 @@ import { RenderHero } from '@/heros/RenderHero'
 import { generateMeta } from '@/utilities/generateMeta'
 import PageClient from '@/app/[lang]/[slug]/page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
-import { TopBanner } from '@/components/TopBanner'
 
 // Supported languages
 const SUPPORTED_LANGS = ['en', 'th', 'cn'] as const
@@ -67,7 +66,7 @@ export default async function Page({ params: paramsPromise }: Args) {
     return <PayloadRedirects url={url} />
   }
 
-  const { hero, layout, topBanner } = page
+  const { hero, layout } = page
   const isHomePage = slug === 'home'
 
   return (
@@ -75,17 +74,6 @@ export default async function Page({ params: paramsPromise }: Args) {
       <PageClient />
       <PayloadRedirects disableNotFound url={url} />
       {draft && <LivePreviewListener />}
-      
-      {/* Top Banner - แสดงเฉพาะหน้าที่เปิดใช้งานใน Admin Panel */}
-      {topBanner?.enabled && topBanner.image && (
-        <TopBanner
-          enabled={topBanner.enabled}
-          image={topBanner.image}
-          alt={topBanner.alt}
-          link={topBanner.link}
-          openInNewTab={topBanner.openInNewTab}
-        />
-      )}
       
       {isHomePage ? (
         <RenderHero 

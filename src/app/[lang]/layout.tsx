@@ -9,13 +9,16 @@ import { AdminBar } from '@/components/AdminBar'
 import { Footer } from '@/Footer/Component'
 import { Header } from '@/Header/Component'
 import { LoginNotification } from '@/components/LoginNotification'
+import { TopBanner } from '@/components/TopBanner'
 import { Providers } from '@/providers'
 import { InitTheme } from '@/providers/Theme/InitTheme'
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
-import { draftMode } from 'next/headers'
+import { draftMode, headers } from 'next/headers'
 
 import './globals.css'
 import { getServerSideURL } from '@/utilities/getURL'
+import configPromise from '@payload-config'
+import { getPayload } from 'payload'
 
 export default async function RootLayout({
   children,
@@ -26,6 +29,32 @@ export default async function RootLayout({
 }) {
   const { isEnabled } = await draftMode()
   const { lang } = await params
+
+  // Get current pathname to determine which page's TopBanner to show
+  const headersList = await headers()
+  const pathname = headersList.get('x-pathname') || headersList.get('referer') || ''
+  
+  // Extract slug from pathname (e.g., /th/about -> about, /th -> home)
+  const pathParts = pathname.split('/').filter(Boolean)
+  const slug = pathParts.length > 1 ? pathParts[pathParts.length - 1] : 'home'
+
+  // Query current page for topBanner
+  let topBanner = null
+  try {
+    const payload = await getPayload({ config: configPromise })
+    const page = await payload.find({
+      collection: 'pages',
+      limit: 1,
+      where: {
+        slug: {
+          equals: slug,
+        },
+      },
+    })
+    topBanner = page.docs?.[0]?.topBanner
+  } catch (error) {
+    console.error('Error fetching page for TopBanner:', error)
+  }
 
   return (
     <html
@@ -40,6 +69,17 @@ export default async function RootLayout({
       </head>
       <body>
         <Providers>
+          {/* Top Banner - ด้านบนสุดของเว็บ เหนือ Header */}
+          {topBanner?.enabled && topBanner.image && (
+            <TopBanner
+              enabled={topBanner.enabled}
+              image={topBanner.image}
+              alt={topBanner.alt}
+              link={topBanner.link}
+              openInNewTab={topBanner.openInNewTab}
+            />
+          )}
+          
           <AdminBar
             adminBarProps={{
               preview: isEnabled,
