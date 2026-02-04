@@ -52,7 +52,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
     <>
       {/* แถบบนสุด - สีขาว */}
       <div className="w-full bg-white text-gray-900 border-b shadow-sm" {...(theme ? { 'data-theme': theme } : {})}>
-        <div className="container py-3">
+        <div className="container">
           <div className="flex items-center justify-between gap-2 md:gap-4">
             {/* โลโก้ - ซ้าย */}
             <Link href={`/${lang}`} className="flex-shrink-0">

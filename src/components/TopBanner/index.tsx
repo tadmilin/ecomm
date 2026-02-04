@@ -18,9 +18,9 @@ export const TopBanner: React.FC<TopBannerProps> = ({ enabled, image, alt, link,
   if (!imageUrl) return null
 
   const content = (
-    <div className="w-full bg-white">
+    <div className="w-full bg-white -mb-px">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="relative w-full h-[100px] sm:h-[110px] md:h-[120px] lg:h-[130px] overflow-hidden">
+        <div className="relative w-full h-[100px] sm:h-[110px] md:h-[120px] lg:h-[130px]">
           <Image
             src={imageUrl}
             alt={alt || 'Top Banner'}
