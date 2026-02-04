@@ -80,11 +80,13 @@ export default async function RootLayout({
             />
           )}
           
-          <AdminBar
-            adminBarProps={{
-              preview: isEnabled,
-            }}
-          />
+          <div style={{ display: 'none' }}>
+            <AdminBar
+              adminBarProps={{
+                preview: isEnabled,
+              }}
+            />
+          </div>
 
           <Header lang={lang} />
           <LoginNotification />
