@@ -39,10 +39,13 @@ export const Media: CollectionConfig = {
     },
   ],
   upload: {
-    // Upload to the public/media directory in Next.js making them publicly accessible even outside of Payload
+    // Upload to R2 via S3 Storage
     staticDir: path.resolve(dirname, '../../public/media'),
     adminThumbnail: 'thumbnail',
     focalPoint: true,
+    // File size limits
+    maxSize: 50 * 1024 * 1024, // 50MB max
+    // ลบ mimeTypes = อนุญาตทุกไฟล์
     imageSizes: [
       {
         name: 'thumbnail',
