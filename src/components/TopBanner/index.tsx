@@ -20,12 +20,12 @@ export const TopBanner: React.FC<TopBannerProps> = ({ enabled, image, alt, link,
   const content = (
     <div className="w-full bg-white -mb-px">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="relative w-full h-[100px] sm:h-[110px] md:h-[120px] lg:h-[130px]">
+        <div className="relative w-full aspect-[10.66/1]">
           <Image
             src={imageUrl}
             alt={alt || 'Top Banner'}
             fill
-            className="object-contain"
+            className="object-cover"
             priority
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 100vw, 1280px"
           />
