@@ -43,9 +43,6 @@ export const Media: CollectionConfig = {
     staticDir: path.resolve(dirname, '../../public/media'),
     adminThumbnail: 'thumbnail',
     focalPoint: true,
-    // File size limits
-    maxSize: 50 * 1024 * 1024, // 50MB max
-    // ลบ mimeTypes = อนุญาตทุกไฟล์
     imageSizes: [
       {
         name: 'thumbnail',
