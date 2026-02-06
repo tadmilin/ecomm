@@ -15,6 +15,7 @@ import { CartButton } from '@/components/CartButton'
 import { LanguageSwitcher } from '@/components/LanguageSwitcher'
 import { SearchBar } from '@/components/SearchBar'
 import { CategoryDropdown } from './CategoryDropdown'
+import { MobileCategoryMenu } from '@/components/Navigation/MobileCategoryMenu'
 
 interface HeaderClientProps {
   data: Header
@@ -50,6 +51,9 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
   
   return (
     <>
+      {/* Mobile Category Menu */}
+      <MobileCategoryMenu lang={lang} isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
+
       {/* แถบบนสุด - สีขาว */}
       <div className="w-full bg-white text-gray-900 border-b shadow-sm" {...(theme ? { 'data-theme': theme } : {})}>
         <div className="container">
@@ -95,8 +99,8 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
             <div className="lg:hidden flex-shrink-0">
               <button
                 onClick={toggleSidebar}
-                className="p-2 text-white hover:bg-blue-800 rounded"
-                aria-label="เปิดเมนู"
+                className="p-2 text-white hover:bg-blue-800 rounded transition-colors"
+                aria-label="เปิดเมนูหมวดหมู่"
               >
                 <svg
                   className="w-6 h-6"

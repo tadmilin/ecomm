@@ -50,6 +50,8 @@ const config = {
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
+        'slideDown': 'slideDown 0.3s ease-out',
+        'fadeIn': 'fadeIn 0.2s ease-out',
       },
       borderRadius: {
         lg: 'var(--radius)',
@@ -106,6 +108,14 @@ const config = {
         'accordion-up': {
           from: { height: 'var(--radix-accordion-content-height)' },
           to: { height: '0' },
+        },
+        'slideDown': {
+          from: { height: '0', opacity: '0' },
+          to: { height: 'auto', opacity: '1' },
+        },
+        'fadeIn': {
+          from: { opacity: '0' },
+          to: { opacity: '1' },
         },
       },
       typography: () => ({
