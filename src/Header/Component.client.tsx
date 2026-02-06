@@ -16,6 +16,7 @@ import { LanguageSwitcher } from '@/components/LanguageSwitcher'
 import { SearchBar } from '@/components/SearchBar'
 import { CategoryDropdown } from './CategoryDropdown'
 import { MobileCategoryMenu } from '@/components/Navigation/MobileCategoryMenu'
+import { MobileRightMenu } from '@/components/Navigation/MobileRightMenu'
 
 interface HeaderClientProps {
   data: Header
@@ -24,6 +25,7 @@ interface HeaderClientProps {
 export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
   /* Storing the value in a useState to avoid hydration errors */
   const [theme, setTheme] = useState<string | null>(null)
+  const [isRightMenuOpen, setIsRightMenuOpen] = useState(false)
   const { isSidebarOpen, setIsSidebarOpen, toggleSidebar } = useSidebar()
   const { headerTheme, setHeaderTheme } = useHeaderTheme()
   const pathname = usePathname()
@@ -51,8 +53,16 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
   
   return (
     <>
-      {/* Mobile Category Menu */}
+      {/* Mobile Category Menu - ซ้าย */}
       <MobileCategoryMenu lang={lang} isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
+      
+      {/* Mobile Right Menu - ขวา */}
+      <MobileRightMenu 
+        lang={lang} 
+        isOpen={isRightMenuOpen} 
+        onClose={() => setIsRightMenuOpen(false)}
+        navItems={data?.navItems || []}
+      />
 
       {/* แถบบนสุด - สีขาว */}
       <div className="w-full bg-white text-gray-900 border-b shadow-sm" {...(theme ? { 'data-theme': theme } : {})}>
@@ -151,7 +161,11 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
             </div>
             
             {/* เมนูอื่นๆ - ขวา */}
-            <HeaderNav data={data} lang={lang} />
+            <HeaderNav 
+              data={data} 
+              lang={lang} 
+              onMobileMenuToggle={() => setIsRightMenuOpen(true)}
+            />
           </div>
         </div>
       </div>
