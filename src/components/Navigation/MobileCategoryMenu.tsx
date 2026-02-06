@@ -21,7 +21,21 @@ export const MobileCategoryMenu: React.FC<MobileCategoryMenuProps> = ({ lang, is
       try {
         const response = await fetch(`/api/categories?locale=${lang}&depth=2&limit=100`)
         const data = await response.json()
-        setCategories(data.docs || [])
+        console.log('Mobile Category Menu - Raw data:', data.docs)
+        
+        // กรองข้อมูลซ้ำโดยใช้ id เป็น key
+        const uniqueMap = new Map()
+        if (data.docs) {
+          data.docs.forEach((cat: Category) => {
+            if (!uniqueMap.has(cat.id)) {
+              uniqueMap.set(cat.id, cat)
+            }
+          })
+        }
+        const uniqueCategories = Array.from(uniqueMap.values())
+        
+        console.log('Mobile Category Menu - Total categories:', uniqueCategories.length)
+        setCategories(uniqueCategories)
       } catch (error) {
         console.error('Error fetching categories:', error)
       } finally {
@@ -43,6 +57,7 @@ export const MobileCategoryMenu: React.FC<MobileCategoryMenuProps> = ({ lang, is
   }
 
   const rootCategories = categories.filter((cat) => !cat.parent)
+  console.log('Mobile Category Menu - Root categories:', rootCategories.length, rootCategories.map(c => getTranslatedTitle(c)))
 
   const getSubcategories = (parentId: string) => {
     return categories.filter((cat) => {
