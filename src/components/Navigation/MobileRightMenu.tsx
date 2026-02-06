@@ -3,7 +3,7 @@
 import React from 'react'
 import { useSession, signOut } from 'next-auth/react'
 import Link from 'next/link'
-import { X, User, LogOut, Settings, Globe, ChevronRight } from 'lucide-react'
+import { X, User, LogOut, Settings, ChevronRight } from 'lucide-react'
 import Image from 'next/image'
 import type { Header as HeaderType } from '@/payload-types'
 import { CMSLink } from '@/components/Link'
@@ -59,7 +59,7 @@ export const MobileRightMenu: React.FC<MobileRightMenuProps> = ({
 
         {/* Content */}
         <div className="flex-1 overflow-y-auto overscroll-contain">
-          {/* User Section */}
+          {/* User Section - แสดงเฉพาะเมื่อ login แล้ว */}
           {status === 'loading' ? (
             <div className="p-4 border-b border-gray-200">
               <div className="flex items-center gap-3">
@@ -135,26 +135,7 @@ export const MobileRightMenu: React.FC<MobileRightMenuProps> = ({
                 </button>
               </div>
             </div>
-          ) : (
-            <div className="p-4 bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-gray-200">
-              <div className="flex items-center gap-3 mb-3">
-                <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center">
-                  <User className="w-6 h-6 text-gray-400" />
-                </div>
-                <div>
-                  <p className="text-sm font-medium text-gray-900">ยังไม่ได้เข้าสู่ระบบ</p>
-                  <p className="text-xs text-gray-600">เข้าสู่ระบบเพื่อใช้งานเพิ่มเติม</p>
-                </div>
-              </div>
-              <Link
-                href={`/${lang}/login`}
-                onClick={handleLinkClick}
-                className="block w-full py-2.5 px-4 bg-blue-900 hover:bg-blue-800 text-white text-center font-medium rounded-lg transition-colors shadow-sm"
-              >
-                เข้าสู่ระบบ
-              </Link>
-            </div>
-          )}
+          ) : null}
 
           {/* Navigation Items */}
           {navItems && navItems.length > 0 && (
@@ -183,34 +164,6 @@ export const MobileRightMenu: React.FC<MobileRightMenuProps> = ({
               </nav>
             </div>
           )}
-
-          {/* Language Switcher Section */}
-          <div className="py-4 px-4 border-t border-gray-200">
-            <div className="flex items-center gap-2 mb-2">
-              <Globe className="w-4 h-4 text-gray-500" />
-              <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                ภาษา
-              </h3>
-            </div>
-            <div className="grid grid-cols-3 gap-2">
-              {['th', 'en', 'ja'].map((language) => (
-                <Link
-                  key={language}
-                  href={`/${language}`}
-                  onClick={handleLinkClick}
-                  className={`py-2 px-3 text-center text-sm font-medium rounded-lg transition-all ${
-                    lang === language
-                      ? 'bg-blue-900 text-white shadow-sm'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                  }`}
-                >
-                  {language === 'th' && '🇹🇭 ไทย'}
-                  {language === 'en' && '🇬🇧 EN'}
-                  {language === 'ja' && '🇯🇵 日本'}
-                </Link>
-              ))}
-            </div>
-          </div>
         </div>
 
         {/* Footer */}
