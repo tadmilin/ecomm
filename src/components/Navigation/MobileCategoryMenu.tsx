@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import Link from 'next/link'
 import { ChevronDown, ChevronRight, X } from 'lucide-react'
 import type { Category } from '@/payload-types'
@@ -21,20 +21,16 @@ export const MobileCategoryMenu: React.FC<MobileCategoryMenuProps> = ({ lang, is
       try {
         const response = await fetch(`/api/categories?locale=${lang}&depth=2&limit=100`)
         const data = await response.json()
-        console.log('Mobile Category Menu - Raw data:', data.docs)
         
-        // กรองข้อมูลซ้ำโดยใช้ id เป็น key
-        const uniqueMap = new Map()
+        // Filter unique categories by id using Map for better performance
+        const uniqueMap = new Map<string, Category>()
         if (data.docs) {
           data.docs.forEach((cat: Category) => {
-            if (!uniqueMap.has(cat.id)) {
-              uniqueMap.set(cat.id, cat)
-            }
+            uniqueMap.set(cat.id, cat)
           })
         }
         const uniqueCategories = Array.from(uniqueMap.values())
         
-        console.log('Mobile Category Menu - Total categories:', uniqueCategories.length)
         setCategories(uniqueCategories)
       } catch (error) {
         console.error('Error fetching categories:', error)
@@ -48,18 +44,20 @@ export const MobileCategoryMenu: React.FC<MobileCategoryMenuProps> = ({ lang, is
     }
   }, [lang, isOpen])
 
-  const getTranslatedTitle = (category: Category) => {
+  const getTranslatedTitle = (category: Category): string => {
     if (typeof category.title === 'object' && category.title !== null) {
       const titleObj = category.title as Record<string, string>
-      return titleObj[lang] || titleObj.th || 'Category'
+      return titleObj[lang] || titleObj.th || titleObj.en || 'Category'
     }
     return category.title || 'Category'
   }
 
-  const rootCategories = categories.filter((cat) => !cat.parent)
-  console.log('Mobile Category Menu - Root categories:', rootCategories.length, rootCategories.map(c => getTranslatedTitle(c)))
+  // Memoize root categories for better performance
+  const rootCategories = useMemo(() => {
+    return categories.filter((cat) => !cat.parent)
+  }, [categories])
 
-  const getSubcategories = (parentId: string) => {
+  const getSubcategories = (parentId: string): Category[] => {
     return categories.filter((cat) => {
       if (typeof cat.parent === 'string') {
         return cat.parent === parentId

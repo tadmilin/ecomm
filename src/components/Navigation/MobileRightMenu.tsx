@@ -1,12 +1,11 @@
 'use client'
 
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useSession, signOut } from 'next-auth/react'
 import Link from 'next/link'
 import { X, User, LogOut, Settings, ChevronRight } from 'lucide-react'
 import Image from 'next/image'
 import type { Header as HeaderType } from '@/payload-types'
-import { CMSLink } from '@/components/Link'
 
 interface MobileRightMenuProps {
   isOpen: boolean
@@ -23,11 +22,33 @@ export const MobileRightMenu: React.FC<MobileRightMenuProps> = ({
 }) => {
   const { data: session, status } = useSession()
 
-  if (!isOpen) return null
+  // Memoize unique navigation items to prevent duplicates
+  const uniqueNavItems = useMemo(() => {
+    if (!navItems || navItems.length === 0) return []
+    
+    const seen = new Set<string>()
+    return navItems.filter(({ link }) => {
+      const identifier = `${link.type}-${link.label}-${link.url || link.reference?.value}`
+      if (seen.has(identifier)) return false
+      seen.add(identifier)
+      return true
+    })
+  }, [navItems])
 
   const handleLinkClick = () => {
     onClose()
   }
+  
+  const getNavLinkHref = (link: any) => {
+    if (link.type === 'reference' && link.reference?.value) {
+      const ref = link.reference.value
+      if (typeof ref === 'string') return `/${lang}/${ref}`
+      if (ref.slug) return `/${lang}/${ref.slug}`
+    }
+    return link.url || '#'
+  }
+
+  if (!isOpen) return null
 
   return (
     <>
@@ -138,7 +159,7 @@ export const MobileRightMenu: React.FC<MobileRightMenuProps> = ({
           ) : null}
 
           {/* Navigation Items */}
-          {navItems && navItems.length > 0 && (
+          {uniqueNavItems.length > 0 && (
             <div className="py-2">
               <div className="px-4 py-2">
                 <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
@@ -146,21 +167,24 @@ export const MobileRightMenu: React.FC<MobileRightMenuProps> = ({
                 </h3>
               </div>
               <nav>
-                {navItems.map(({ link }, i) => (
-                  <div key={i} className="border-b border-gray-100 last:border-b-0">
-                    <div onClick={handleLinkClick}>
-                      <CMSLink 
-                        {...link} 
-                        lang={lang} 
-                        appearance="inline"
-                        className="flex items-center justify-between px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900 transition-colors group"
-                      >
-                        <span className="font-medium">{link.label}</span>
-                        <ChevronRight className="w-4 h-4 text-gray-400 group-hover:text-blue-600 transition-colors" />
-                      </CMSLink>
-                    </div>
-                  </div>
-                ))}
+                {uniqueNavItems.map(({ link }, index) => {
+                  const href = getNavLinkHref(link)
+                  const isExternal = link.type === 'custom' && link.newTab
+                  
+                  return (
+                    <Link
+                      key={`nav-${index}-${link.label}`}
+                      href={href}
+                      onClick={handleLinkClick}
+                      target={isExternal ? '_blank' : undefined}
+                      rel={isExternal ? 'noopener noreferrer' : undefined}
+                      className="flex items-center justify-between px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900 transition-colors border-b border-gray-100 last:border-b-0 group"
+                    >
+                      <span className="font-medium">{link.label}</span>
+                      <ChevronRight className="w-4 h-4 text-gray-400 group-hover:text-blue-600 transition-colors" />
+                    </Link>
+                  )
+                })}
               </nav>
             </div>
           )}
