@@ -70,6 +70,7 @@ export interface Config {
     pages: Page;
     posts: Post;
     media: Media;
+    'product-media': ProductMedia;
     categories: Category;
     products: Product;
     users: User;
@@ -87,6 +88,7 @@ export interface Config {
     pages: PagesSelect<false> | PagesSelect<true>;
     posts: PostsSelect<false> | PostsSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    'product-media': ProductMediaSelect<false> | ProductMediaSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     products: ProductsSelect<false> | ProductsSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
@@ -998,9 +1000,12 @@ export interface Product {
    * จำนวนสต๊อก (ถ้าไม่กรอกจะใช้ค่าเริ่มต้น 888)
    */
   stock?: number | null;
+  /**
+   * รูปสินค้า (ใช้ product-media: 2 ขนาดเท่านั้น - ประหยัด storage)
+   */
   images?:
     | {
-        image: string | Media;
+        image: string | ProductMedia;
         alt?: string | null;
         id?: string | null;
       }[]
@@ -1083,9 +1088,9 @@ export interface Product {
         stock?: number | null;
         status?: ('active' | 'out_of_stock' | 'discontinued') | null;
         /**
-         * รูปสำหรับตัวเลือกนี้ (เช่น รูปสินค้าสีแดง)
+         * รูปสำหรับตัวเลือกนี้ (เช่น รูปสินค้าสีแดง) - ใช้ product-media
          */
-        image?: (string | null) | Media;
+        image?: (string | null) | ProductMedia;
         weight?: number | null;
         options?: {
           /**
@@ -1113,6 +1118,45 @@ export interface Product {
   slugLock?: boolean | null;
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * Product images (optimized: 2 sizes only)
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "product-media".
+ */
+export interface ProductMedia {
+  id: string;
+  alt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
+  sizes?: {
+    mobile?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    desktop?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+  };
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1490,6 +1534,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'media';
         value: string | Media;
+      } | null)
+    | ({
+        relationTo: 'product-media';
+        value: string | ProductMedia;
       } | null)
     | ({
         relationTo: 'categories';
@@ -1998,6 +2046,48 @@ export interface MediaSelect<T extends boolean = true> {
               filename?: T;
             };
         og?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+      };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "product-media_select".
+ */
+export interface ProductMediaSelect<T extends boolean = true> {
+  alt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  url?: T;
+  thumbnailURL?: T;
+  filename?: T;
+  mimeType?: T;
+  filesize?: T;
+  width?: T;
+  height?: T;
+  focalX?: T;
+  focalY?: T;
+  sizes?:
+    | T
+    | {
+        mobile?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        desktop?:
           | T
           | {
               url?: T;

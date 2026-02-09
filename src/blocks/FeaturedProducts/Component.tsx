@@ -3,7 +3,7 @@
 import React, { useRef, useState, useEffect } from 'react'
 import { CMSLink } from '@/components/Link'
 import { Media as MediaComponent } from '@/components/Media'
-import type { Media, Product } from '@/payload-types'
+import type { Media, ProductMedia, Product } from '@/payload-types'
 
 interface FeaturedProductsProps {
   title?: string
@@ -171,7 +171,7 @@ export const FeaturedProductsComponent: React.FC<FeaturedProductsProps> = ({
             const firstImage = product.images && product.images.length > 0 
               ? product.images[0].image 
               : null
-            const image = firstImage as Media | null
+            const image = firstImage as Media | ProductMedia | null
             const imageUrl = image?.url || ''
 
             // คำนวณราคา

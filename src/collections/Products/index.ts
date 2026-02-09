@@ -102,11 +102,14 @@ export const Products: CollectionConfig = {
       type: 'array',
       label: 'Product Images',
       maxRows: 10,
+      admin: {
+        description: 'รูปสินค้า (ใช้ product-media: 2 ขนาดเท่านั้น - ประหยัด storage)',
+      },
       fields: [
         {
           name: 'image',
           type: 'upload',
-          relationTo: 'media',
+          relationTo: 'product-media', // เปลี่ยนจาก 'media' → 'product-media'
           required: true,
         },
         {
@@ -338,10 +341,10 @@ export const Products: CollectionConfig = {
         {
           name: 'image',
           type: 'upload',
-          relationTo: 'media',
+          relationTo: 'product-media', // เปลี่ยนจาก media
           label: 'รูปภาพตัวเลือก',
           admin: {
-            description: 'รูปสำหรับตัวเลือกนี้ (เช่น รูปสินค้าสีแดง)',
+            description: 'รูปสำหรับตัวเลือกนี้ (เช่น รูปสินค้าสีแดง) - ใช้ product-media',
           },
         },
         {

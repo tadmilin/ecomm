@@ -8,6 +8,7 @@ import { fileURLToPath } from 'url'
 
 import { Categories } from './collections/Categories'
 import { Media } from './collections/Media'
+import { ProductMedia } from './collections/ProductMedia'
 import { Pages } from './collections/Pages/index'
 import { Posts } from './collections/Posts/index'
 import { Products } from './collections/Products/index'
@@ -83,7 +84,7 @@ export default buildConfig({
       socketTimeoutMS: 45000,
     },
   }),
-  collections: [Pages, Posts, Media, Categories, Products, Users],
+  collections: [Pages, Posts, Media, ProductMedia, Categories, Products, Users],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer],
   plugins: [
@@ -92,6 +93,7 @@ export default buildConfig({
     s3Storage({
       collections: {
         media: true,
+        'product-media': true, // Product images (2 sizes only)
       },
       bucket: process.env.R2_BUCKET_NAME || '',
       config: {
