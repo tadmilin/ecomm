@@ -26,8 +26,7 @@
     "seed:i18n": "node scripts/seed-payload-i18n.js",
     "seed:i18n:reset": "node scripts/seed-payload-i18n.js --reset",
     "add:localized": "node scripts/add-localized-to-blocks.js",
-    "import:products": "node scripts/import-products.js",
-    "import:products:dry": "node scripts/import-products.js --dry-run"
+    "import:products": "tsx scripts/import-products.ts"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.982.0",
@@ -73,6 +72,7 @@
     "slick-carousel": "^1.8.1",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
+    "tsx": "^4.21.0",
     "xlsx": "^0.18.5"
   },
   "devDependencies": {

@@ -19,8 +19,11 @@
 import fs from 'fs'
 import path from 'path'
 import { getPayload } from 'payload'
-import configPromise from '../src/payload.config.js'
 import xlsx from 'xlsx'
+import { fileURLToPath } from 'url'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
 // Configuration
 const CONFIG = {
@@ -197,8 +200,10 @@ async function importProducts() {
   console.log(`🔄 Dry run: ${isDryRun ? 'Yes' : 'No'}`)
   console.log('---')
 
-  // Initialize Payload
-  const payload = await getPayload({ config: await configPromise })
+  // Initialize Payload - dynamic import for TypeScript config
+  const configModule = await import('../src/payload.config.ts')
+  const config = configModule.default
+  const payload = await getPayload({ config })
   console.log('✅ Payload CMS initialized')
 
   // Read Excel file
