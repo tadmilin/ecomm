@@ -7,7 +7,7 @@ import { notFound } from 'next/navigation'
 import { getTranslatedText } from '@/utilities/getTranslatedText'
 import Link from 'next/link'
 import { AddToCartButton } from '@/components/AddToCartButton'
-import type { Product } from '@/payload-types'
+import type { Product, Category } from '@/payload-types'
 import { formatPrice, hasPrice, hasDiscount } from '@/utilities/priceUtils'
 
 export const dynamic = 'force-dynamic'
@@ -17,6 +17,33 @@ type Args = {
     lang: string
     slug: string
   }>
+}
+
+// ฟังก์ชันสร้าง breadcrumb path จาก category hierarchy
+function buildCategoryPath(category: Category, lang: string): Array<{ title: string; slug: string }> {
+  const path: Array<{ title: string; slug: string }> = []
+  
+  // ฟังก์ชันดึงชื่อตามภาษา
+  const getTitle = (cat: Category): string => {
+    if (cat.title && typeof cat.title === 'object') {
+      return (cat.title as Record<string, string>)[lang] || (cat.title as any).th || (cat.title as any).en || 'Category'
+    }
+    return typeof cat.title === 'string' ? cat.title : 'Category'
+  }
+  
+  // Recursive function to build path from root to current
+  function buildPath(cat: Category) {
+    if (cat.parent && typeof cat.parent === 'object') {
+      buildPath(cat.parent as Category)
+    }
+    path.push({
+      title: getTitle(cat),
+      slug: cat.slug || ''
+    })
+  }
+  
+  buildPath(category)
+  return path
 }
 
 export default async function ProductDetailPage({ params }: Args) {
@@ -30,7 +57,7 @@ export default async function ProductDetailPage({ params }: Args) {
         equals: slug,
       },
     },
-    depth: 2,
+    depth: 3, // เพิ่ม depth เพื่อดึง category hierarchy
     limit: 1,
   })
 
@@ -68,19 +95,50 @@ export default async function ProductDetailPage({ params }: Args) {
   const productName = getName()
   const productDescription = getDescription()
 
+  // สร้าง category breadcrumb
+  const categoryBreadcrumbs: Array<{ title: string; slug: string }> = []
+  if (product.category && Array.isArray(product.category) && product.category.length > 0) {
+    const firstCategory = product.category[0]
+    if (typeof firstCategory === 'object' && firstCategory !== null) {
+      const categoryPath = buildCategoryPath(firstCategory as Category, lang)
+      categoryBreadcrumbs.push(...categoryPath)
+    }
+  }
+
+  const texts = {
+    th: { home: 'หน้าแรก', categories: 'หมวดหมู่' },
+    en: { home: 'Home', categories: 'Categories' },
+    zh: { home: '首页', categories: '分类' },
+  }
+  const t = texts[lang as keyof typeof texts] || texts.th
+
   return (
     <div className="container py-16">
       <div className="max-w-7xl mx-auto">
-        {/* Breadcrumb */}
-        <nav className="mb-8 text-sm">
+        {/* Breadcrumb with Category Hierarchy */}
+        <nav className="mb-8 text-sm flex items-center flex-wrap gap-2">
           <Link href={`/${lang}`} className="text-blue-600 hover:underline">
-            {lang === 'th' ? 'หน้าแรก' : lang === 'en' ? 'Home' : '首页'}
+            {t.home}
           </Link>
-          <span className="mx-2">/</span>
+          <span className="text-gray-400">/</span>
           <Link href={`/${lang}/products`} className="text-blue-600 hover:underline">
-            {lang === 'th' ? 'สินค้าทั้งหมด' : lang === 'en' ? 'All Products' : '所有产品'}
+            {t.categories}
           </Link>
-          <span className="mx-2">/</span>
+          
+          {/* Category Hierarchy */}
+          {categoryBreadcrumbs.map((cat, index) => (
+            <React.Fragment key={cat.slug}>
+              <span className="text-gray-400">/</span>
+              <Link 
+                href={`/${lang}/categories/${cat.slug}`}
+                className="text-blue-600 hover:underline"
+              >
+                {cat.title}
+              </Link>
+            </React.Fragment>
+          ))}
+          
+          <span className="text-gray-400">/</span>
           <span className="text-gray-600">{productName}</span>
         </nav>
 
