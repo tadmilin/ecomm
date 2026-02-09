@@ -988,10 +988,16 @@ export interface Product {
    * คำอธิบายหลัก (fallback)
    */
   description?: string | null;
-  price: number;
+  /**
+   * ราคาสินค้า (ถ้าไม่กรอกจะแสดง "ราคาพิเศษ" บนหน้าเว็บ)
+   */
+  price?: number | null;
   compareAtPrice?: number | null;
   cost?: number | null;
-  stock: number;
+  /**
+   * จำนวนสต๊อก (ถ้าไม่กรอกจะใช้ค่าเริ่มต้น 888)
+   */
+  stock?: number | null;
   images?:
     | {
         image: string | Media;

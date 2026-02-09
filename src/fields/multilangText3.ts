@@ -39,6 +39,7 @@ export const createMultilangText3 = (options: MultilangText3Options): Field => {
         name: 'en',
         type: 'text',
         label: 'English',
+        required: false,
         admin: {
           placeholder: admin?.placeholder || `Enter ${label}`,
         },
@@ -49,6 +50,7 @@ export const createMultilangText3 = (options: MultilangText3Options): Field => {
         name: 'zh',
         type: 'text',
         label: '中文 (Chinese)',
+        required: false,
         admin: {
           placeholder: admin?.placeholder || `输入${label}`,
         },

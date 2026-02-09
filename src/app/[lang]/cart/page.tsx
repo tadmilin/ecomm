@@ -6,6 +6,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useParams } from 'next/navigation'
 import { getTranslatedText } from '@/utilities/getTranslatedText'
+import { formatPrice, hasPrice } from '@/utilities/priceUtils'
 
 export default function CartPage() {
   const { items, removeItem, updateQuantity, clearCart, totalItems, totalPrice } = useCart()
@@ -81,8 +82,8 @@ export default function CartPage() {
                 <div className="flex-1">
                   <h3 className="font-semibold text-lg mb-1">{productName}</h3>
                   <p className="text-sm text-gray-600 mb-2">SKU: {item.product.sku}</p>
-                  <p className="text-lg font-bold text-blue-600">
-                    ฿{item.product.price.toLocaleString('th-TH')}
+                  <p className={`text-lg font-bold ${hasPrice(item.product.price) ? 'text-blue-600' : 'text-orange-500'}`}>
+                    {formatPrice(item.product.price, lang as 'th' | 'en' | 'zh')}
                   </p>
                 </div>
 
@@ -106,14 +107,17 @@ export default function CartPage() {
                     <button
                       onClick={() => updateQuantity(item.product.id, item.quantity + 1)}
                       className="w-8 h-8 border rounded hover:bg-gray-100"
-                      disabled={item.quantity >= item.product.stock}
+                      disabled={item.quantity >= (item.product.stock || 888)}
                     >
                       +
                     </button>
                   </div>
 
                   <p className="font-bold">
-                    ฿{(item.product.price * item.quantity).toLocaleString('th-TH')}
+                    {hasPrice(item.product.price) 
+                      ? `฿${((item.product.price || 0) * item.quantity).toLocaleString('th-TH')}`
+                      : formatPrice(item.product.price, lang as 'th' | 'en' | 'zh')
+                    }
                   </p>
                 </div>
               </div>

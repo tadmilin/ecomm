@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { AddToCartButton } from '@/components/AddToCartButton'
 import type { Product } from '@/payload-types'
 import { getTranslatedText, type MultilangField } from '@/utilities/getTranslatedText'
+import { formatPrice, hasPrice, hasDiscount } from '@/utilities/priceUtils'
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 60
@@ -113,18 +114,17 @@ export default async function ProductsPage({ params: paramsPromise }: Args) {
 
                 <div className="flex items-center justify-between flex-wrap gap-1">
                   <div>
-                    <p className="text-sm md:text-base lg:text-xl font-bold">
-                      ฿{typedProduct.price.toLocaleString('th-TH')}
+                    <p className={`text-sm md:text-base lg:text-xl font-bold ${hasPrice(typedProduct.price) ? '' : 'text-orange-500'}`}>
+                      {formatPrice(typedProduct.price, lang as 'th' | 'en' | 'zh')}
                     </p>
-                    {typedProduct.compareAtPrice &&
-                      typedProduct.compareAtPrice > typedProduct.price && (
+                    {hasDiscount(typedProduct.price, typedProduct.compareAtPrice) && (
                         <p className="text-xs md:text-sm text-gray-500 line-through">
-                          ฿{typedProduct.compareAtPrice.toLocaleString('th-TH')}
+                          ฿{typedProduct.compareAtPrice?.toLocaleString('th-TH')}
                         </p>
                       )}
                   </div>
                   <div className="text-xs md:text-sm">
-                    {typedProduct.stock > 0 ? (
+                    {typeof typedProduct.stock === 'number' && typedProduct.stock > 0 ? (
                       <span className="text-green-600 hidden md:inline">
                         {typedProduct.stock} left
                       </span>

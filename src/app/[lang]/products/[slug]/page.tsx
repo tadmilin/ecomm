@@ -8,6 +8,7 @@ import { getTranslatedText } from '@/utilities/getTranslatedText'
 import Link from 'next/link'
 import { AddToCartButton } from '@/components/AddToCartButton'
 import type { Product } from '@/payload-types'
+import { formatPrice, hasPrice, hasDiscount } from '@/utilities/priceUtils'
 
 export const dynamic = 'force-dynamic'
 
@@ -140,12 +141,12 @@ export default async function ProductDetailPage({ params }: Args) {
             {/* Price */}
             <div className="mb-6">
               <div className="flex items-baseline gap-3">
-                <span className="text-3xl font-bold text-blue-600">
-                  ฿{product.price?.toLocaleString()}
+                <span className={`text-3xl font-bold ${hasPrice(product.price) ? 'text-blue-600' : 'text-orange-500'}`}>
+                  {formatPrice(product.price, lang as 'th' | 'en' | 'zh')}
                 </span>
-                {product.compareAtPrice && product.compareAtPrice > product.price && (
+                {hasDiscount(product.price, product.compareAtPrice) && (
                   <span className="text-xl text-gray-400 line-through">
-                    ฿{product.compareAtPrice.toLocaleString()}
+                    ฿{product.compareAtPrice?.toLocaleString()}
                   </span>
                 )}
               </div>
@@ -153,10 +154,10 @@ export default async function ProductDetailPage({ params }: Args) {
 
             {/* Status */}
             <div className="mb-6">
-              {product.status === 'active' && product.stock > 0 ? (
+              {product.status === 'active' && (product.stock || 888) > 0 ? (
                 <span className="inline-block px-4 py-2 bg-green-100 text-green-700 rounded-full text-sm font-medium">
                   {lang === 'th' ? '✓ มีสินค้า' : lang === 'en' ? '✓ In Stock' : '✓ 有货'}
-                  {product.stock && ` (${product.stock})`}
+                  {(product.stock || 888) > 0 && ` (${product.stock || 888})`}
                 </span>
               ) : (
                 <span className="inline-block px-4 py-2 bg-red-100 text-red-700 rounded-full text-sm font-medium">
@@ -224,12 +225,15 @@ export default async function ProductDetailPage({ params }: Args) {
                                 ฿{variant.discountPrice.toLocaleString()}
                               </p>
                               <p className="text-sm text-gray-400 line-through">
-                                ฿{(variant.price || product.price).toLocaleString()}
+                                ฿{(variant.price || product.price || 0).toLocaleString()}
                               </p>
                             </div>
                           ) : (
                             <p className="text-lg font-bold">
-                              ฿{(variant.price || product.price).toLocaleString()}
+                              {(variant.price || product.price) 
+                                ? `฿${(variant.price || product.price || 0).toLocaleString()}`
+                                : formatPrice(null, lang as 'th' | 'en' | 'zh')
+                              }
                             </p>
                           )}
                           {variant.status === 'active' && variant.stock && variant.stock > 0 ? (

@@ -19,7 +19,7 @@ export function AddToCartButton({ product, className = '' }: Props) {
     setTimeout(() => setAdded(false), 2000)
   }
 
-  const isOutOfStock = product.stock <= 0
+  const isOutOfStock = (product.stock ?? 888) <= 0
 
   return (
     <button

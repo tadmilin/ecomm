@@ -41,6 +41,7 @@ export const createMultilangTextarea3 = (options: MultilangTextarea3Options): Fi
         name: 'en',
         type: 'textarea',
         label: 'English',
+        required: false,
         admin: {
           placeholder: admin?.placeholder || `Enter ${label}`,
           rows,
@@ -52,6 +53,7 @@ export const createMultilangTextarea3 = (options: MultilangTextarea3Options): Fi
         name: 'zh',
         type: 'textarea',
         label: '中文 (Chinese)',
+        required: false,
         admin: {
           placeholder: admin?.placeholder || `输入${label}`,
           rows,

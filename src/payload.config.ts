@@ -95,7 +95,7 @@ export default buildConfig({
       },
       bucket: process.env.R2_BUCKET_NAME || '',
       config: {
-        endpoint: process.env.R2_PUBLIC_URL,
+        endpoint: process.env.R2_ENDPOINT || `https://${process.env.R2_ACCOUNT_ID}.r2.cloudflarestorage.com`,
         region: 'auto',
         credentials: {
           accessKeyId: process.env.R2_ACCESS_KEY_ID || '',

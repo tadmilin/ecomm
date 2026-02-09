@@ -36,8 +36,7 @@ export const Products: CollectionConfig = {
       admin: {
         description: 'คำอธิบายสินค้าในภาษาไทย, อังกฤษ, และจีน',
       },
-      maxLength: 1000,
-      rows: 4,
+      rows: 8,
     }),
 
     // Original fields (สำหรับ fallback และ Excel import)
@@ -68,9 +67,12 @@ export const Products: CollectionConfig = {
     {
       name: 'price',
       type: 'number',
-      required: true,
+      required: false,
       min: 0,
       label: 'Price (THB)',
+      admin: {
+        description: 'ราคาสินค้า (ถ้าไม่กรอกจะแสดง "ราคาพิเศษ" บนหน้าเว็บ)',
+      },
     },
     {
       name: 'compareAtPrice',
@@ -87,10 +89,13 @@ export const Products: CollectionConfig = {
     {
       name: 'stock',
       type: 'number',
-      required: true,
+      required: false,
       min: 0,
-      defaultValue: 0,
+      defaultValue: 888,
       label: 'Stock Quantity',
+      admin: {
+        description: 'จำนวนสต๊อก (ถ้าไม่กรอกจะใช้ค่าเริ่มต้น 888)',
+      },
     },
     {
       name: 'images',

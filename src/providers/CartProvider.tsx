@@ -74,7 +74,11 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   }
 
   const totalItems = items.reduce((sum, item) => sum + item.quantity, 0)
-  const totalPrice = items.reduce((sum, item) => sum + item.product.price * item.quantity, 0)
+  // Only count items with valid price
+  const totalPrice = items.reduce((sum, item) => {
+    const price = item.product.price || 0
+    return sum + price * item.quantity
+  }, 0)
 
   return (
     <CartContext.Provider

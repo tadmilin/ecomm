@@ -7,6 +7,7 @@ import Image from 'next/image'
 import { getTranslatedText } from '@/utilities/getTranslatedText'
 import { AddToCartButton } from '@/components/AddToCartButton'
 import type { Product } from '@/payload-types'
+import { formatPrice, hasPrice, hasDiscount } from '@/utilities/priceUtils'
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 60 // Revalidate every 60 seconds
@@ -327,19 +328,19 @@ export default async function CategoryDetailPage({ params }: Args) {
 
                       <div className="flex items-center justify-between flex-wrap gap-1">
                         <div>
-                          <p className="text-sm md:text-base lg:text-xl font-bold">
-                            ฿{product.price?.toLocaleString('th-TH')}
+                          <p className={`text-sm md:text-base lg:text-xl font-bold ${hasPrice(product.price) ? '' : 'text-orange-500'}`}>
+                            {formatPrice(product.price, lang as 'th' | 'en' | 'zh')}
                           </p>
-                          {product.compareAtPrice && product.compareAtPrice > product.price && (
+                          {hasDiscount(product.price, product.compareAtPrice) && (
                             <p className="text-xs md:text-sm text-gray-500 line-through">
-                              ฿{product.compareAtPrice.toLocaleString('th-TH')}
+                              ฿{product.compareAtPrice?.toLocaleString('th-TH')}
                             </p>
                           )}
                         </div>
                         <div className="text-xs md:text-sm">
-                          {product.stock > 0 ? (
+                          {(product.stock || 888) > 0 ? (
                             <span className="text-green-600 hidden md:inline">
-                              {product.stock} left
+                              {product.stock || 888} left
                             </span>
                           ) : (
                             <span className="text-red-600">Out</span>

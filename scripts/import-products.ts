@@ -27,6 +27,7 @@ interface ProductRow {
   'Length (cm)'?: number
   'Width (cm)'?: number
   'Height (cm)'?: number
+  'Parent Category'?: string
   Category?: string
   Tags?: string
   Status?: string
@@ -48,19 +49,43 @@ if (!excelFile) {
 
 async function uploadImage(payload: any, imageUrl: string, productSku: string) {
   try {
-    console.log(`  📥 Downloading: ${imageUrl}`)
-    const response = await fetch(imageUrl)
-    if (!response.ok) throw new Error(`HTTP ${response.status}`)
-    
-    const buffer = Buffer.from(await response.arrayBuffer())
-    const filename = `${productSku}-${Date.now()}.jpg`
+    let buffer: Buffer
+    let filename: string
+
+    // ตรวจสอบว่าเป็น URL หรือ Local Path
+    if (imageUrl.startsWith('http://') || imageUrl.startsWith('https://')) {
+      // Download from URL
+      console.log(`  📥 Downloading: ${imageUrl}`)
+      const response = await fetch(imageUrl)
+      if (!response.ok) throw new Error(`HTTP ${response.status}`)
+      buffer = Buffer.from(await response.arrayBuffer())
+      filename = `${productSku}-${Date.now()}.jpg`
+    } else {
+      // Read from local file
+      console.log(`  📂 Reading local: ${imageUrl}`)
+      const fs = await import('fs')
+      const path = await import('path')
+      
+      if (!fs.existsSync(imageUrl)) {
+        throw new Error(`File not found: ${imageUrl}`)
+      }
+      
+      buffer = fs.readFileSync(imageUrl)
+      const ext = path.extname(imageUrl) || '.jpg'
+      filename = `${productSku}-${Date.now()}${ext}`
+    }
+
+    // Detect mimetype
+    const mimetype = filename.endsWith('.png') ? 'image/png' 
+                   : filename.endsWith('.webp') ? 'image/webp'
+                   : 'image/jpeg'
 
     const media = await payload.create({
       collection: 'media',
       data: { alt: `${productSku} image` },
       file: {
         data: buffer,
-        mimetype: 'image/jpeg',
+        mimetype,
         name: filename,
         size: buffer.length,
       },
@@ -73,7 +98,7 @@ async function uploadImage(payload: any, imageUrl: string, productSku: string) {
   }
 }
 
-async function findOrCreateCategory(payload: any, categoryName: string) {
+async function findOrCreateCategory(payload: any, categoryName: string, parentCategoryName?: string): Promise<string | null> {
   if (!categoryName) return null
 
   const slug = categoryName
@@ -82,6 +107,7 @@ async function findOrCreateCategory(payload: any, categoryName: string) {
     .replace(/\s+/g, '-')
     .replace(/[^\w\-]+/g, '')
 
+  // Find existing category
   const existing = await payload.find({
     collection: 'categories',
     where: { slug: { equals: slug } },
@@ -94,16 +120,27 @@ async function findOrCreateCategory(payload: any, categoryName: string) {
   }
 
   if (isDryRun) {
-    console.log(`  ⚠️  Category would be created: ${categoryName}`)
+    console.log(`  ⚠️  Category would be created: ${categoryName}${parentCategoryName ? ` (ภายใต้ ${parentCategoryName})` : ''}`)
     return 'dry-run-id'
   }
 
-  const category = await payload.create({
+  // Handle parent category
+  let parentId: string | null = null
+  if (parentCategoryName) {
+    parentId = await findOrCreateCategory(payload, parentCategoryName)
+    console.log(`  ✓ Parent category: ${parentCategoryName}`)
+  }
+
+  const category: any = await payload.create({
     collection: 'categories',
-    data: { title: categoryName, slug },
+    data: { 
+      title: categoryName, 
+      slug,
+      parent: parentId,
+    },
   })
 
-  console.log(`  ✨ Category created: ${categoryName}`)
+  console.log(`  ✨ Category created: ${categoryName}${parentId ? ` (ภายใต้ ${parentCategoryName})` : ''}`)
   return category.id
 }
 
@@ -165,7 +202,7 @@ async function main() {
       if (isDryRun) {
         console.log(`  ✓ Would ${isUpdate ? 'update' : 'create'}`)
         if (row.Category) {
-          await findOrCreateCategory(payload, row.Category)
+          await findOrCreateCategory(payload, row.Category, row['Parent Category'])
         }
         stats[isUpdate ? 'updated' : 'created']++
         console.log()
@@ -175,7 +212,7 @@ async function main() {
       // Handle category
       let categoryId = null
       if (row.Category) {
-        categoryId = await findOrCreateCategory(payload, row.Category)
+        categoryId = await findOrCreateCategory(payload, row.Category, row['Parent Category'])
       }
 
       // Handle images

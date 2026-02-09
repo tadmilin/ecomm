@@ -26,7 +26,8 @@
     "seed:i18n": "node scripts/seed-payload-i18n.js",
     "seed:i18n:reset": "node scripts/seed-payload-i18n.js --reset",
     "add:localized": "node scripts/add-localized-to-blocks.js",
-    "import:products": "tsx scripts/import-products.ts"
+    "import:products": "tsx scripts/import-products-v2.ts",
+    "import:products:old": "tsx scripts/import-products.ts"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.982.0",

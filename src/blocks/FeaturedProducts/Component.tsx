@@ -109,8 +109,22 @@ export const FeaturedProductsComponent: React.FC<FeaturedProductsProps> = ({
     )
   }
 
-  const formatPrice = (price: number) => {
+  const formatPriceLocal = (price: number | null | undefined) => {
+    if (price === null || price === undefined || price === 0) {
+      switch (lang) {
+        case 'en':
+          return 'Special Price'
+        case 'zh':
+          return '特价'
+        default:
+          return 'ราคาพิเศษ'
+      }
+    }
     return new Intl.NumberFormat('th-TH').format(price)
+  }
+
+  const hasPriceValue = (price: number | null | undefined): boolean => {
+    return price !== null && price !== undefined && price > 0
   }
 
   return (
@@ -163,7 +177,7 @@ export const FeaturedProductsComponent: React.FC<FeaturedProductsProps> = ({
             // คำนวณราคา
             const originalPrice = product.compareAtPrice || product.price
             const currentPrice = product.price
-            const hasDiscount = product.discount && product.discount > 0
+            const hasDiscountFlag = product.discount && product.discount > 0 && hasPriceValue(currentPrice)
             
             // ดึง badges
             const badges = product.badges?.map(b => b.badge).filter(Boolean) || []
@@ -177,7 +191,7 @@ export const FeaturedProductsComponent: React.FC<FeaturedProductsProps> = ({
                   className="product-link"
                 >
                   {/* Flash Sale Badge */}
-                  {hasDiscount && (
+                  {hasDiscountFlag && (
                     <div className="flash-sale-badge">
                       <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
                         <path d="M25 8L18 20H22L17 32L28 18H24L25 8Z" fill="white"/>
@@ -206,15 +220,16 @@ export const FeaturedProductsComponent: React.FC<FeaturedProductsProps> = ({
                   {/* Price Section */}
                   <div className="price-section">
                     <div className="price-row">
-                      {hasDiscount && originalPrice > currentPrice && (
+                      {hasDiscountFlag && originalPrice && originalPrice > (currentPrice || 0) && (
                         <>
-                          <div className="original-price">฿{formatPrice(originalPrice)}</div>
+                          <div className="original-price">฿{formatPriceLocal(originalPrice)}</div>
                           <div className="discount-badge">-{product.discount}%</div>
                         </>
                       )}
                     </div>
-                    <div className="current-price">
-                      ฿{formatPrice(currentPrice)} <span className="price-unit">/รายการ</span>
+                    <div className={`current-price ${!hasPriceValue(currentPrice) ? 'special-price' : ''}`}>
+                      {hasPriceValue(currentPrice) ? `฿${formatPriceLocal(currentPrice)}` : formatPriceLocal(currentPrice)} 
+                      {hasPriceValue(currentPrice) && <span className="price-unit">/รายการ</span>}
                     </div>
                   </div>
                 </CMSLink>
