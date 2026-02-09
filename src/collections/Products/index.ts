@@ -399,13 +399,14 @@ export const Products: CollectionConfig = {
       type: 'text',
       label: 'External ID',
     },
-    ...slugField(),
+    ...slugField('sku'), // ใช้ SKU เป็น slug (เพราะ SKU เป็นภาษาอังกฤษ)
   ],
   hooks: {
     beforeChange: [
       ({ data }) => {
-        if (data.name && !data.slug) {
-          data.slug = data.name
+        // ถ้าไม่มี slug ให้ใช้ SKU (SKU เป็น unique และเป็นภาษาอังกฤษ)
+        if (data.sku && !data.slug) {
+          data.slug = data.sku
             .toLowerCase()
             .replace(/[^\w\s-]/g, '')
             .replace(/\s+/g, '-')
