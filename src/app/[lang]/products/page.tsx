@@ -8,7 +8,7 @@ import type { Product, Category, Media } from '@/payload-types'
 import { getTranslatedText, type MultilangField } from '@/utilities/getTranslatedText'
 import { formatPrice, hasPrice, hasDiscount } from '@/utilities/priceUtils'
 
-export const dynamic = 'force-dynamic'
+// ISR: cache หน้า products 60 วินาที แทน force-dynamic (ลด DB connections)
 export const revalidate = 60
 
 type Args = {

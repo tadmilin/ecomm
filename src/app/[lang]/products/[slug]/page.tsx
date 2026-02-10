@@ -10,13 +10,32 @@ import { AddToCartButton } from '@/components/AddToCartButton'
 import type { Product, Category } from '@/payload-types'
 import { formatPrice, hasPrice, hasDiscount } from '@/utilities/priceUtils'
 
-export const dynamic = 'force-dynamic'
+// ISR: cache หน้า product detail 60 วินาที แทน force-dynamic
+export const revalidate = 60
+export const dynamicParams = true // อนุญาตให้ render product ที่ไม่ได้ pre-build
 
 type Args = {
   params: Promise<{
     lang: string
     slug: string
   }>
+}
+
+// Pre-build ทุก product × 3 ภาษา ตอน build (ลด cold-start)
+export async function generateStaticParams() {
+  const payload = await getPayload({ config: configPromise })
+  const products = await payload.find({
+    collection: 'products',
+    limit: 1000,
+    pagination: false,
+    where: { status: { equals: 'active' } },
+  })
+
+  return products.docs.flatMap((product) => [
+    { lang: 'th', slug: product.slug },
+    { lang: 'en', slug: product.slug },
+    { lang: 'cn', slug: product.slug },
+  ])
 }
 
 // ฟังก์ชันสร้าง breadcrumb path จาก category hierarchy

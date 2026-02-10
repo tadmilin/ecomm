@@ -76,10 +76,10 @@ export default buildConfig({
   db: mongooseAdapter({
     url: process.env.DATABASE_URI || '',
     connectOptions: {
-      // จำกัด connection pool สำหรับ M0 cluster
-      maxPoolSize: 10, // ลดจาก default 100
-      minPoolSize: 2,
-      maxIdleTimeMS: 30000, // ปิด idle connections หลัง 30 วินาที
+      // จำกัด connection pool สำหรับ M0 cluster (100 connections limit)
+      maxPoolSize: 5, // ลดจาก 10 เพื่อลด connection ตอน deploy ซ้อนกัน
+      minPoolSize: 1,
+      maxIdleTimeMS: 10000, // ปิด idle connections หลัง 10 วินาที (จาก 30s)
       serverSelectionTimeoutMS: 5000,
       socketTimeoutMS: 45000,
     },

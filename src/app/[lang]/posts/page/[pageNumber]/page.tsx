@@ -90,7 +90,7 @@ export async function generateStaticParams() {
     pages.push(
       { lang: 'en', pageNumber: String(i) },
       { lang: 'th', pageNumber: String(i) },
-      { lang: 'ja', pageNumber: String(i) },
+      { lang: 'cn', pageNumber: String(i) },
     )
   }
 

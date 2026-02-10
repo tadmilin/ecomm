@@ -6,8 +6,8 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { getTranslatedText } from '@/utilities/getTranslatedText'
 
-export const dynamic = 'force-dynamic'
-export const revalidate = 0
+// ISR: cache หน้า categories 120 วินาที (หมวดหมู่แทบไม่เปลี่ยน)
+export const revalidate = 120
 
 type Args = {
   params: Promise<{

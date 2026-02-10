@@ -9,8 +9,9 @@ import { AddToCartButton } from '@/components/AddToCartButton'
 import type { Product } from '@/payload-types'
 import { formatPrice, hasPrice, hasDiscount } from '@/utilities/priceUtils'
 
-export const dynamic = 'force-dynamic'
-export const revalidate = 60 // Revalidate every 60 seconds
+// ISR: cache + pre-build ทุก category × 3 ภาษา (generateStaticParams ทำงานได้จริง)
+export const revalidate = 60
+export const dynamicParams = true // อนุญาตให้ render category ที่ไม่ได้ pre-build
 
 type Args = {
   params: Promise<{
