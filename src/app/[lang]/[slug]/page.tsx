@@ -14,7 +14,7 @@ import PageClient from '@/app/[lang]/[slug]/page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
 
 // Supported languages
-const SUPPORTED_LANGS = ['en', 'th', 'cn'] as const
+const SUPPORTED_LANGS = ['en', 'th', 'zh'] as const
 type SupportedLang = typeof SUPPORTED_LANGS[number]
 
 export async function generateStaticParams() {

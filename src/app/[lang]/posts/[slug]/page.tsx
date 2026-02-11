@@ -32,7 +32,7 @@ export async function generateStaticParams() {
     return [
       { lang: 'en', slug },
       { lang: 'th', slug },
-      { lang: 'cn', slug },
+      { lang: 'zh', slug },
     ]
   })
 
@@ -93,7 +93,7 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
       languages: {
         en: `/en/posts/${slug}`,
         th: `/th/posts/${slug}`,
-        cn: `/cn/posts/${slug}`,
+        zh: `/zh/posts/${slug}`,
       },
     },
   }

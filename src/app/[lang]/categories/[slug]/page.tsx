@@ -31,7 +31,7 @@ export async function generateStaticParams() {
   return categories.docs.flatMap((category) => [
     { lang: 'th', slug: category.slug },
     { lang: 'en', slug: category.slug },
-    { lang: 'cn', slug: category.slug },
+    { lang: 'zh', slug: category.slug },
   ])
 }
 
@@ -61,12 +61,12 @@ export default async function CategoryDetailPage({ params }: Args) {
           <h1 className="text-2xl font-bold mb-4">
             {lang === 'th' && 'ไม่พบหมวดหมู่'}
             {lang === 'en' && 'Category not found'}
-            {lang === 'cn' && '未找到类别'}
+            {lang === 'zh' && '未找到类别'}
           </h1>
           <Link href={`/${lang}/categories`} className="text-blue-600 hover:underline">
             {lang === 'th' && '← กลับไปหน้าหมวดหมู่'}
             {lang === 'en' && '← Back to categories'}
-            {lang === 'cn' && '← 返回类别'}
+            {lang === 'zh' && '← 返回类别'}
           </Link>
         </div>
       </div>
@@ -158,13 +158,13 @@ export default async function CategoryDetailPage({ params }: Args) {
           <Link href={`/${lang}`} className="text-blue-600 hover:underline">
             {lang === 'th' && 'หน้าแรก'}
             {lang === 'en' && 'Home'}
-            {lang === 'cn' && '首页'}
+            {lang === 'zh' && '首页'}
           </Link>
           <span className="mx-2">/</span>
           <Link href={`/${lang}/categories`} className="text-blue-600 hover:underline">
             {lang === 'th' && 'หมวดหมู่'}
             {lang === 'en' && 'Categories'}
-            {lang === 'cn' && '类别'}
+            {lang === 'zh' && '类别'}
           </Link>
 
           {/* Show parent breadcrumbs - now using fresh slugs */}
@@ -216,7 +216,7 @@ export default async function CategoryDetailPage({ params }: Args) {
             <h2 className="text-xl md:text-2xl font-bold mb-4 md:mb-6">
               {lang === 'th' && 'หมวดหมู่ย่อย'}
               {lang === 'en' && 'Sub-Categories'}
-              {lang === 'cn' && '子类别'}
+              {lang === 'zh' && '子类别'}
             </h2>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4 lg:gap-6">
               {subCategoriesResult.docs.map((subCat) => {
@@ -268,7 +268,7 @@ export default async function CategoryDetailPage({ params }: Args) {
             <h2 className="text-xl md:text-2xl font-bold mb-4 md:mb-6">
               {lang === 'th' && 'สินค้าในหมวดหมู่นี้'}
               {lang === 'en' && 'Products in this category'}
-              {lang === 'cn' && '此类别中的产品'}
+              {lang === 'zh' && '此类别中的产品'}
             </h2>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4 lg:gap-6">
               {productsResult.docs.map((product) => {
@@ -313,7 +313,7 @@ export default async function CategoryDetailPage({ params }: Args) {
                           <div className="w-full h-full flex items-center justify-center text-gray-400 text-xs md:text-sm">
                             {lang === 'th' && 'ไม่มีรูปภาพ'}
                             {lang === 'en' && 'No Image'}
-                            {lang === 'cn' && '无图片'}
+                            {lang === 'zh' && '无图片'}
                           </div>
                         )}
                       </div>
@@ -375,7 +375,7 @@ export default async function CategoryDetailPage({ params }: Args) {
             <p className="text-muted-foreground mb-4">
               {lang === 'th' && 'ยังไม่มีสินค้าในหมวดหมู่นี้'}
               {lang === 'en' && 'No products in this category yet'}
-              {lang === 'cn' && '此类别中尚无产品'}
+              {lang === 'zh' && '此类别中尚无产品'}
             </p>
             <Link
               href={`/${lang}/categories`}
@@ -383,7 +383,7 @@ export default async function CategoryDetailPage({ params }: Args) {
             >
               {lang === 'th' && '← ดูหมวดหมู่อื่น'}
               {lang === 'en' && '← Browse other categories'}
-              {lang === 'cn' && '← 浏览其他类别'}
+              {lang === 'zh' && '← 浏览其他类别'}
             </Link>
           </div>
         ) : null}

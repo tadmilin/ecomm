@@ -31,7 +31,7 @@ export default buildConfig({
     supportedLanguages: { th, en },
   },
   localization: {
-    locales: ['th', 'en', 'cn'],
+    locales: ['th', 'en', 'zh'],
     defaultLocale: 'th',
     fallback: true,
   },

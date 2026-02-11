@@ -34,7 +34,7 @@ export async function generateStaticParams() {
   return products.docs.flatMap((product) => [
     { lang: 'th', slug: product.slug },
     { lang: 'en', slug: product.slug },
-    { lang: 'cn', slug: product.slug },
+    { lang: 'zh', slug: product.slug },
   ])
 }
 

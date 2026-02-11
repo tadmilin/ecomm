@@ -40,7 +40,7 @@ export default async function CategoriesPage({ params }: Args) {
         <h1 className="text-4xl font-bold mb-8">
           {lang === 'th' && 'หมวดหมู่สินค้า'}
           {lang === 'en' && 'Product Categories'}
-          {lang === 'cn' && '产品类别'}
+          {lang === 'zh' && '产品类别'}
         </h1>
 
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
@@ -101,7 +101,7 @@ export default async function CategoriesPage({ params }: Args) {
                     <div className="text-xs md:text-sm text-blue-600 font-medium">
                       {lang === 'th' && 'ดูสินค้าทั้งหมด →'}
                       {lang === 'en' && 'View all products →'}
-                      {lang === 'cn' && '查看所有产品 →'}
+                      {lang === 'zh' && '查看所有产品 →'}
                     </div>
                   </div>
                 </div>

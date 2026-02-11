@@ -99,7 +99,7 @@ export async function generateMetadata({
       languages: {
         en: '/en/search',
         th: '/th/search',
-        cn: '/cn/search',
+        zh: '/zh/search',
       },
     },
   }
