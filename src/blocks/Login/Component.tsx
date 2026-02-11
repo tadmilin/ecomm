@@ -58,7 +58,7 @@ export const LoginBlock: React.FC<Props> = (props) => {
                   </svg>
                   {lang === 'en'
                     ? 'Sign in with Google'
-                    : lang === 'cn'
+                    : lang === 'zh'
                       ? '使用 Google 登录'
                       : 'เข้าสู่ระบบด้วย Google'}
                 </button>

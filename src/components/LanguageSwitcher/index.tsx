@@ -7,7 +7,7 @@ import React from 'react'
 const languages = [
   { code: 'th', label: 'ไทย', flag: '🇹🇭' },
   { code: 'en', label: 'English', flag: '🇬🇧' },
-  { code: 'cn', label: '中文', flag: '🇨🇳' },
+  { code: 'zh', label: '中文', flag: '🇨🇳' },
 ]
 
 export function LanguageSwitcher() {
@@ -17,7 +17,7 @@ export function LanguageSwitcher() {
   const pathSegments = pathname.split('/').filter(Boolean)
 
   // หา lang code ปัจจุบัน
-  const validLangCodes = ['th', 'en', 'cn']
+  const validLangCodes = ['th', 'en', 'zh']
   const currentLang = validLangCodes.includes(pathSegments[0]) ? pathSegments[0] : 'th'
 
   // สร้าง path ใหม่

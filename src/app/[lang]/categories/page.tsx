@@ -114,7 +114,7 @@ export default async function CategoriesPage({ params }: Args) {
           <div className="text-center py-12 text-muted-foreground">
             {lang === 'th' && 'ยังไม่มีหมวดหมู่สินค้า'}
             {lang === 'en' && 'No categories found'}
-            {lang === 'cn' && '未找到类别'}
+            {lang === 'zh' && '未找到类别'}
           </div>
         )}
       </div>

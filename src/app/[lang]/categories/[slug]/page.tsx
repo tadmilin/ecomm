@@ -205,7 +205,7 @@ export default async function CategoryDetailPage({ params }: Args) {
             <p className="text-sm text-muted-foreground">
               {productsResult.totalDocs} {lang === 'th' && 'สินค้า'}
               {lang === 'en' && 'products'}
-              {lang === 'cn' && '产品'}
+              {lang === 'zh' && '产品'}
             </p>
           </div>
         </div>

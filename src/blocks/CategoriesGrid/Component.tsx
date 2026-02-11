@@ -52,7 +52,7 @@ export const CategoriesGridBlock: React.FC<
     collection: 'categories',
     depth: 1,
     limit: 100, // Fetch all categories
-    locale: lang as 'th' | 'en' | 'cn',
+    locale: lang as 'th' | 'en' | 'zh',
     sort: 'order',
     ...(hasConditions ? { where: whereConditions } : {}),
   })
