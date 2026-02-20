@@ -3,14 +3,21 @@ dist / media
 node_modules
 .DS_Store
 .env
+.env.local
+.env*.local
+test.env
 .next
 .vercel
+.csv
 
 # Payload default media upload directory
 public/media/
 
 # Product images for import (do not commit to git)
 product-images/
+yibsomboard-images/
+pilefoundationpile/
+smartboard/
 
 # Import scripts (contain local configs)
 scripts/
