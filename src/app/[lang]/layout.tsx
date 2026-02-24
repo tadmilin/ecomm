@@ -6,6 +6,7 @@ import { GeistSans } from 'geist/font/sans'
 import React from 'react'
 
 import { AdminBar } from '@/components/AdminBar'
+import { FloatingButtons } from '@/components/FloatingButtons'
 import { Footer } from '@/Footer/Component'
 import { Header } from '@/Header/Component'
 import { LoginNotification } from '@/components/LoginNotification'
@@ -92,6 +93,7 @@ export default async function RootLayout({
           <LoginNotification />
           {children}
           <Footer />
+          <FloatingButtons />
         </Providers>
       </body>
     </html>

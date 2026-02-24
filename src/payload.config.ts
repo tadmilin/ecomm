@@ -15,6 +15,7 @@ import { Products } from './collections/Products/index'
 import { Users } from './collections/Users/index'
 import { Footer } from './Footer/config'
 import { Header } from './Header/config'
+import { FloatingButtons } from './globals/FloatingButtons'
 import { plugins } from './plugins/index'
 import { defaultLexical } from '@/fields/defaultLexical'
 import { getServerSideURL } from './utilities/getURL'
@@ -86,7 +87,7 @@ export default buildConfig({
   }),
   collections: [Pages, Posts, Media, ProductMedia, Categories, Products, Users],
   cors: [getServerSideURL()].filter(Boolean),
-  globals: [Header, Footer],
+  globals: [Header, Footer, FloatingButtons],
   plugins: [
     ...plugins,
     // Cloudflare R2 Storage (S3-compatible)
@@ -108,6 +109,12 @@ export default buildConfig({
     }),
   ],
   secret: process.env.PAYLOAD_SECRET,
+  upload: {
+    limits: {
+      fileSize: 10 * 1024 * 1024, // 10MB
+    },
+    abortOnLimit: true,
+  },
   sharp,
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),

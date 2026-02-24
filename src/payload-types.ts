@@ -107,10 +107,12 @@ export interface Config {
   globals: {
     header: Header;
     footer: Footer;
+    'floating-buttons': FloatingButton;
   };
   globalsSelect: {
     header: HeaderSelect<false> | HeaderSelect<true>;
     footer: FooterSelect<false> | FooterSelect<true>;
+    'floating-buttons': FloatingButtonsSelect<false> | FloatingButtonsSelect<true>;
   };
   locale: 'th' | 'en' | 'zh';
   user: User & {
@@ -2545,6 +2547,58 @@ export interface Footer {
   createdAt?: string | null;
 }
 /**
+ * ปุ่มลอยมุมขวาล่างของเว็บไซต์ (โทร, LINE, ฯลฯ)
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "floating-buttons".
+ */
+export interface FloatingButton {
+  id: string;
+  /**
+   * เปิด/ปิดการแสดงผลปุ่มลอยทั้งหมด
+   */
+  enabled?: boolean | null;
+  /**
+   * เพิ่มปุ่มลอยได้สูงสุด 6 ปุ่ม (เรียงจากล่างขึ้นบน)
+   */
+  buttons?:
+    | {
+        /**
+         * เปิด/ปิดปุ่มนี้โดยไม่ต้องลบ
+         */
+        enabled?: boolean | null;
+        /**
+         * ใช้สำหรับ accessibility เช่น "โทรหาเรา", "LINE"
+         */
+        label: string;
+        /**
+         * ข้อความที่แสดงเมื่อ hover เช่น "082-552-5665"
+         */
+        tooltip?: string | null;
+        /**
+         * เช่น tel:0825525665 หรือ https://line.me/ti/p/~btvhome
+         */
+        link: string;
+        openInNewTab?: boolean | null;
+        /**
+         * อัพโหลดไอคอน PNG/SVG/WebP แนะนำขนาด 64×64px ขึ้นไป
+         */
+        icon?: (string | null) | Media;
+        /**
+         * รหัสสี HEX เช่น #25D366 (เขียว LINE), #0080FF (น้ำเงิน), #FF0000 (แดง)
+         */
+        backgroundColor?: string | null;
+        /**
+         * สีของไอคอน SVG fallback (ถ้าไม่มีรูปอัพโหลด)
+         */
+        iconColor?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "header_select".
  */
@@ -2592,6 +2646,29 @@ export interface FooterSelect<T extends boolean = true> {
               url?: T;
               label?: T;
             };
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "floating-buttons_select".
+ */
+export interface FloatingButtonsSelect<T extends boolean = true> {
+  enabled?: T;
+  buttons?:
+    | T
+    | {
+        enabled?: T;
+        label?: T;
+        tooltip?: T;
+        link?: T;
+        openInNewTab?: T;
+        icon?: T;
+        backgroundColor?: T;
+        iconColor?: T;
         id?: T;
       };
   updatedAt?: T;
