@@ -58,13 +58,6 @@ export const home: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> =
               version: 1,
             },
           },
-          link: {
-            type: 'custom',
-            url: '/',
-            label: 'Learn more',
-            appearance: 'default',
-            newTab: false,
-          },
         },
       ],
       richText: {

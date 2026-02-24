@@ -8,26 +8,8 @@ import { CMSLink } from '@/components/Link'
 import { ImageSlider } from '@/components/ImageSlider'
 import RichText from '@/components/RichText'
 
-type MediaSlide = {
-  image: string | Media
-  title?: string | null
-  description?: {
-    root: {
-      type: string
-      children: {
-        type: string
-        version: number
-        [k: string]: unknown
-      }[]
-      direction: ('ltr' | 'rtl') | null
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | ''
-      indent: number
-      version: number
-    }
-    [k: string]: unknown
-  } | null
-  id?: string | null
-}
+// Derived directly from the generated payload type — never drifts out of sync with schema
+type MediaSlide = NonNullable<NonNullable<Page['hero']>['mediaSlides']>[number]
 
 export const HighImpactHero: React.FC<Page['hero']> = ({ links, mediaSlides, richText }) => {
   const { setHeaderTheme } = useHeaderTheme()

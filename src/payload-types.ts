@@ -234,25 +234,6 @@ export interface Page {
             };
             [k: string]: unknown;
           } | null;
-          link: {
-            type?: ('reference' | 'custom') | null;
-            newTab?: boolean | null;
-            reference?:
-              | ({
-                  relationTo: 'pages';
-                  value: string | Page;
-                } | null)
-              | ({
-                  relationTo: 'posts';
-                  value: string | Post;
-                } | null);
-            url?: string | null;
-            label: string;
-            /**
-             * Choose how the link should be rendered.
-             */
-            appearance?: ('default' | 'outline') | null;
-          };
           id?: string | null;
         }[]
       | null;
@@ -1660,16 +1641,6 @@ export interface PagesSelect<T extends boolean = true> {
               image?: T;
               title?: T;
               description?: T;
-              link?:
-                | T
-                | {
-                    type?: T;
-                    newTab?: T;
-                    reference?: T;
-                    url?: T;
-                    label?: T;
-                    appearance?: T;
-                  };
               id?: T;
             };
         enableFeaturedCategories?: T;
