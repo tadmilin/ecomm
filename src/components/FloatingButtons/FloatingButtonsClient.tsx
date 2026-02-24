@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React from 'react'
 import type { FloatingButton } from '@/payload-types'
 import type { Media } from '@/payload-types'
 
@@ -70,10 +70,12 @@ export const FloatingButtonsClient: React.FC<Props> = ({ buttons }) => {
         }
 
         .floating-btn img {
-          width: 32px;
-          height: 32px;
-          object-fit: contain;
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          object-position: center;
           display: block;
+          border-radius: 50%;
         }
 
         .floating-btn-tooltip {
@@ -165,7 +167,7 @@ const FloatingButton: React.FC<{ btn: Button }> = ({ btn }) => {
       >
         {iconUrl ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={iconUrl} alt={btn.label} width={32} height={32} />
+          <img src={iconUrl} alt={btn.label} width={56} height={56} />
         ) : (
           <DefaultIcon label={btn.label} color={btn.iconColor || '#fff'} />
         )}
