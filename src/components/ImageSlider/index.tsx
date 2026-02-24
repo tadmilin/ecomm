@@ -3,13 +3,12 @@
 import React from 'react'
 import Slider from 'react-slick'
 import { Media } from '../Media'
-import { CMSLink } from '@/components/Link'
 
 // นำเข้า CSS ของ slick-carousel
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 
-import type { Media as MediaType, Page, Post } from '@/payload-types'
+import type { Media as MediaType } from '@/payload-types'
 
 interface ImageSlideItem {
   image: MediaType
@@ -28,17 +27,6 @@ interface ImageSlideItem {
       version: number
     }
     [k: string]: unknown
-  } | null
-  link?: {
-    type?: 'reference' | 'custom' | null
-    newTab?: boolean | null
-    reference?: {
-      relationTo: 'pages' | 'posts'
-      value: string | number | Page | Post
-    } | null
-    url?: string | null
-    label?: string | null
-    appearance?: 'default' | 'outline' | 'inline' | null
   } | null
 }
 
@@ -127,7 +115,7 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
               </div>
 
               {/* ข้อความและปุ่ม Overlay */}
-              {(slide.title || slide.description || slide.link) && (
+              {(slide.title || slide.description) && (
                 <div className="absolute inset-0 z-10 pointer-events-none flex items-center">
                   <div className="container">
                     <div className="max-w-[36.5rem] bg-black/40 backdrop-blur-sm rounded-md p-6 text-white pointer-events-auto">
@@ -138,18 +126,6 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
                         <div className="prose prose-invert max-w-none mb-4">
                            {/* Content goes here */}
                         </div>
-                      )}
-                      {slide.link && (
-                        <CMSLink
-                          appearance="default"
-                          type={slide.link.type}
-                          url={slide.link.url}
-                          newTab={slide.link.newTab}
-                          reference={slide.link.reference}
-                          label={slide.link.label}
-                        >
-                          {slide.link.label || 'Learn more'}
-                        </CMSLink>
                       )}
                     </div>
                   </div>

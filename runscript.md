@@ -1,0 +1,1 @@
+pnpm import:products --file "filename.csv" 2>&1

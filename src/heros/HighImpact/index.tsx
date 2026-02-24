@@ -2,7 +2,7 @@
 import { useHeaderTheme } from '@/providers/HeaderTheme'
 import React, { useEffect } from 'react'
 
-import type { Page, Media, Post } from '@/payload-types'
+import type { Page, Media } from '@/payload-types'
 
 import { CMSLink } from '@/components/Link'
 import { ImageSlider } from '@/components/ImageSlider'
@@ -26,22 +26,6 @@ type MediaSlide = {
     }
     [k: string]: unknown
   } | null
-  link: {
-    type?: ('reference' | 'custom') | null
-    newTab?: boolean | null
-    reference?:
-      | ({
-          relationTo: 'pages'
-          value: string | Page
-        } | null)
-      | ({
-          relationTo: 'posts'
-          value: string | Post
-        } | null)
-    url?: string | null
-    label: string
-    appearance?: ('default' | 'outline') | null
-  }
   id?: string | null
 }
 
@@ -68,7 +52,6 @@ export const HighImpactHero: React.FC<Page['hero']> = ({ links, mediaSlides, ric
                       image: slide.image as Media,
                       title: slide.title ?? null,
                       description: slide.description ?? null,
-                      link: slide.link ?? null,
                     }))
                 : []
             }

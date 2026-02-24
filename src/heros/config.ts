@@ -107,9 +107,6 @@ export const hero: Field = {
             ],
           }),
         },
-        link({
-          appearances: ['default', 'outline'],
-        }),
       ],
       label: 'รูปภาพสไลด์',
       minRows: 1,
